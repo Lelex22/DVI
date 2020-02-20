@@ -34,16 +34,14 @@
     function preload ()
     {
         
-        this.load.setBaseURL('https://labs.phaser.io');
-        this.load.image('ground', 'assets/tilemaps/tiles/drawtiles.png');
-        this.load.image('sky', 'assets/skies/space1.png');
-        this.load.image('logo', 'assets/sprites/phaser2.png');
-        this.load.image('red', 'assets/particles/flame2.png');
-        this.load.image('star','assets/sprites/gem.png');
-        this.load.image('bomb', 'assets/sprites/mine.png');
-        this.load.spritesheet('dude', 'assets/sprites/dude.png',
-        { frameWidth: 32, frameHeight: 48 }
-    );
+        this.load.image('ground', 'https://labs.phaser.io/assets/tilemaps/tiles/drawtiles.png');
+        this.load.image('sky', 'https://labs.phaser.io/assets/skies/space1.png');
+        this.load.image('logo', 'https://labs.phaser.io/assets/sprites/phaser2.png');
+        this.load.image('red', 'https://labs.phaser.io/assets/particles/flame2.png');
+        this.load.image('star','https://labs.phaser.io/assets/sprites/gem.png');
+        this.load.image('bomb', 'https://labs.phaser.io/assets/sprites/mine.png');
+        this.load.spritesheet('dude', 'public/img/hiclipart.com.png',
+        { frameWidth: 60.75, frameHeight: 60.75 });
 
 
     }
@@ -60,6 +58,7 @@
         platforms.create(750, 220, 'ground');
         var particles = this.add.particles('red');
         player = this.physics.add.sprite(100, 450, 'dude');
+
         var emitter = particles.createEmitter({
             speed: 100,
             scale: { start: 1, end: 0 },
@@ -71,22 +70,24 @@
 
         this.anims.create({
             key: 'left',
-            frames: this.anims.generateFrameNumbers('dude', { start: 0, end: 3 }),
+            frames: this.anims.generateFrameNumbers('dude', { start: 0, end: 2 }),
+            flipX: false,
             frameRate: 10,
             repeat: -1
         });
 
         this.anims.create({
             key: 'turn',
-            frames: [ { key: 'dude', frame: 4 } ],
+            frames: [ { key: 'dude', frame: 45 } ],
             frameRate: 20
         });
 
         this.anims.create({
             key: 'right',
-            frames: this.anims.generateFrameNumbers('dude', { start: 5, end: 8 }),
+            frames: this.anims.generateFrameNumbers('dude', { start: 6, end: 8 }),
             frameRate: 10,
-            repeat: -1
+            repeat: -1,
+            flipX: true
         });
         player.body.setGravity(100);
         this.physics.add.collider(player, platforms);

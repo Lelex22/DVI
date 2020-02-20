@@ -34,14 +34,14 @@
     function preload ()
     {
         
-        this.load.setBaseURL('https://labs.phaser.io');
-        this.load.image('ground', 'assets/tilemaps/tiles/drawtiles.png');
-        this.load.image('sky', 'assets/skies/space1.png');
-        this.load.image('logo', 'assets/sprites/phaser2.png');
-        this.load.image('red', 'assets/particles/flame2.png');
-        this.load.image('star','assets/sprites/gem.png');
-        this.load.image('bomb', 'assets/sprites/mine.png');
-        this.load.spritesheet('dude', 'assets/sprites/dude.png',
+        
+        this.load.image('ground', 'https://labs.phaser.io/assets/tilemaps/tiles/drawtiles.png');
+        this.load.image('sky', 'https://labs.phaser.io/assets/skies/space1.png');
+        this.load.image('logo', 'https://labs.phaser.io/assets/sprites/phaser2.png');
+        this.load.image('red', 'https://labs.phaser.io/assets/particles/flame2.png');
+        this.load.image('star','https://labs.phaser.io/assets/sprites/gem.png');
+        this.load.image('bomb', 'https://labs.phaser.io/assets/sprites/mine.png');
+        this.load.spritesheet('dude', 'https://labs.phaser.io/assets/sprites/dude.png',
         { frameWidth: 32, frameHeight: 48 }
     );
 
@@ -84,7 +84,8 @@
 
         this.anims.create({
             key: 'right',
-            frames: this.anims.generateFrameNumbers('dude', { start: 5, end: 8 }),
+            frames: this.anims.generateFrameNumbers('dude', { start: 0, end: 3 }),
+            flipX: true,
             frameRate: 10,
             repeat: -1
         });

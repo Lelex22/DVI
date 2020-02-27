@@ -1,1 +1,4 @@
-https://lelex22.github.io/DVI/
+# Descripcion del Proyecto
+La estructura a seguir para las entregas se encuentra toda en la carpeta DOCS
+
+

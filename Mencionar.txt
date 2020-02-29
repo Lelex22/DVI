@@ -1,0 +1,11 @@
+Ejemplo completo de dungeon:
+
+https://phaser.io/examples/v3/view/game-objects/tilemap/dynamic/dungeon-generator#
+
+Modulo para espacio en el que dice la posicion de x e y, etc
+
+https://github.com/dataarts/dat.gui
+
+Modulo de creacion de dungeons:
+
+https://www.npmjs.com/package/@mikewesthad/dungeon

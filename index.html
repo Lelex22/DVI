@@ -94,8 +94,8 @@
         // this.load.image('star','https://labs.phaser.io/assets/sprites/gem.png');
         // this.load.image('bomb', 'https://labs.phaser.io/assets/sprites/mine.png');
         this.load.image('tiles', 'https://labs.phaser.io/assets/tilemaps/tiles/buch-dungeon-tileset-extruded.png');
-        this.load.spritesheet('dude', 'public/img/hiclipart.com.png',
-        { frameWidth: 60.75, frameHeight: 60.75 });
+        this.load.spritesheet('dude', 'public/img/luigi-sprites.png',
+        { frameWidth: 28, frameHeight: 28 });
         
         
         //this.load.tilemapTiledJSON('map', 'public/img/mapa.json');
@@ -209,13 +209,13 @@
 
     layer = map.createBlankDynamicLayer('Layer 1', tileset);
 
-    if (!debug)
-    {
-        layer.setScale(3);
-    }
+    //if (!debug)
+    //{
+        layer.setScale(2);
+    //}
 
     // Fill with black tiles
-    layer.fill(20);
+    //layer.fill(100);
 
     // Use the array of rooms generated to place tiles in the map
     dungeon.rooms.forEach(function (room) {
@@ -313,20 +313,22 @@
     layer.setCollisionByExclusion([ 6, 7, 8, 26 ]);
 
     // Hide all the rooms
-    if (!debug)
-    {
+    //if (!debug)
+    //{
         layer.forEachTile(function (tile) { tile.alpha = 0; });
-    }
+    //}
 
     // Place the player in the first room
     var playerRoom = dungeon.rooms[0];
 
-    player = this.add.sprite(100, 450, 'dude');
+    //player = this.add.sprite(100, 450, 'dude');
+    player = this.physics.add.sprite(0, 0, 'dude');
+    
     player.x = map.tileToWorldX(playerRoom.x + 1);
     player.y = map.tileToWorldY(playerRoom.y + 1);
     this.anims.create({
             key: 'left',
-            frames: this.anims.generateFrameNumbers('dude', { start: 0, end: 2 }),
+            frames: this.anims.generateFrameNumbers('dude', { start: 3, end: 4 }),
             flipX: false,
             frameRate: 10,
             repeat: -1
@@ -334,26 +336,26 @@
 
         this.anims.create({
             key: 'turn',
-            frames: [ { key: 'dude', frame: 45 } ],
+            frames: [ { key: 'dude', frame: 15 } ],
             frameRate: 20
         });
         this.anims.create({
             key: 'down',
-            frames: [ { key: 'dude', frame: 45 } ],
+            frames: [ { key: 'dude', frame: 14 } ],
             frameRate: 20
         });
         this.anims.create({
             key: 'right',
-            frames: this.anims.generateFrameNumbers('dude', { start: 6, end: 8 }),
+            frames: this.anims.generateFrameNumbers('dude', { start: 11, end: 12 }),
             frameRate: 10,
             repeat: -1,
             flipX: true
         });
 
-    if (!debug)
-    {
+    //if (!debug)
+    //{
         setRoomAlpha(playerRoom, 1); // Make the starting room visible
-    }
+    //}
 
     // Scroll to the player
     cam = this.cameras.main;
@@ -403,20 +405,19 @@
     // If the player has entered a new room, make it visible and dim the last room
     if (room && activeRoom && activeRoom !== room)
     {
-        if (!debug)
-        {
+        //if (!debug)
+        //{
             setRoomAlpha(room, 1);
             setRoomAlpha(activeRoom, 0.5);
-        }
+        //}
     }
 
     activeRoom = room;
 
-    // Smooth follow the player
-    var smoothFactor = 0.9;
+    
 
-    cam.scrollX = smoothFactor * cam.scrollX + (1 - smoothFactor) * (player.x - cam.width * 0.5);
-    cam.scrollY = smoothFactor * cam.scrollY + (1 - smoothFactor) * (player.y - cam.height * 0.5);
+    cam.scrollX = (player.x - cam.width * 0.5);
+    cam.scrollY = (player.y - cam.height * 0.5);
 }
 
 function setRoomAlpha(room, alpha)
@@ -460,7 +461,7 @@ function updatePlayerMovement (time)
         }
         else if (cursors.up.isDown)
         {
-            player.anims.play('down', true);
+            player.anims.play('turn', true);
             if (isTileOpenAt(player.x, player.y - th))
             {
                 player.y -= th;

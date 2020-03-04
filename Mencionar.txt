@@ -6,6 +6,6 @@ Modulo para espacio en el que dice la posicion de x e y, etc
 
 https://github.com/dataarts/dat.gui
 
-Modulo de creacion de dungeons:
+Modulo de creacion de dungeons (custom script embedded):
 
 https://www.npmjs.com/package/@mikewesthad/dungeon

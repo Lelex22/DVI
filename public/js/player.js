@@ -1,20 +1,15 @@
-/**
- * A class that wraps up our top down player logic. It creates, animates and moves a sprite in
- * response to WASD keys. Call its update method from the scene's update and call its destroy
- * method when you're done with the player.
- */
 export default class Player {
   constructor(scene, x, y) {
     this.scene = scene;
 
     const anims = scene.anims;
     anims.create({
-      key: "player-walk",
+      key: "down",
       frames: [ { key: 'characters', frame: 1 } ],
       frameRate: 20
     });
     anims.create({
-      key: "player-walk-back",
+      key: "up",
       frames: [ { key: 'characters', frame: 0 } ],
       frameRate: 20
     });
@@ -35,7 +30,7 @@ export default class Player {
       .setSize(10, 10)
       .setOffset(10, 10);
 
-    this.sprite.anims.play("player-walk-back");
+    this.sprite.anims.play("up");
 
     this.keys = scene.input.keyboard.createCursorKeys();
   }
@@ -74,9 +69,9 @@ export default class Player {
 
     // Update the animation last and give left/right/down animations precedence over up animations
     if (keys.down.isDown) {
-      sprite.anims.play("player-walk", true);
+      sprite.anims.play("down", true);
     } else if (keys.up.isDown) {
-      sprite.anims.play("player-walk-back", true);
+      sprite.anims.play("up", true);
     } 
     else if (keys.right.isDown){
         sprite.anims.play("right", true);
@@ -86,8 +81,7 @@ export default class Player {
       sprite.anims.stop();
 
       // If we were moving & now we're not, then pick a single idle frame to use
-      if (prevVelocity.y < 0) sprite.setTexture("characters", 0);
-      //else sprite.setTexture("characters", 1);
+      
     }
   }
 

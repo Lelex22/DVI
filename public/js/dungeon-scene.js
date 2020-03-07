@@ -14,7 +14,7 @@ export default class DungeonScene extends Phaser.Scene {
   }
 
   preload() {
-    this.load.image("tiles", "../public/assets/tilesets/buch-tileset-48px-extruded.png");
+    this.load.image("tiles", "../public/assets/tilesets/prueba2.png");
     this.load.spritesheet(
       "characters",
       "../public/assets/spritesheets/luigi-sprites.png",
@@ -47,12 +47,12 @@ export default class DungeonScene extends Phaser.Scene {
 
     // Creating a blank tilemap with dimensions matching the dungeon
     const map = this.make.tilemap({
-      tileWidth: 48,
-      tileHeight: 48,
+      tileWidth: 32,
+      tileHeight: 32,
       width: this.dungeon.width,
       height: this.dungeon.height
     });
-    const tileset = map.addTilesetImage("tiles", null, 48, 48, 1, 2); // 1px margin, 2px spacing
+    const tileset = map.addTilesetImage("tiles", null, 32, 32, -0.4, -0.4); // 1px margin, 2px spacing
     this.groundLayer = map.createBlankDynamicLayer("Ground", tileset).fill(TILES.BLANK);
     this.stuffLayer = map.createBlankDynamicLayer("Stuff", tileset);
     const shadowLayer = map.createBlankDynamicLayer("Shadow", tileset).fill(TILES.BLANK);

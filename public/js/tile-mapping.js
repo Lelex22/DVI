@@ -3,41 +3,40 @@
 // - Array of weights for weightedRandomize
 // - Array or 2D array for putTilesAt
 const TILE_MAPPING = {
-  BLANK: 20,
+  BLANK:16,
   WALL: {
-    TOP_LEFT: 3,
-    TOP_RIGHT: 4,
-    BOTTOM_RIGHT: 23,
-    BOTTOM_LEFT: 22,
-    TOP: [{ index: 39, weight: 4 }, { index: [57, 58, 59], weight: 1 }],
-    LEFT: [{ index: 21, weight: 4 }, { index: [76, 95, 114], weight: 1 }],
-    RIGHT: [{ index: 19, weight: 4 }, { index: [77, 96, 115], weight: 1 }],
-    BOTTOM: [{ index: 1, weight: 4 }, { index: [78, 79, 80], weight: 1 }]
+    TOP_LEFT: 0,
+    TOP_RIGHT: 1,
+    BOTTOM_RIGHT: 9,
+    BOTTOM_LEFT: 8,
+    TOP: [{ index: 11, weight: 4 }],
+    LEFT: [{ index: 2, weight: 4 }],
+    RIGHT: [{ index: 10, weight: 4 }],
+    BOTTOM: [{ index: 3, weight: 4 }]
   },
-  FLOOR: [{ index: 6, weight: 9 }, { index: [7, 8, 26], weight: 1 }],
-  POT: [{ index: 13, weight: 1 }, { index: 32, weight: 1 }, { index: 51, weight: 1 }],
+  FLOOR: [{ index: 4, weight: 9 }, { index: 12, weight: 8 }],
+  POT: [{ index: 34, weight: 1 }],
   DOOR: {
-    TOP: [40, 6, 38],
+    TOP: [11, 12, 11],
     // prettier-ignore
     LEFT: [
-      [40],
-      [6],
-      [2]
+      [24],
+      [12],
+      [24]
     ],
-    BOTTOM: [2, 6, 0],
+    BOTTOM: [3, 12, 3],
     // prettier-ignore
     RIGHT: [
-      [38],
-      [6],
-      [0]
+      [24],
+      [12],
+      [24]
     ]
   },
-  CHEST: 166,
-  STAIRS: 81,
+  STAIRS: 20,
   // prettier-ignore
   TOWER: [
-    [186],
-    [205]
+    [40],
+    [41]
   ]
 };
 

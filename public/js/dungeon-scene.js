@@ -1,5 +1,7 @@
 
 //import Dungeon from "@mikewesthad/dungeon";
+
+// Codigo utilizado desde https://github.com/mikewesthad/phaser-3-tilemap-blog-posts/blob/master/posts/post-3/demo/js/tile-mapping.js
 import Player from "./player.js";
 import TILES from "./tile-mapping.js";
 import TilemapVisibility from "./tilemap-visibility.js";
@@ -7,14 +9,18 @@ import TilemapVisibility from "./tilemap-visibility.js";
 /**
  * Scene that generates a new dungeon
  */
+var lives, life;
 export default class DungeonScene extends Phaser.Scene {
   constructor() {
     super();
     this.level = 0;
+    
   }
+  
 
   preload() {
     this.load.image("tiles", "../public/assets/tilesets/prueba2.png");
+    this.load.image("heart", "../public/img/heart.png");
     this.load.spritesheet(
       "characters",
       "../public/assets/spritesheets/luigi-sprites.png",
@@ -26,6 +32,7 @@ export default class DungeonScene extends Phaser.Scene {
   }
 
   create() {
+    
     this.level++;
     this.hasPlayerReachedStairs = false;
 
@@ -43,7 +50,7 @@ export default class DungeonScene extends Phaser.Scene {
       }
     });
 
-    this.dungeon.drawToConsole();
+    //this.dungeon.drawToConsole();
 
     // Creating a blank tilemap with dimensions matching the dungeon
     const map = this.make.tilemap({
@@ -52,7 +59,7 @@ export default class DungeonScene extends Phaser.Scene {
       width: this.dungeon.width,
       height: this.dungeon.height
     });
-    const tileset = map.addTilesetImage("tiles", null, 32, 32, -0.4, -0.4); // 1px margin, 2px spacing
+    const tileset = map.addTilesetImage("tiles", null, 32, 32, 0, 0); // 1px margin, 2px spacing
     this.groundLayer = map.createBlankDynamicLayer("Ground", tileset).fill(TILES.BLANK);
     this.stuffLayer = map.createBlankDynamicLayer("Stuff", tileset);
     const shadowLayer = map.createBlankDynamicLayer("Shadow", tileset).fill(TILES.BLANK);
@@ -105,7 +112,7 @@ export default class DungeonScene extends Phaser.Scene {
     const endRoom = Phaser.Utils.Array.RemoveRandomElement(rooms);
     const otherRooms = Phaser.Utils.Array.Shuffle(rooms).slice(0, rooms.length * 0.9);
 
-    // Place the stairs
+    // Place the shop
     this.stuffLayer.putTileAt(TILES.STAIRS, endRoom.centerX, endRoom.centerY);
 
     // Place stuff in the 90% "otherRooms"
@@ -135,8 +142,8 @@ export default class DungeonScene extends Phaser.Scene {
 
     // Not exactly correct for the tileset since there are more possible floor tiles, but this will
     // do for the example.
-    this.groundLayer.setCollisionByExclusion([-1, 6, 7, 8, 26]);
-    this.stuffLayer.setCollisionByExclusion([-1, 6, 7, 8, 26]);
+    this.groundLayer.setCollisionByExclusion([-1, 4, 12]);
+    this.stuffLayer.setCollisionByExclusion([-1, 4, 12]);
 
     this.stuffLayer.setTileIndexCallback(TILES.STAIRS, () => {
       this.stuffLayer.setTileIndexCallback(TILES.STAIRS, null);
@@ -166,16 +173,21 @@ export default class DungeonScene extends Phaser.Scene {
     // Constrain the camera so that it isn't allowed to move outside the width/height of tilemap
     camera.setBounds(0, 0, map.widthInPixels, map.heightInPixels);
     camera.startFollow(this.player.sprite);
-
+    /* Vidas: Se supone que ese this.life = 5 no va a ser necesario, sino que vamos
+    a obtener las vidas restantes */
+    this.life = 5;
+    for(var i = 0; i < this.life; i++)
+      this.add.image(32 * i + 16, 20, 'heart').setScrollFactor(0);
+    
     // Help text that has a "fixed" position on the screen
-    this.add
-      .text(16, 16, `Find the stairs. Go deeper.\nCurrent level: ${this.level}`, {
+    this.add.text(16, 460, `Find the stairs. \nGo deeper.\nCurrent level: ${this.level}. \nLife: ${this.life}`, {
         font: "18px monospace",
         fill: "#000000",
         padding: { x: 20, y: 10 },
         backgroundColor: "#ffffff"
       })
       .setScrollFactor(0);
+;
   }
 
   update(time, delta) {

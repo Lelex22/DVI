@@ -17,22 +17,22 @@ const TILE_MAPPING = {
   FLOOR: [{ index: 4, weight: 9 }, { index: 12, weight: 8 }],
   POT: [{ index: 34, weight: 1 }],
   DOOR: {
-    TOP: [11, 12, 11],
+    TOP: [11, 4, 11],
     // prettier-ignore
     LEFT: [
-      [24],
-      [12],
-      [24]
+      [2],
+      [4],
+      [2]
     ],
-    BOTTOM: [3, 12, 3],
+    BOTTOM: [3, 4, 3],
     // prettier-ignore
     RIGHT: [
-      [24],
-      [12],
-      [24]
+      [10],
+      [4],
+      [10]
     ]
   },
-  STAIRS: 20,
+  STAIRS: 5,
   // prettier-ignore
   TOWER: [
     [40],

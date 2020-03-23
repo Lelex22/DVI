@@ -9,10 +9,9 @@ import TilemapVisibility from "./tilemap-visibility.js";
 /**
  * Scene that generates a new dungeon
  */
-var lives, life;
 export default class DungeonScene extends Phaser.Scene {
   constructor() {
-    super();
+    super('DungeonScene');
     this.level = 0;
     
   }
@@ -34,7 +33,7 @@ export default class DungeonScene extends Phaser.Scene {
   create() {
     
     this.level++;
-    this.hasPlayerReachedStairs = false;
+    this.hasPlayerReachedShop = false;
 
     // Generate a random world with a few extra options:
     //  - Rooms should only have odd number dimensions so that they have a center tile.
@@ -113,7 +112,7 @@ export default class DungeonScene extends Phaser.Scene {
     const otherRooms = Phaser.Utils.Array.Shuffle(rooms).slice(0, rooms.length * 0.9);
 
     // Place the shop
-    this.stuffLayer.putTileAt(TILES.STAIRS, endRoom.centerX, endRoom.centerY);
+    this.stuffLayer.putTileAt(TILES.SHOP, endRoom.centerX, endRoom.centerY);
 
     // Place stuff in the 90% "otherRooms"
     otherRooms.forEach(room => {
@@ -145,15 +144,15 @@ export default class DungeonScene extends Phaser.Scene {
     this.groundLayer.setCollisionByExclusion([-1, 4, 12]);
     this.stuffLayer.setCollisionByExclusion([-1, 4, 12]);
 
-    this.stuffLayer.setTileIndexCallback(TILES.STAIRS, () => {
-      this.stuffLayer.setTileIndexCallback(TILES.STAIRS, null);
-      this.hasPlayerReachedStairs = true;
+    this.stuffLayer.setTileIndexCallback(TILES.SHOP, () => {
+      this.stuffLayer.setTileIndexCallback(TILES.SHOP, null);
+      this.hasPlayerReachedShop = true;
       this.player.freeze();
       const cam = this.cameras.main;
       cam.fade(250, 0, 0, 0);
       cam.once("camerafadeoutcomplete", () => {
         this.player.destroy();
-        this.scene.restart();
+        this.scene.start("ShopScene");
       });
     });
 
@@ -180,7 +179,7 @@ export default class DungeonScene extends Phaser.Scene {
       this.add.image(32 * i + 16, 20, 'heart').setScrollFactor(0);
     
     // Help text that has a "fixed" position on the screen
-    this.add.text(16, 460, `Find the stairs. \nGo deeper.\nCurrent level: ${this.level}. \nLife: ${this.life}`, {
+    this.add.text(16, 460, `Find the shop or levels. \nGo deeper. \nLife: ${this.life}`, {
         font: "18px monospace",
         fill: "#000000",
         padding: { x: 20, y: 10 },
@@ -191,7 +190,7 @@ export default class DungeonScene extends Phaser.Scene {
   }
 
   update(time, delta) {
-    if (this.hasPlayerReachedStairs) return;
+    if (this.hasPlayerReachedShop) return;
 
     this.player.update();
 

@@ -32,7 +32,7 @@ const TILE_MAPPING = {
       [10]
     ]
   },
-  STAIRS: 5,
+  SHOP: 5,
   // prettier-ignore
   TOWER: [
     [40],

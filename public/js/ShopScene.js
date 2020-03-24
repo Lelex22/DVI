@@ -18,8 +18,13 @@ export default class ShopScene extends Phaser.Scene {
         );
         this.load.image('tiendaTiles', '../public/assets/tilesets/tienda.png');
         this.load.tilemapTiledJSON('map', '../public/assets/tilesets/tienda.json');
+        
+        this.load.spritesheet('button', '../public/img/flixel-button.png', { frameWidth: 80, frameHeight: 20 });
+
+        this.load.bitmapFont('nokia', '../public/assets/nokia16black.png', '../public/assets/nokia16black.xml');
     }
     create(){
+        
         const map = this.make.tilemap({ key: "map" });
         var tileset = map.addTilesetImage('tienda', 'tiendaTiles');
         const fondo = map.createStaticLayer("Capa de patrones 1", tileset, 0, 0);
@@ -42,7 +47,47 @@ export default class ShopScene extends Phaser.Scene {
         // Constrain the camera so that it isn't allowed to move outside the width/height of tilemap
         camera.setBounds(0, 0, map.widthInPixels, map.heightInPixels);
         camera.startFollow(this.player.sprite);
+        this.enMostrador = false;
+        
+        this.input.keyboard.on('keydown-ENTER',function(event){
+            if(this.enMostrador){
+                for (var i=0; i < this.player.buffs.length; i++)
+                {
+                    var marker = this.player.buffs[i];
+                    if(!marker.value)
+                        makeButton.call(this, marker.name, 680, 115 + i*40);
+                }
+                
+                this.input.on('gameobjectover', function (pointer, button)
+                {
+                    setButtonFrame(button, 0);
+                });
+                this.input.on('gameobjectout', function (pointer, button)
+                {
+                    setButtonFrame(button, 1);
+                });
+
+                this.input.on('gameobjectup', function (pointer, button)
+                {
+                    setButtonFrame(button, 2);
+                    if(button.name === "Espada"){
+                        if(this.player.coins >= 1000){
+                            this.player.coins -= 1000;
+                            this.player.buffs[1].value = true;
+                            console.log(this.player.buffs[1].value);
+                            console.log(this.player.coins);
+                        }
+                    }
+                }, this);
+
+            }
+        },this);
+
+            
+        
+    
     }
+
     update(time, delta){
         if(this.player.sprite.x <= 250 && this.player.sprite.x >= 240 && this.player.sprite.y > 290){
             const cam = this.cameras.main;
@@ -54,5 +99,25 @@ export default class ShopScene extends Phaser.Scene {
         }
 
         else this.player.update();
+        if(this.player.sprite.x <= 255 && this.player.sprite.x >= 215 && this.player.sprite.y <= 250)
+            this.enMostrador = true;
+        else this.enMostrador = false;
     }
+    
 }
+
+function makeButton(name, x, y)
+{
+    var button = this.add.image(x, y, 'button', 0).setInteractive();
+    button.name = name;
+    button.setScale(3, 1.5);
+
+    var text = this.add.bitmapText(x - 40, y - 8, 'nokia', name + " X 1000 monedas", 16);
+    text.x += (button.width - text.width) / 2;
+}
+
+function setButtonFrame(button, frame)
+{
+    button.frame = button.scene.textures.getFrame('button', frame);
+}
+

@@ -174,12 +174,12 @@ export default class DungeonScene extends Phaser.Scene {
     camera.startFollow(this.player.sprite);
     /* Vidas: Se supone que ese this.life = 5 no va a ser necesario, sino que vamos
     a obtener las vidas restantes */
-    this.life = 5;
-    for(var i = 0; i < this.life; i++)
+    
+    for(var i = 0; i < this.player.life; i++)
       this.add.image(32 * i + 16, 20, 'heart').setScrollFactor(0);
     
     // Help text that has a "fixed" position on the screen
-    this.add.text(16, 460, `Find the shop or levels. \nGo deeper. \nLife: ${this.life}`, {
+    this.add.text(16, 460, `Find the shop or levels. \nBuff espada: ${this.player.buffs[1].value}. \nLife: ${this.player.life}`, {
         font: "18px monospace",
         fill: "#000000",
         padding: { x: 20, y: 10 },

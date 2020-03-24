@@ -1,7 +1,9 @@
 export default class Player {
   constructor(scene, x, y) {
     this.scene = scene;
-
+    this.life = 5;
+    this.coins = 1000;
+    this.buffs = [{name: "Escudo", value: false}, {name: "Espada", value: false}, {name: "Capa", value: false}];
     const anims = scene.anims;
     anims.create({
       key: "down",

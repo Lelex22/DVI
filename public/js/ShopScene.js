@@ -6,6 +6,16 @@ export default class ShopScene extends Phaser.Scene {
     {
         super('ShopScene');
     }
+
+    init(data){
+        if(data !== null){
+          console.log(data);
+          this.lifesPlayer = data.vidas;
+          this.coinsPlayer = data.monedas;
+          this.buffsPlayer = data.buffs;
+        }
+        //else this.player = new Player(this, 0, 0);
+      }
     preload(){
         this.load.image("heart", "../public/img/heart.png");
         this.load.spritesheet(
@@ -37,6 +47,17 @@ export default class ShopScene extends Phaser.Scene {
         borde.setCollisionByExclusion([-1, 0]);
         pared.setCollisionByExclusion([-1, 0]);
         this.player = new Player(this, 250, 290);
+        if(this.lifesPlayer && (this.coinsPlayer || this.coinsPlayer === 0) && this.buffsPlayer){
+            this.buffsPlayer.forEach(function (elem, i){
+                if(elem.value) 
+                this.player.buffs[i].value = elem.value;
+            }, this);
+            this.player.buffs = this.buffsPlayer;
+            this.player.coins = this.coinsPlayer;
+            this.player.life = this.lifesPlayer;
+        }
+        
+        
 
         this.physics.add.collider(this.player.sprite, borde);
         this.physics.add.collider(this.player.sprite, pared);
@@ -89,19 +110,20 @@ export default class ShopScene extends Phaser.Scene {
     }
 
     update(time, delta){
+        if(this.player.sprite.x <= 255 && this.player.sprite.x >= 215 && this.player.sprite.y <= 250)
+            this.enMostrador = true;
+        else this.enMostrador = false;
         if(this.player.sprite.x <= 250 && this.player.sprite.x >= 240 && this.player.sprite.y > 290){
             const cam = this.cameras.main;
             cam.fade(250, 0, 0, 0);
             cam.once("camerafadeoutcomplete", () => {
                 this.player.destroy();
-                this.scene.start("DungeonScene");
+                this.scene.start("DungeonScene", {vidas: this.player.life, monedas: this.player.coins, buffs: this.player.buffs});
             });
         }
 
         else this.player.update();
-        if(this.player.sprite.x <= 255 && this.player.sprite.x >= 215 && this.player.sprite.y <= 250)
-            this.enMostrador = true;
-        else this.enMostrador = false;
+        
     }
     
 }

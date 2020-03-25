@@ -15,6 +15,15 @@ export default class DungeonScene extends Phaser.Scene {
     this.level = 0;
     
   }
+  init(data){
+    if(data !== null){
+      console.log("Done");
+      this.lifesPlayer = data.vidas;
+      this.coinsPlayer = data.monedas;
+      this.buffsPlayer = data.buffs;
+    }
+    //else this.player = new Player(this, 0, 0);
+  }
   
 
   preload() {
@@ -152,7 +161,7 @@ export default class DungeonScene extends Phaser.Scene {
       cam.fade(250, 0, 0, 0);
       cam.once("camerafadeoutcomplete", () => {
         this.player.destroy();
-        this.scene.start("ShopScene");
+        this.scene.start("ShopScene", {vidas: this.player.life, monedas: this.player.coins, buffs: this.player.buffs});
       });
     });
 
@@ -161,7 +170,15 @@ export default class DungeonScene extends Phaser.Scene {
     const x = map.tileToWorldX(playerRoom.centerX);
     const y = map.tileToWorldY(playerRoom.centerY);
     this.player = new Player(this, x, y);
-
+    if(this.lifesPlayer && (this.coinsPlayer || this.coinsPlayer === 0) && this.buffsPlayer){
+      this.buffsPlayer.forEach(function (elem, i){
+        if(elem.value) 
+          this.player.buffs[i].value = elem.value;
+      }, this);
+      this.player.buffs = this.buffsPlayer;
+      this.player.coins = this.coinsPlayer;
+      this.player.life = this.lifesPlayer;
+    }
     // Watch the player and tilemap layers for collisions, for the duration of the scene:
     this.physics.add.collider(this.player.sprite, this.groundLayer);
     this.physics.add.collider(this.player.sprite, this.stuffLayer);

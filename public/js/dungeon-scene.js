@@ -118,10 +118,11 @@ export default class DungeonScene extends Phaser.Scene {
     const rooms = this.dungeon.rooms.slice();
     const startRoom = rooms.shift();
     const endRoom = Phaser.Utils.Array.RemoveRandomElement(rooms);
+    const mapRoom = Phaser.Utils.Array.RemoveRandomElement(rooms);
     const otherRooms = Phaser.Utils.Array.Shuffle(rooms).slice(0, rooms.length * 0.9);
-
     // Place the shop
     this.stuffLayer.putTileAt(TILES.SHOP, endRoom.centerX, endRoom.centerY);
+    this.stuffLayer.putTileAt(TILES.MAPAVERDE, mapRoom.centerX, mapRoom.centerY);
 
     // Place stuff in the 90% "otherRooms"
     otherRooms.forEach(room => {

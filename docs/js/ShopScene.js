@@ -9,7 +9,6 @@ export default class ShopScene extends Phaser.Scene {
 
     init(data){
         if(data !== null){
-          console.log(data);
           this.lifesPlayer = data.vidas;
           this.coinsPlayer = data.monedas;
           this.buffsPlayer = data.buffs;
@@ -32,6 +31,7 @@ export default class ShopScene extends Phaser.Scene {
         this.load.spritesheet('button', '../public/img/flixel-button.png', { frameWidth: 80, frameHeight: 20 });
 
         this.load.bitmapFont('nokia', '../public/assets/nokia16black.png', '../public/assets/nokia16black.xml');
+        
     }
     create(){
         
@@ -56,6 +56,8 @@ export default class ShopScene extends Phaser.Scene {
             this.player.coins = this.coinsPlayer;
             this.player.life = this.lifesPlayer;
         }
+        for(var i = 0; i < this.player.life; i++)
+            this.add.image(32 * i + 16, 20, 'heart').setScrollFactor(0);
         
         
 
@@ -69,16 +71,33 @@ export default class ShopScene extends Phaser.Scene {
         camera.setBounds(0, 0, map.widthInPixels, map.heightInPixels);
         camera.startFollow(this.player.sprite);
         this.enMostrador = false;
+
+        this.add.text(16, 460, `Ve al mostrador y pulsa ENTER\npara comprarle algo al tendero.`, {
+            font: "18px monospace",
+            fill: "#000000",
+            padding: { x: 20, y: 10 },
+            backgroundColor: "#ffffff"
+          })
+          .setScrollFactor(0);
         
         this.input.keyboard.on('keydown-ENTER',function(event){
+            var texto = this.add.text(100, 360, `Pulsa con el ratón aquello\nque quieras comprar. `, {
+                font: "18px monospace",
+                fill: "#000000",
+                padding: { x: 20, y: 10 },
+                backgroundColor: "#ffffff"
+              })
+              .setScrollFactor(0);
             if(this.enMostrador){
                 for (var i=0; i < this.player.buffs.length; i++)
                 {
                     var marker = this.player.buffs[i];
                     if(!marker.value)
-                        makeButton.call(this, marker.name, 680, 115 + i*40);
+                        makeButton.call(this, marker.name, 660, 115 + i*40, 1000);
                 }
-                
+                makeButton.call(this, "Vida", 660, 115 + 120, 50);
+                makeButton.call(this, "Aumento de Vida Máxima", 640, 115 + 160, 500);
+
                 this.input.on('gameobjectover', function (pointer, button)
                 {
                     setButtonFrame(button, 0);
@@ -91,13 +110,59 @@ export default class ShopScene extends Phaser.Scene {
                 this.input.on('gameobjectup', function (pointer, button)
                 {
                     setButtonFrame(button, 2);
-                    if(button.name === "Espada"){
-                        if(this.player.coins >= 1000){
-                            this.player.coins -= 1000;
-                            this.player.buffs[1].value = true;
-                            console.log(this.player.buffs[1].value);
-                            console.log(this.player.coins);
+                    if(this.player.coins >= button.precio){
+                        
+                        if(button.name === "Espada" || button.name === "Escudo" ||
+                            button.name === "Capa"){
+                                this.player.coins -= button.precio;
+                                
+                                switch(button.name){
+                                    case "Espada": 
+                                        this.player.buffs[1].value = true;
+                                        this.messages = ["Espada."];
+                                        break;
+                                    case "Escudo": 
+                                        this.player.buffs[0].value = true;
+                                        this.messages = ["Escudo."];
+                                        break;
+                                    case "Capa": 
+                                        this.player.buffs[2].value = true;
+                                        this.messages = ["Capa."];
+                                        break;
+                                }
                         }
+                        else if(button.name === "Vida"){
+                            //Si el jugador ya tiene el maximo de vida no le dejamos comprar
+                            if(this.player.life < this.player.maxLife){
+                                
+                                this.player.coins -= button.precio;
+                                this.player.life += 1;
+                                this.messages = "1 Vida. Ahora tienes " + this.player.life + "vidas";
+
+                                this.add.image(32 * (this.player.life - 1) + 16, 20, 'heart').setScrollFactor(0);
+                            }
+                            else {
+                                this.fail = true;
+                                this.messages = "No puedes comprar más vidas\nporque ya tienes el máximo" 
+                            }
+                        }
+                        else if(button.name === "Aumento de Vida Máxima"){
+                            
+                            this.player.coins -= button.precio;
+                            this.player.maxLife += 1;
+                            this.messages = "Aumento de Vida Máxima.\nAhora tu máximo de vidas es " + this.player.maxLife;
+                        }
+                        if(this.fail){
+                            texto.text = `${this.messages}.\nAumenta tu máximo de vidas para comprar más.\n¡Vuelve cuando quieras!`;
+                            this.fail = false;
+                        }
+                        else {
+                            texto.text = `Has comprado ${this.messages}.\nTe quedan ${this.player.coins} monedas.\n¡Vuelve cuando quieras!`;
+                        }
+                    }
+                    //Caso de que no tenga monedas suficientes
+                    else {
+                        texto.text = `No tienes monedas suficientes\npara comprar ese artículo.`;
                     }
                 }, this);
 
@@ -128,14 +193,22 @@ export default class ShopScene extends Phaser.Scene {
     
 }
 
-function makeButton(name, x, y)
+function makeButton(name, x, y, precio)
 {
     var button = this.add.image(x, y, 'button', 0).setInteractive();
     button.name = name;
-    button.setScale(3, 1.5);
-
-    var text = this.add.bitmapText(x - 40, y - 8, 'nokia', name + " X 1000 monedas", 16);
-    text.x += (button.width - text.width) / 2;
+    button.precio = precio;
+    if(button.name === "Aumento de Vida Máxima"){
+        button.setScale(4, 1.5);
+        var text = this.add.bitmapText(x - 40, y - 8, 'nokia', "+1 Vida Máxima X " + precio + "monedas", 16);
+        text.x += (button.width - text.width) / 2;
+    }
+    else{
+        button.setScale(3, 1.5)
+        var text = this.add.bitmapText(x - 40, y - 8, 'nokia', name + " X " + precio + "monedas", 16);
+        text.x += (button.width - text.width) / 2;
+    }
+    
 }
 
 function setButtonFrame(button, frame)

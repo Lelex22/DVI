@@ -31,10 +31,10 @@ export default class DungeonScene extends Phaser.Scene {
     this.load.image("heart", "../public/img/heart.png");
     this.load.spritesheet(
       "characters",
-      "../public/assets/spritesheets/luigi-sprites.png",
+      "../public/assets/spritesheets/edit1.png",
       {
-        frameWidth: 28,
-        frameHeight: 28
+        frameWidth: 33,
+        frameHeight: 23
       }
     );
   }

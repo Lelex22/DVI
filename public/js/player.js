@@ -19,13 +19,13 @@ export default class Player {
     });
     anims.create({
         key: "right",
-        frames: anims.generateFrameNumbers('characters', { start: 8, end: 9 }),
+        frames: anims.generateFrameNumbers('characters', { start: 6, end: 7 }),
         frameRate: 10,
         repeat: 0
       });
       anims.create({
         key: "left",
-        frames: anims.generateFrameNumbers('characters', { start: 6, end: 7 }),
+        frames: anims.generateFrameNumbers('characters', { start: 2, end: 3 }),
         frameRate: 10,
         repeat: 0
       });

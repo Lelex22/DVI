@@ -16,21 +16,21 @@ export default class ShopScene extends Phaser.Scene {
         //else this.player = new Player(this, 0, 0);
       }
     preload(){
-        this.load.image("heart", "../public/img/heart.png");
+        this.load.image("heart", "../DVI/public/img/heart.png");
         this.load.spritesheet(
         "characters",
-        "../public/assets/spritesheets/luigi-sprites.png",
+        "../DVI/public/assets/spritesheets/luigi-sprites.png",
         {
             frameWidth: 28,
             frameHeight: 28
         }
         );
-        this.load.image('tiendaTiles', '../public/assets/tilesets/tienda.png');
-        this.load.tilemapTiledJSON('map', '../public/assets/tilesets/tienda.json');
+        this.load.image('tiendaTiles', '../DVI/public/assets/tilesets/tienda.png');
+        this.load.tilemapTiledJSON('map', '../DVI/public/assets/tilesets/tienda.json');
         
-        this.load.spritesheet('button', '../public/img/flixel-button.png', { frameWidth: 80, frameHeight: 20 });
+        this.load.spritesheet('button', '../DVI/public/img/flixel-button.png', { frameWidth: 80, frameHeight: 20 });
 
-        this.load.bitmapFont('nokia', '../public/assets/nokia16black.png', '../public/assets/nokia16black.xml');
+        this.load.bitmapFont('nokia', '../DVI/public/assets/nokia16black.png', '../DVI/public/assets/nokia16black.xml');
         
     }
     create(){

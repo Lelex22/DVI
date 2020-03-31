@@ -1,31 +1,116 @@
 export default class Player {
-  constructor(scene, x, y) {
+  // Orden: Escudo 0 Espada 1 Capa 2
+  constructor(scene, x, y, buffs) {
+    if(buffs === null || buffs === undefined)
+      this.buffsp = [false, false, false];
+    else {
+      console.log(buffs[2]["value"]);
+      this.buffsp = [];
+      this.buffsp[0] = buffs[0]["value"];
+      this.buffsp[1] = buffs[1]["value"];
+      this.buffsp[2] = buffs[2]["value"];
+      console.log(this.buffsp[2]);
+    }
     this.scene = scene;
     this.maxLife = 5;
     this.life = 5;
     this.coins = 1000;
-    this.buffs = [{name: "Escudo", value: false}, {name: "Espada", value: false}, {name: "Capa", value: false}];
+    this.buffs = [{name: "Escudo", value: this.buffsp[0]}, {name: "Espada", value: this.buffsp[1]}, {name: "Capa", value: this.buffsp[2]}];
     
     const anims = scene.anims;
+    //If para crear down
     anims.create({
       key: "down",
       frames: [ { key: 'characters', frame: 1 } ],
       frameRate: 20
     });
+    //If para crear up
     anims.create({
       key: "up",
       frames: [ { key: 'characters', frame: 0 } ],
       frameRate: 20
     });
-    anims.create({
-        key: "right",
-        frames: anims.generateFrameNumbers('characters', { start: 8, end: 9 }),
-        frameRate: 10,
-        repeat: 0
-      });
+    //If para crear right
+    let pinta = pintaBuffs(this.buffsp);
+    console.log("Pinta = " + pinta);
+    switch(parseInt(pinta)){
+      case 0:
+        //Sin nada
+        anims.create({
+          key: "right",
+          frames: anims.generateFrameNumbers('characters', { start: 18, end: 19 }),
+          frameRate: 10,
+          repeat: 0
+        });
+        break;
+      case 1:
+        //Solo capa
+        console.log("Hola");
+        anims.create({
+          key: "right",
+          frames: anims.generateFrameNumbers('characters', { start: 14, end: 15 }),
+          frameRate: 10,
+          repeat: 0
+        });
+        break;
+        //Solo espada
+      case 10:
+        anims.create({
+          key: "right",
+          frames: anims.generateFrameNumbers('characters', { start: 16, end: 17 }),
+          frameRate: 10,
+          repeat: 0
+        });
+        break;
+      case 11:
+        //Capa espada
+        anims.create({
+          key: "right",
+          frames: anims.generateFrameNumbers('characters', { start: 6, end: 7 }),
+          frameRate: 10,
+          repeat: 0
+        });
+        break;
+        //Solo escudo
+      case 100:
+        anims.create({
+          key: "right",
+          frames: anims.generateFrameNumbers('characters', { start: 25, end: 26 }),
+          frameRate: 10,
+          repeat: 0
+        });
+        break;
+        //Escudo capa
+      case 101:
+        anims.create({
+          key: "right",
+          frames: anims.generateFrameNumbers('characters', { start: 34, end: 35 }),
+          frameRate: 10,
+          repeat: 0
+        });
+        break;
+        //Escudo espada
+      case 110:
+        anims.create({
+          key: "right",
+          frames: anims.generateFrameNumbers('characters', { start: 27, end: 28 }),
+          frameRate: 10,
+          repeat: 0
+        });
+        break;
+        //Todo
+      case 111:
+        anims.create({
+          key: "right",
+          frames: anims.generateFrameNumbers('characters', { start: 29, end: 30 }),
+          frameRate: 10,
+          repeat: 0
+        });
+        break;
+    }
       anims.create({
         key: "left",
-        frames: anims.generateFrameNumbers('characters', { start: 6, end: 7 }),
+        frames: anims.generateFrameNumbers('characters', { start: 2, end: 3 }),
         frameRate: 10,
         repeat: 0
       });
@@ -37,6 +122,18 @@ export default class Player {
     this.sprite.anims.play("up");
 
     this.keys = scene.input.keyboard.createCursorKeys();
+
+    function pintaBuffs(buffs){
+      let ret = [];
+      if(buffs[0]) ret[0] = 1;
+      else ret[0] = 0;
+      if(buffs[1]) ret[1] = 1;
+      else ret[1] = 0;
+      if(buffs[2]) ret[2] = 1;
+      else ret[2] = 0;
+      console.log(ret);
+      return ret[0] * 100 + ret[1] * 10 + ret[2];
+    }
   }
 
   freeze() {

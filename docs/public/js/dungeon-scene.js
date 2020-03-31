@@ -28,11 +28,11 @@ export default class DungeonScene extends Phaser.Scene {
   
 
   preload() {
-    this.load.image("tiles", "../assets/tilesets/prueba2.png");
-    this.load.image("heart", "../img/heart.png");
+    this.load.image("tiles", "../public/assets/tilesets/prueba2.png");
+    this.load.image("heart", "../public/img/heart.png");
     this.load.spritesheet(
       "characters",
-      "../assets/spritesheets/edit1.png",
+      "../public/assets/spritesheets/edit1.png",
       {
         frameWidth: 33,
         frameHeight: 24

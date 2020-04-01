@@ -9,7 +9,6 @@ export default class Player {
       this.buffsp[0] = buffs[0]["value"];
       this.buffsp[1] = buffs[1]["value"];
       this.buffsp[2] = buffs[2]["value"];
-      console.log(this.buffsp[2]);
     }
     this.scene = scene;
     this.maxLife = 5;
@@ -31,10 +30,8 @@ export default class Player {
       frameRate: 20
     });
     //If para crear right
-    let pinta = pintaBuffs(this.buffsp);
-    console.log("Pinta = " + pinta);
-    switch(parseInt(pinta)){
-      case 0:
+    this.pinta = pintaBuffs(this.buffsp);
+    
         //Sin nada
         anims.create({
           key: "right",
@@ -42,75 +39,108 @@ export default class Player {
           frameRate: 10,
           repeat: 0
         });
-        break;
-      case 1:
         //Solo capa
-        console.log("Hola");
         anims.create({
-          key: "right",
+          key: "right-capa",
           frames: anims.generateFrameNumbers('characters', { start: 14, end: 15 }),
           frameRate: 10,
           repeat: 0
         });
-        break;
         //Solo espada
-      case 10:
         anims.create({
-          key: "right",
+          key: "right-espada",
           frames: anims.generateFrameNumbers('characters', { start: 16, end: 17 }),
           frameRate: 10,
           repeat: 0
         });
-        break;
-      case 11:
         //Capa espada
         anims.create({
-          key: "right",
+          key: "right-capa-espada",
           frames: anims.generateFrameNumbers('characters', { start: 6, end: 7 }),
           frameRate: 10,
           repeat: 0
         });
-        break;
         //Solo escudo
-      case 100:
         anims.create({
-          key: "right",
-          frames: anims.generateFrameNumbers('characters', { start: 25, end: 26 }),
+          key: "right-escudo",
+          frames: anims.generateFrameNumbers('characters', { start: 24, end: 25 }),
           frameRate: 10,
           repeat: 0
         });
-        break;
         //Escudo capa
-      case 101:
         anims.create({
-          key: "right",
-          frames: anims.generateFrameNumbers('characters', { start: 34, end: 35 }),
+          key: "right-capa-escudo",
+          frames: anims.generateFrameNumbers('characters', { start: 32, end: 33 }),
           frameRate: 10,
           repeat: 0
         });
-        break;
         //Escudo espada
-      case 110:
         anims.create({
-          key: "right",
-          frames: anims.generateFrameNumbers('characters', { start: 27, end: 28 }),
+          key: "right-espada-escudo",
+          frames: anims.generateFrameNumbers('characters', { start: 26, end: 27 }),
           frameRate: 10,
           repeat: 0
         });
-        break;
         //Todo
-      case 111:
         anims.create({
-          key: "right",
-          frames: anims.generateFrameNumbers('characters', { start: 29, end: 30 }),
+          key: "right-capa-espada-escudo",
+          frames: anims.generateFrameNumbers('characters', { start: 28, end: 29 }),
           frameRate: 10,
           repeat: 0
         });
-        break;
-    }
+      //Sin nada
       anims.create({
         key: "left",
+        frames: anims.generateFrameNumbers('characters', { start: 4, end: 5 }),
+        frameRate: 10,
+        repeat: 0
+      });
+      //Solo capa
+      anims.create({
+        key: "left-capa",
         frames: anims.generateFrameNumbers('characters', { start: 2, end: 3 }),
+        frameRate: 10,
+        repeat: 0
+      });
+      //Solo espada
+      anims.create({
+        key: "left-espada",
+        frames: anims.generateFrameNumbers('characters', { start: 10, end: 11 }),
+        frameRate: 10,
+        repeat: 0
+      });
+      //Capa espada
+      anims.create({
+        key: "left-capa-espada",
+        frames: anims.generateFrameNumbers('characters', { start: 8, end: 9 }),
+        frameRate: 10,
+        repeat: 0
+      });
+      //Solo escudo
+      anims.create({
+        key: "left-escudo",
+        frames: anims.generateFrameNumbers('characters', { start: 12, end: 13 }),
+        frameRate: 10,
+        repeat: 0
+      });
+      //Escudo capa
+      anims.create({
+        key: "left-capa-escudo",
+        frames: anims.generateFrameNumbers('characters', { start: 30, end: 31 }),
+        frameRate: 10,
+        repeat: 0
+      });
+      //Escudo espada
+      anims.create({
+        key: "left-espada-escudo",
+        frames: anims.generateFrameNumbers('characters', { start: 20, end: 21 }),
+        frameRate: 10,
+        repeat: 0
+      });
+      //Todo
+      anims.create({
+        key: "left-capa-espada-escudo",
+        frames: anims.generateFrameNumbers('characters', { start: 22, end: 23 }),
         frameRate: 10,
         repeat: 0
       });
@@ -175,9 +205,59 @@ export default class Player {
       sprite.anims.play("up", true);
     } 
     else if (keys.right.isDown){
-        sprite.anims.play("right", true);
+      switch(this.pinta){
+        case 0:
+          sprite.anims.play("right", true);
+          break;
+        case 1:
+          sprite.anims.play("right-capa", true);
+          break;
+        case 10:
+          sprite.anims.play("right-espada", true);
+          break;
+        case 11:
+          sprite.anims.play("right-capa-espada", true);
+          break;
+        case 100:
+          sprite.anims.play("right-escudo", true);
+          break;
+        case 101:
+          sprite.anims.play("right-capa-escudo", true);
+          break;
+        case 110:
+          sprite.anims.play("right-espada-escudo", true);
+          break;
+        case 111:
+          sprite.anims.play("right-capa-espada-escudo", true);
+          break;
+      }
     }else if(keys.left.isDown){
-        sprite.anims.play("left", true);
+      switch(this.pinta){
+        case 0:
+          sprite.anims.play("left", true);
+          break;
+        case 1:
+          sprite.anims.play("left-capa", true);
+          break;
+        case 10:
+          sprite.anims.play("left-espada", true);
+          break;
+        case 11:
+          sprite.anims.play("left-capa-espada", true);
+          break;
+        case 100:
+          sprite.anims.play("left-escudo", true);
+          break;
+        case 101:
+          sprite.anims.play("left-capa-escudo", true);
+          break;
+        case 110:
+          sprite.anims.play("left-espada-escudo", true);
+          break;
+        case 111:
+          sprite.anims.play("left-capa-espada-escudo", true);
+          break;
+      }
     }else {
       sprite.anims.stop();
 

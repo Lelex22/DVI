@@ -16,27 +16,27 @@ export default class ShopScene extends Phaser.Scene {
         //else this.player = new Player(this, 0, 0);
       }
     preload(){
-        this.load.image("heart", "../DVI/public/img/heart.png");
+        this.load.image("heart", "../public/img/heart.png");
         this.load.spritesheet(
         "characters",
-        "../DVI/public/assets/spritesheets/luigi-sprites.png",
+        "../public/assets/spritesheets/luigi-sprites.png",
         {
             frameWidth: 28,
             frameHeight: 28
         }
         );
-        this.load.image('tiendaTiles', '../DVI/public/assets/tilesets/tienda.png');
-        this.load.tilemapTiledJSON('map', '../DVI/public/assets/tilesets/tienda.json');
+        this.load.image('tiendaTiles', '../public/assets/tilesets/tienda.png');
+        this.load.tilemapTiledJSON('map', '../public/assets/tilesets/tienda.json');
         
-        this.load.spritesheet('button', '../DVI/public/img/flixel-button.png', { frameWidth: 80, frameHeight: 20 });
+        this.load.spritesheet('button', '../public/img/flixel-button.png', { frameWidth: 80, frameHeight: 20 });
 
-        this.load.bitmapFont('nokia', '../DVI/public/assets/nokia16black.png', '../DVI/public/assets/nokia16black.xml');
+        this.load.bitmapFont('nokia', '../public/assets/nokia16black.png', '../public/assets/nokia16black.xml');
         
     }
     create(){
         
         const map = this.make.tilemap({ key: "map" });
-        var tileset = map.addTilesetImage('tienda', 'tiendaTiles');
+        let tileset = map.addTilesetImage('tienda', 'tiendaTiles');
         const fondo = map.createStaticLayer("Capa de patrones 1", tileset, 0, 0);
         const borde = map.createStaticLayer("borde", tileset, 0, 0);
         const floor = map.createStaticLayer("floor", tileset, 0, 0);
@@ -56,7 +56,7 @@ export default class ShopScene extends Phaser.Scene {
             this.player.coins = this.coinsPlayer;
             this.player.life = this.lifesPlayer;
         }
-        for(var i = 0; i < this.player.life; i++)
+        for(let i = 0; i < this.player.life; i++)
             this.add.image(32 * i + 16, 20, 'heart').setScrollFactor(0);
         
         
@@ -81,7 +81,7 @@ export default class ShopScene extends Phaser.Scene {
           .setScrollFactor(0);
         
         this.input.keyboard.on('keydown-ENTER',function(event){
-            var texto = this.add.text(100, 360, `Pulsa con el ratón aquello\nque quieras comprar. `, {
+            let texto = this.add.text(100, 360, `Pulsa con el ratón aquello\nque quieras comprar. `, {
                 font: "18px monospace",
                 fill: "#000000",
                 padding: { x: 20, y: 10 },
@@ -89,9 +89,9 @@ export default class ShopScene extends Phaser.Scene {
               })
               .setScrollFactor(0);
             if(this.enMostrador){
-                for (var i=0; i < this.player.buffs.length; i++)
+                for (let i=0; i < this.player.buffs.length; i++)
                 {
-                    var marker = this.player.buffs[i];
+                    let marker = this.player.buffs[i];
                     if(!marker.value)
                         makeButton.call(this, marker.name, 660, 115 + i*40, 1000);
                 }
@@ -195,17 +195,17 @@ export default class ShopScene extends Phaser.Scene {
 
 function makeButton(name, x, y, precio)
 {
-    var button = this.add.image(x, y, 'button', 0).setInteractive();
+    let button = this.add.image(x, y, 'button', 0).setInteractive();
     button.name = name;
     button.precio = precio;
     if(button.name === "Aumento de Vida Máxima"){
         button.setScale(4, 1.5);
-        var text = this.add.bitmapText(x - 40, y - 8, 'nokia', "+1 Vida Máxima X " + precio + "monedas", 16);
+        let text = this.add.bitmapText(x - 40, y - 8, 'nokia', "+1 Vida Máxima X " + precio + "monedas", 16);
         text.x += (button.width - text.width) / 2;
     }
     else{
         button.setScale(3, 1.5)
-        var text = this.add.bitmapText(x - 40, y - 8, 'nokia', name + " X " + precio + "monedas", 16);
+        let text = this.add.bitmapText(x - 40, y - 8, 'nokia', name + " X " + precio + "monedas", 16);
         text.x += (button.width - text.width) / 2;
     }
     

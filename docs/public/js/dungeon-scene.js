@@ -28,11 +28,11 @@ export default class DungeonScene extends Phaser.Scene {
   
 
   preload() {
-    this.load.image("tiles", "../DVI/public/assets/tilesets/prueba2.png");
-    this.load.image("heart", "../DVI/public/img/heart.png");
+    this.load.image("tiles", "../public/assets/tilesets/prueba2.png");
+    this.load.image("heart", "../public/img/heart.png");
     this.load.spritesheet(
       "characters",
-      "../DVI/public/assets/spritesheets/edit1.png",
+      "../public/assets/spritesheets/edit1.png",
       {
         frameWidth: 33,
         frameHeight: 24
@@ -98,8 +98,8 @@ export default class DungeonScene extends Phaser.Scene {
 
       // Dungeons have rooms that are connected with doors. Each door has an x & y relative to the
       // room's location
-      var doors = room.getDoorLocations();
-      for (var i = 0; i < doors.length; i++) {
+      let doors = room.getDoorLocations();
+      for (let i = 0; i < doors.length; i++) {
         if (doors[i].y === 0) {
           this.groundLayer.putTilesAt(TILES.DOOR.TOP, x + doors[i].x - 1, y + doors[i].y);
         } else if (doors[i].y === room.height - 1) {
@@ -127,7 +127,7 @@ export default class DungeonScene extends Phaser.Scene {
 
     // Place stuff in the 90% "otherRooms"
     otherRooms.forEach(room => {
-      var rand = Math.random();
+      let rand = Math.random();
       if (rand <= 0.25) {
         // 25% chance of chest
         this.stuffLayer.putTileAt(TILES.CHEST, room.centerX, room.centerY);
@@ -194,7 +194,7 @@ export default class DungeonScene extends Phaser.Scene {
     /* Vidas: Se supone que ese this.life = 5 no va a ser necesario, sino que vamos
     a obtener las vidas restantes */
     
-    for(var i = 0; i < this.player.life; i++)
+    for(let i = 0; i < this.player.life; i++)
       this.add.image(32 * i + 16, 20, 'heart').setScrollFactor(0);
     
     // Help text that has a "fixed" position on the screen

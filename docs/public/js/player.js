@@ -17,21 +17,119 @@ export default class Player {
     this.buffs = [{name: "Escudo", value: this.buffsp[0]}, {name: "Espada", value: this.buffsp[1]}, {name: "Capa", value: this.buffsp[2]}];
     
     const anims = scene.anims;
-    //If para crear down
+    this.pinta = pintaBuffs(this.buffsp);
+     //Sin nada
+     anims.create({
+      key: "up",
+      frames: anims.generateFrameNumbers('characters', { start: 56, end: 57 }),
+      frameRate: 10,
+      repeat: 0
+    });
+    //Solo capa
+    anims.create({
+      key: "up-capa",
+      frames: anims.generateFrameNumbers('characters', { start: 69, end: 70 }),
+      frameRate: 10,
+      repeat: 0
+    });
+    //Solo espada
+    anims.create({
+      key: "up-espada",
+      frames: anims.generateFrameNumbers('characters', { start: 58, end: 59 }),
+      frameRate: 10,
+      repeat: 0
+    });
+    //Capa espada
+    anims.create({
+      key: "up-capa-espada",
+      frames: anims.generateFrameNumbers('characters', { start: 62, end: 63 }),
+      frameRate: 10,
+      repeat: 0
+    });
+    //Solo escudo
+    anims.create({
+      key: "up-escudo",
+      frames: anims.generateFrameNumbers('characters', { start: 65, end: 66 }),
+      frameRate: 10,
+      repeat: 0
+    });
+    //Escudo capa
+    anims.create({
+      key: "up-capa-escudo",
+      frames: anims.generateFrameNumbers('characters', { start: 67, end: 68 }),
+      frameRate: 10,
+      repeat: 0
+    });
+    //Escudo espada
+    anims.create({
+      key: "up-espada-escudo",
+      frames: anims.generateFrameNumbers('characters', { start: 60, end: 61 }),
+      frameRate: 10,
+      repeat: 0
+    });
+    //Todo
+    anims.create({
+      key: "up-capa-espada-escudo",
+      frames: anims.generateFrameNumbers('characters', { start: 70, end: 71 }),
+      frameRate: 10,
+      repeat: 0
+    });
+    //Sin nada
     anims.create({
       key: "down",
-      frames: [ { key: 'characters', frame: 1 } ],
-      frameRate: 20
+      frames: anims.generateFrameNumbers('characters', { start: 39, end: 40 }),
+      frameRate: 10,
+      repeat: 0
     });
-    //If para crear up
+    //Solo capa
     anims.create({
-      key: "up",
-      frames: [ { key: 'characters', frame: 0 } ],
-      frameRate: 20
+      key: "down-capa",
+      frames: anims.generateFrameNumbers('characters', { start: 45, end: 46 }),
+      frameRate: 10,
+      repeat: 0
     });
-    //If para crear right
-    this.pinta = pintaBuffs(this.buffsp);
-    
+    //Solo espada
+    anims.create({
+      key: "down-espada",
+      frames: anims.generateFrameNumbers('characters', { start: 41, end: 42 }),
+      frameRate: 10,
+      repeat: 0
+    });
+    //Capa espada
+    anims.create({
+      key: "down-capa-espada",
+      frames: anims.generateFrameNumbers('characters', { start: 49, end: 50 }),
+      frameRate: 10,
+      repeat: 0
+    });
+    //Solo escudo
+    anims.create({
+      key: "down-escudo",
+      frames: anims.generateFrameNumbers('characters', { start: 43, end: 44 }),
+      frameRate: 10,
+      repeat: 0
+    });
+    //Escudo capa
+    anims.create({
+      key: "down-capa-escudo",
+      frames: anims.generateFrameNumbers('characters', { start: 52, end: 53 }),
+      frameRate: 10,
+      repeat: 0
+    });
+    //Escudo espada
+    anims.create({
+      key: "down-espada-escudo",
+      frames: anims.generateFrameNumbers('characters', { start: 47, end: 48 }),
+      frameRate: 10,
+      repeat: 0
+    });
+    //Todo
+    anims.create({
+      key: "down-capa-espada-escudo",
+      frames: anims.generateFrameNumbers('characters', { start: 54, end: 55 }),
+      frameRate: 10,
+      repeat: 0
+    });
         //Sin nada
         anims.create({
           key: "right",
@@ -200,9 +298,59 @@ export default class Player {
 
     // Update the animation last and give left/right/down animations precedence over up animations
     if (keys.down.isDown) {
-      sprite.anims.play("down", true);
+      switch(this.pinta){
+        case 0:
+          sprite.anims.play("down", true);
+          break;
+        case 1:
+          sprite.anims.play("down-capa", true);
+          break;
+        case 10:
+          sprite.anims.play("down-espada", true);
+          break;
+        case 11:
+          sprite.anims.play("down-capa-espada", true);
+          break;
+        case 100:
+          sprite.anims.play("down-escudo", true);
+          break;
+        case 101:
+          sprite.anims.play("down-capa-escudo", true);
+          break;
+        case 110:
+          sprite.anims.play("down-espada-escudo", true);
+          break;
+        case 111:
+          sprite.anims.play("down-capa-espada-escudo", true);
+          break;
+      }
     } else if (keys.up.isDown) {
-      sprite.anims.play("up", true);
+      switch(this.pinta){
+        case 0:
+          sprite.anims.play("up", true);
+          break;
+        case 1:
+          sprite.anims.play("up-capa", true);
+          break;
+        case 10:
+          sprite.anims.play("up-espada", true);
+          break;
+        case 11:
+          sprite.anims.play("up-capa-espada", true);
+          break;
+        case 100:
+          sprite.anims.play("up-escudo", true);
+          break;
+        case 101:
+          sprite.anims.play("up-capa-escudo", true);
+          break;
+        case 110:
+          sprite.anims.play("up-espada-escudo", true);
+          break;
+        case 111:
+          sprite.anims.play("up-capa-espada-escudo", true);
+          break;
+      }
     } 
     else if (keys.right.isDown){
       switch(this.pinta){

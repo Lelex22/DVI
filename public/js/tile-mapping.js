@@ -15,7 +15,7 @@ const TILE_MAPPING = {
     BOTTOM: [{ index: 3, weight: 4 }]
   },
   FLOOR: [{ index: 4, weight: 9 }, { index: 12, weight: 8 }],
-  POT: [{ index: 34, weight: 1 }],
+  POT: [{ index: 13, weight: 1 }],
   DOOR: {
     TOP: [11, 4, 11],
     // prettier-ignore
@@ -36,8 +36,7 @@ const TILE_MAPPING = {
   MAPAVERDE: 20,
   // prettier-ignore
   TOWER: [
-    [40],
-    [41]
+    [14]
   ]
 };
 

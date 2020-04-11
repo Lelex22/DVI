@@ -1,11 +1,11 @@
 
 import Player from "./player.js";
 
-export default class ShopScene extends Phaser.Scene {
+export default class GreenMapScene extends Phaser.Scene {
 
     constructor ()
     {
-        super('mapaverde-scene');
+        super('GreenMapScene');
     }
 
     init(data){
@@ -49,7 +49,7 @@ export default class ShopScene extends Phaser.Scene {
         tierra.setCollisionByExclusion([-1, 0]);
         escaleras.setCollisionByExclusion([-1, 0]);
         puentes.setCollisionByExclusion([-1, 0]);
-        this.player = new Player(this, 250, 290);
+        this.player = new Player(this, 10, 565);
         
         if(this.lifesPlayer && (this.coinsPlayer || this.coinsPlayer === 0) && this.buffsPlayer){
             this.buffsPlayer.forEach(function (elem, i){
@@ -66,7 +66,7 @@ export default class ShopScene extends Phaser.Scene {
         
 
         this.physics.add.collider(this.player.sprite, tierra);
-        this.physics.add.collider(this.player.sprite, puente);
+        this.physics.add.collider(this.player.sprite, puentes);
         //this.physics.add.collider(this.player.sprite, escaleras);//Deberia de poderse usar y poder traspasar
         // Phaser supports multiple cameras, but you can access the default camera like this:
         const camera = this.cameras.main;
@@ -77,16 +77,7 @@ export default class ShopScene extends Phaser.Scene {
     }
 
     update(time, delta){
-        if(this.player.sprite.x <= 250 && this.player.sprite.x >= 240 && this.player.sprite.y > 290){
-            const cam = this.cameras.main;
-            cam.fade(250, 0, 0, 0);
-            cam.once("camerafadeoutcomplete", () => {
-                this.player.destroy();
-                this.scene.start("mapaverde-scene", {vidas: this.player.life, monedas: this.player.coins, buffs: this.player.buffs});
-            });
-        }
-
-        else this.player.update();
+        this.player.update();
         
     }
     

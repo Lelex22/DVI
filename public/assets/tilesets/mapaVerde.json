@@ -1,4 +1,12 @@
 { "compressionlevel":0,
+ "editorsettings":
+    {
+     "export":
+        {
+         "format":"json",
+         "target":"mapaVerde.json"
+        }
+    },
  "height":37,
  "infinite":false,
  "layers":[
@@ -204,16 +212,43 @@
  "tileheight":16,
  "tilesets":[
         {
+         "columns":1000,
          "firstgid":1,
-         "source":"mapaverde.tsx"
+         "image":"mapaverde.png",
+         "imageheight":596,
+         "imagewidth":16007,
+         "margin":0,
+         "name":"mapaverde",
+         "spacing":0,
+         "tilecount":37000,
+         "tileheight":16,
+         "tilewidth":16
         }, 
         {
+         "columns":15,
          "firstgid":37001,
-         "source":"Cyclops Sprite Sheet.tsx"
+         "image":"..\/spritesheets\/Cyclops Sprite Sheet.png",
+         "imageheight":1280,
+         "imagewidth":960,
+         "margin":0,
+         "name":"Cyclops Sprite Sheet",
+         "spacing":0,
+         "tilecount":300,
+         "tileheight":64,
+         "tilewidth":64
         }, 
         {
+         "columns":10,
          "firstgid":37301,
-         "source":"enemigo.tsx"
+         "image":"..\/spritesheets\/enemigo.png",
+         "imageheight":320,
+         "imagewidth":320,
+         "margin":0,
+         "name":"enemigo",
+         "spacing":0,
+         "tilecount":100,
+         "tileheight":32,
+         "tilewidth":32
         }],
  "tilewidth":16,
  "type":"map",

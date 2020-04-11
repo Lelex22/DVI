@@ -174,7 +174,7 @@ export default class DungeonScene extends Phaser.Scene {
       const cam = this.cameras.main;
       cam.fade(250, 0, 0, 0);
       cam.once("camerafadeoutcomplete", () => {
-        this.scene.start("mapaverde-scene", {vidas: this.player.life, monedas: this.player.coins, buffs: this.player.buffs});
+        this.scene.start("GreenMapScene", {vidas: this.player.life, monedas: this.player.coins, buffs: this.player.buffs});
         this.player.destroy();
       });
     });

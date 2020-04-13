@@ -26,7 +26,7 @@ export default class GreenMapScene extends Phaser.Scene {
             frameHeight: 28
         }
         );
-        this.load.image('mapaverdeTiles', '../public/assets/tilesets/mapaverde.png');
+        this.load.image('mapaverdeTiles', '../public/assets/tilesets/genaric-cartoon-charactor-sprite-png-15-original.png');
         this.load.tilemapTiledJSON('map', '../public/assets/tilesets/mapaVerde.json');
         
         this.load.spritesheet('button', '../public/img/flixel-button.png', { frameWidth: 80, frameHeight: 20 });
@@ -37,7 +37,7 @@ export default class GreenMapScene extends Phaser.Scene {
     create(){
         
         const map = this.make.tilemap({ key: "map" });
-        let tileset = map.addTilesetImage('mapaverde', 'mapaverdeTiles');
+        let tileset = map.addTilesetImage('tileset', 'mapaverdeTiles');
         const escaleras = map.createStaticLayer("Escaleras", tileset, 0, 0);
         const tierra = map.createStaticLayer("Tierra", tileset, 0, 0);
         const agua = map.createStaticLayer("Agua", tileset, 0, 0);

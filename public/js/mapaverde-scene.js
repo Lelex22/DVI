@@ -46,18 +46,22 @@ export default class GreenMapScene extends Phaser.Scene {
         let tilestierra = map.addTilesetImage('mapaverde3');
         let tilesescaleras = map.addTilesetImage('escaleras');
         let tilespuentes = map.addTilesetImage('puentes');
-        const escaleras = map.createStaticLayer("Escaleras", tilesescaleras, 0, 0);
-        const tierra = map.createStaticLayer("Tierra", tilestierra, 0, 0);
-        const agua = map.createStaticLayer("Agua", tilesagua, 0, 0);
-        const puentes = map.createStaticLayer("Puentes", tilespuentes, 0, 0);
         const cielo = map.createStaticLayer("Cielo", tilescielo, 0, 0);
+        
+        const agua = map.createStaticLayer("Agua", tilesagua, 0, 0);
+        const escaleras = map.createStaticLayer("Escaleras", tilesescaleras, 0, 0);
+        const puentes = map.createStaticLayer("Puentes", tilespuentes, 0, 0);
+        const tierra = map.createStaticLayer("Tierra", tilestierra, 0, 0);
+        
+       
+        
         
         //Faltaria añadir la estructura de los enemigos
         
-        //tierra.setCollisionByExclusion([-1, 0]);
-        //escaleras.setCollisionByExclusion([-1, 0]);
-        //puentes.setCollisionByExclusion([-1, 0]);
-        this.player = new Player(this, 10, 565);
+        tierra.setCollisionByExclusion([-1, 0]);
+        escaleras.setCollisionByExclusion([-1, 0]);
+        puentes.setCollisionByExclusion([-1, 0]);
+        this.player = new Player(this, 10, 548);
         
         if(this.lifesPlayer && (this.coinsPlayer || this.coinsPlayer === 0) && this.buffsPlayer){
             this.buffsPlayer.forEach(function (elem, i){

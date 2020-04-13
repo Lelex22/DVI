@@ -26,8 +26,12 @@ export default class GreenMapScene extends Phaser.Scene {
             frameHeight: 28
         }
         );
-        this.load.image('mapaverdeTiles', '../public/assets/tilesets/genaric-cartoon-charactor-sprite-png-15-original.png');
-        this.load.tilemapTiledJSON('map', '../public/assets/tilesets/mapaVerde.json');
+        this.load.image('cielo', '../public/assets/tilesets/cielo.png');
+        this.load.image('mapaverde3', '../public/assets/tilesets/mapaverde3.png');
+        this.load.image('escaleras', '../public/assets/tilesets/escaleras.png');
+        this.load.image('puentes', '../public/assets/tilesets/puentes.png');
+        this.load.image('agua', '../public/assets/tilesets/agua.png');
+        this.load.tilemapTiledJSON('map', '../public/assets/tilesets/mapaVerdeFin.json');
         
         this.load.spritesheet('button', '../public/img/flixel-button.png', { frameWidth: 80, frameHeight: 20 });
 
@@ -37,18 +41,22 @@ export default class GreenMapScene extends Phaser.Scene {
     create(){
         
         const map = this.make.tilemap({ key: "map" });
-        let tileset = map.addTilesetImage('tileset', 'mapaverdeTiles');
-        const escaleras = map.createStaticLayer("Escaleras", tileset, 0, 0);
-        const tierra = map.createStaticLayer("Tierra", tileset, 0, 0);
-        const agua = map.createStaticLayer("Agua", tileset, 0, 0);
-        const puentes = map.createStaticLayer("Puentes", tileset, 0, 0);
-        const cielo = map.createStaticLayer("Cielo", tileset, 0, 0);
+        let tilesagua = map.addTilesetImage('agua');
+        let tilescielo = map.addTilesetImage('cielo');
+        let tilestierra = map.addTilesetImage('mapaverde3');
+        let tilesescaleras = map.addTilesetImage('escaleras');
+        let tilespuentes = map.addTilesetImage('puentes');
+        const escaleras = map.createStaticLayer("Escaleras", tilesescaleras, 0, 0);
+        const tierra = map.createStaticLayer("Tierra", tilestierra, 0, 0);
+        const agua = map.createStaticLayer("Agua", tilesagua, 0, 0);
+        const puentes = map.createStaticLayer("Puentes", tilespuentes, 0, 0);
+        const cielo = map.createStaticLayer("Cielo", tilescielo, 0, 0);
         
         //Faltaria añadir la estructura de los enemigos
         
-        tierra.setCollisionByExclusion([-1, 0]);
-        escaleras.setCollisionByExclusion([-1, 0]);
-        puentes.setCollisionByExclusion([-1, 0]);
+        //tierra.setCollisionByExclusion([-1, 0]);
+        //escaleras.setCollisionByExclusion([-1, 0]);
+        //puentes.setCollisionByExclusion([-1, 0]);
         this.player = new Player(this, 10, 565);
         
         if(this.lifesPlayer && (this.coinsPlayer || this.coinsPlayer === 0) && this.buffsPlayer){

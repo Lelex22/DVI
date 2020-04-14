@@ -5,7 +5,15 @@ export default class GreenMapScene extends Phaser.Scene {
 
     constructor ()
     {
-        super('GreenMapScene');
+        super({
+        key: 'GreenMapScene',
+        physics: {
+            default: 'arcade',
+            arcade: { 
+              gravity: { y: 300 }
+            }
+          }
+        });
     }
 
     init(data){
@@ -13,6 +21,7 @@ export default class GreenMapScene extends Phaser.Scene {
           this.lifesPlayer = data.vidas;
           this.coinsPlayer = data.monedas;
           this.buffsPlayer = data.buffs;
+          this.mapa = data.mapa;
         }
         //else this.player = new Player(this, 0, 0);
       }
@@ -26,12 +35,12 @@ export default class GreenMapScene extends Phaser.Scene {
             frameHeight: 28
         }
         );
-        this.load.image('cielo', '../public/assets/tilesets/cielo.png');
-        this.load.image('mapaverde3', '../public/assets/tilesets/mapaverde3.png');
-        this.load.image('escaleras', '../public/assets/tilesets/escaleras.png');
-        this.load.image('puentes', '../public/assets/tilesets/puentes.png');
-        this.load.image('agua', '../public/assets/tilesets/agua.png');
-        this.load.tilemapTiledJSON('map', '../public/assets/tilesets/mapaVerdeFin.json');
+        //this.load.image('cielo', '../public/assets/tilesets/cielo.png');
+        //this.load.image('mapaverde3', '../public/assets/tilesets/mapaverde3.png');
+        //this.load.image('escaleras', '../public/assets/tilesets/escaleras.png');
+        //this.load.image('puentes', '../public/assets/tilesets/puentes.png');
+        this.load.image('mapaverde', '../public/assets/tilesets/genaric-cartoon-charactor-sprite-png-15-original.png');
+        this.load.tilemapTiledJSON('map', '../public/assets/tilesets/mapaVerde.json');
         
         this.load.spritesheet('button', '../public/img/flixel-button.png', { frameWidth: 80, frameHeight: 20 });
 
@@ -41,27 +50,24 @@ export default class GreenMapScene extends Phaser.Scene {
     create(){
         
         const map = this.make.tilemap({ key: "map" });
-        let tilesagua = map.addTilesetImage('agua');
-        let tilescielo = map.addTilesetImage('cielo');
-        let tilestierra = map.addTilesetImage('mapaverde3');
-        let tilesescaleras = map.addTilesetImage('escaleras');
-        let tilespuentes = map.addTilesetImage('puentes');
-        const cielo = map.createStaticLayer("Cielo", tilescielo, 0, 0);
+        let tileset = map.addTilesetImage('genaric-cartoon-charactor-sprite-png-15-original', 'mapaverde');
         
-        const agua = map.createStaticLayer("Agua", tilesagua, 0, 0);
-        const escaleras = map.createStaticLayer("Escaleras", tilesescaleras, 0, 0);
-        const puentes = map.createStaticLayer("Puentes", tilespuentes, 0, 0);
-        const tierra = map.createStaticLayer("Tierra", tilestierra, 0, 0);
+        const cielo = map.createStaticLayer("Cielo", tileset, 0, 0);
         
-       
+        const agua = map.createStaticLayer("Agua", tileset, 0, 0);
+        const escaleras = map.createStaticLayer("Escaleras", tileset, 0, 0);
+        const puentes = map.createStaticLayer("Puentes", tileset, 0, 0);
+        const tierra = map.createStaticLayer("Tierra", tileset, 0, 0);
+        
+    
         
         
         //Faltaria añadir la estructura de los enemigos
         
-        tierra.setCollisionByExclusion([-1, 0]);
-        escaleras.setCollisionByExclusion([-1, 0]);
-        puentes.setCollisionByExclusion([-1, 0]);
-        this.player = new Player(this, 10, 548);
+        tierra.setCollisionByExclusion([-1]);
+        escaleras.setCollisionByExclusion([-1]);
+        puentes.setCollisionByExclusion([-1]);
+        this.player = new Player(this, 10, 548, null, this.mapa);
         
         if(this.lifesPlayer && (this.coinsPlayer || this.coinsPlayer === 0) && this.buffsPlayer){
             this.buffsPlayer.forEach(function (elem, i){
@@ -89,7 +95,15 @@ export default class GreenMapScene extends Phaser.Scene {
     }
 
     update(time, delta){
-        this.player.update();
+        if(this.player.sprite.x <= 9){
+            const cam = this.cameras.main;
+            cam.fade(250, 0, 0, 0);
+            cam.once("camerafadeoutcomplete", () => {
+                this.player.destroy();
+                this.scene.start("DungeonScene", {vidas: this.player.life, monedas: this.player.coins, buffs: this.player.buffs});
+            });
+        }
+        else this.player.update();
         
     }
     

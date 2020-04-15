@@ -1,10 +1,9 @@
 export default class Player {
   // Orden: Escudo 0 Espada 1 Capa 2
-  constructor(scene, x, y, buffs) {
+  constructor(scene, x, y, buffs, mapa) {
     if(buffs === null || buffs === undefined)
       this.buffsp = [false, false, false];
     else {
-      console.log(buffs[2]["value"]);
       this.buffsp = [];
       this.buffsp[0] = buffs[0]["value"];
       this.buffsp[1] = buffs[1]["value"];
@@ -15,6 +14,11 @@ export default class Player {
     this.life = 5;
     this.coins = 1000;
     this.buffs = [{name: "Escudo", value: this.buffsp[0]}, {name: "Espada", value: this.buffsp[1]}, {name: "Capa", value: this.buffsp[2]}];
+    this.mapa = "";
+    if(mapa !== null && mapa !== undefined){
+      console.log(mapa);
+      this.mapa = mapa;
+    }
     
     const anims = scene.anims;
     this.pinta = pintaBuffs(this.buffsp);
@@ -287,9 +291,14 @@ export default class Player {
     }
 
     // Vertical movement
-    if (keys.up.isDown) {
+    if (keys.up.isDown && this.mapa !== "verde") {
       sprite.body.setVelocityY(-speed);
-    } else if (keys.down.isDown) {
+    }
+    //else if (keys.up.isDown && sprite.body.touching.down && this.mapa === "verde")
+    //{
+    //    sprite.body.setVelocityY(-330);
+    //}
+    else if (keys.down.isDown) {
       sprite.body.setVelocityY(speed);
     }
 
@@ -325,31 +334,34 @@ export default class Player {
           break;
       }
     } else if (keys.up.isDown) {
-      switch(this.pinta){
-        case 0:
-          sprite.anims.play("up", true);
-          break;
-        case 1:
-          sprite.anims.play("up-capa", true);
-          break;
-        case 10:
-          sprite.anims.play("up-espada", true);
-          break;
-        case 11:
-          sprite.anims.play("up-capa-espada", true);
-          break;
-        case 100:
-          sprite.anims.play("up-escudo", true);
-          break;
-        case 101:
-          sprite.anims.play("up-capa-escudo", true);
-          break;
-        case 110:
-          sprite.anims.play("up-espada-escudo", true);
-          break;
-        case 111:
-          sprite.anims.play("up-capa-espada-escudo", true);
-          break;
+      if(this.mapa === "verde"){}
+      else{
+        switch(this.pinta){
+          case 0:
+            sprite.anims.play("up", true);
+            break;
+          case 1:
+            sprite.anims.play("up-capa", true);
+            break;
+          case 10:
+            sprite.anims.play("up-espada", true);
+            break;
+          case 11:
+            sprite.anims.play("up-capa-espada", true);
+            break;
+          case 100:
+            sprite.anims.play("up-escudo", true);
+            break;
+          case 101:
+            sprite.anims.play("up-capa-escudo", true);
+            break;
+          case 110:
+            sprite.anims.play("up-espada-escudo", true);
+            break;
+          case 111:
+            sprite.anims.play("up-capa-espada-escudo", true);
+            break;
+        }
       }
     } 
     else if (keys.right.isDown){

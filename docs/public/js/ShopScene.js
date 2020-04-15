@@ -46,6 +46,7 @@ export default class ShopScene extends Phaser.Scene {
         colisiones.setCollisionByExclusion([-1, 0]);
         borde.setCollisionByExclusion([-1, 0]);
         pared.setCollisionByExclusion([-1, 0]);
+        console.log(colisiones);
         this.player = new Player(this, 250, 290);
         if(this.lifesPlayer && (this.coinsPlayer || this.coinsPlayer === 0) && this.buffsPlayer){
             this.buffsPlayer.forEach(function (elem, i){

@@ -16,7 +16,6 @@ export default class Player {
     this.buffs = [{name: "Escudo", value: this.buffsp[0]}, {name: "Espada", value: this.buffsp[1]}, {name: "Capa", value: this.buffsp[2]}];
     this.mapa = "";
     if(mapa !== null && mapa !== undefined){
-      console.log(mapa);
       this.mapa = mapa;
     }
     
@@ -263,7 +262,6 @@ export default class Player {
       else ret[1] = 0;
       if(buffs[2]) ret[2] = 1;
       else ret[2] = 0;
-      console.log(ret);
       return ret[0] * 100 + ret[1] * 10 + ret[2];
     }
   }
@@ -276,29 +274,33 @@ export default class Player {
     const keys = this.keys;
     const sprite = this.sprite;
     const speed = 300;
-    const prevVelocity = sprite.body.velocity.clone();
+    //const prevVelocity = sprite.body.velocity.clone();
 
     // Stop any previous movement from the last frame
-    sprite.body.setVelocity(0);
+    if(this.mapa.localeCompare("verde") !== 0)
+      sprite.body.setVelocity(0);
 
     // Horizontal movement
-    if (keys.left.isDown) {
+    if (keys.left.isDown && this.mapa.localeCompare("verde") !== 0)
       sprite.body.setVelocityX(-speed);
-      //sprite.setFlipX(true);
-    } else if (keys.right.isDown) {
+    else if(keys.left.isDown && this.mapa.localeCompare("verde") === 0)
+      sprite.body.setVelocityX(-speed/2);
+    else if (keys.right.isDown && this.mapa.localeCompare("verde") !== 0)
       sprite.body.setVelocityX(speed);
-      //sprite.setFlipX(false);
-    }
+    else if(keys.right.isDown && this.mapa.localeCompare("verde") === 0)
+      sprite.body.setVelocityX(speed/2);
+    else sprite.body.setVelocityX(0);
 
     // Vertical movement
-    if (keys.up.isDown && this.mapa !== "verde") {
+    if (keys.up.isDown && this.mapa.localeCompare("verde") !== 0) {
       sprite.body.setVelocityY(-speed);
     }
-    //else if (keys.up.isDown && sprite.body.touching.down && this.mapa === "verde")
-    //{
-    //    sprite.body.setVelocityY(-330);
-    //}
-    else if (keys.down.isDown) {
+    else if (keys.up.isDown && sprite.body.onFloor() && this.mapa.localeCompare("verde") === 0)
+    {
+        sprite.body.setVelocityY(-speed);
+    }
+    
+    if (keys.down.isDown && this.mapa.localeCompare("verde") !== 0) {
       sprite.body.setVelocityY(speed);
     }
 

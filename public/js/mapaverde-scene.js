@@ -10,7 +10,7 @@ export default class GreenMapScene extends Phaser.Scene {
         physics: {
             default: 'arcade',
             arcade: { 
-              gravity: { y: 300 }
+              gravity: { y: 500 }
             }
           }
         });
@@ -29,10 +29,10 @@ export default class GreenMapScene extends Phaser.Scene {
         this.load.image("heart", "../public/img/heart.png");
         this.load.spritesheet(
         "characters",
-        "../public/assets/spritesheets/luigi-sprites.png","../public/assets/spritesheets/Cyclops Sprite Sheet.png","../public/assets/spritesheets/enemigo.png",
+        "../public/assets/spritesheets/edit1.png","../public/assets/spritesheets/Cyclops Sprite Sheet.png","../public/assets/spritesheets/enemigo.png",
         {
-            frameWidth: 28,
-            frameHeight: 28
+            frameWidth: 33,
+            frameHeight: 24
         }
         );
         //this.load.image('cielo', '../public/assets/tilesets/cielo.png');
@@ -67,12 +67,12 @@ export default class GreenMapScene extends Phaser.Scene {
         tierra.setCollisionByExclusion([-1]);
         escaleras.setCollisionByExclusion([-1]);
         puentes.setCollisionByExclusion([-1]);
-        this.player = new Player(this, 10, 548, null, this.mapa);
+        this.player = new Player(this, 10, 540, null, this.mapa);
         
         if(this.lifesPlayer && (this.coinsPlayer || this.coinsPlayer === 0) && this.buffsPlayer){
             this.buffsPlayer.forEach(function (elem, i){
                 if(elem.value) 
-                this.player.buffs[i].value = elem.value;
+                    this.player.buffs[i].value = elem.value;
             }, this);
             this.player.buffs = this.buffsPlayer;
             this.player.coins = this.coinsPlayer;
@@ -82,9 +82,11 @@ export default class GreenMapScene extends Phaser.Scene {
             this.add.image(32 * i + 16, 20, 'heart').setScrollFactor(0);
         
         
-
+        
         this.physics.add.collider(this.player.sprite, tierra);
         this.physics.add.collider(this.player.sprite, puentes);
+        this.player.sprite.body.setGravity(0,100);
+       
         //this.physics.add.collider(this.player.sprite, escaleras);//Deberia de poderse usar y poder traspasar
         // Phaser supports multiple cameras, but you can access the default camera like this:
         const camera = this.cameras.main;

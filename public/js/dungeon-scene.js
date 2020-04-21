@@ -17,7 +17,6 @@ export default class DungeonScene extends Phaser.Scene {
   }
   init(data){
     if(data !== null){
-      console.log("Done");
       this.lifesPlayer = data.vidas;
       this.coinsPlayer = data.monedas;
       this.buffsPlayer = data.buffs;

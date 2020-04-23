@@ -35,17 +35,8 @@ export default class GreenMapScene extends Phaser.Scene {
             frameHeight: 24
         }
         );
-        //this.load.image('cielo', '../public/assets/tilesets/cielo.png');
-        //this.load.image('mapaverde3', '../public/assets/tilesets/mapaverde3.png');
-        //this.load.image('escaleras', '../public/assets/tilesets/escaleras.png');
-        //this.load.image('puentes', '../public/assets/tilesets/puentes.png');
         this.load.image('mapaverde', '../public/assets/tilesets/genaric-cartoon-charactor-sprite-png-15-original.png');
         this.load.tilemapTiledJSON('map', '../public/assets/tilesets/mapaVerde.json');
-        
-        this.load.spritesheet('button', '../public/img/flixel-button.png', { frameWidth: 80, frameHeight: 20 });
-
-        this.load.bitmapFont('nokia', '../public/assets/nokia16black.png', '../public/assets/nokia16black.xml');
-        
     }
     create(){
         
@@ -85,10 +76,6 @@ export default class GreenMapScene extends Phaser.Scene {
         
         this.physics.add.collider(this.player.sprite, tierra);
         this.physics.add.collider(this.player.sprite, puentes);
-        this.player.sprite.body.setGravity(0,100);
-       
-        //this.physics.add.collider(this.player.sprite, escaleras);//Deberia de poderse usar y poder traspasar
-        // Phaser supports multiple cameras, but you can access the default camera like this:
         const camera = this.cameras.main;
 
         // Constrain the camera so that it isn't allowed to move outside the width/height of tilemap
@@ -96,7 +83,7 @@ export default class GreenMapScene extends Phaser.Scene {
         camera.startFollow(this.player.sprite);
     }
 
-    update(time, delta){
+    update(){
         if(this.player.sprite.x <= 9){
             const cam = this.cameras.main;
             cam.fade(250, 0, 0, 0);

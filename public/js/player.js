@@ -133,62 +133,62 @@ export default class Player {
       frameRate: 10,
       repeat: 0
     });
-        //Sin nada
-        anims.create({
-          key: "right",
-          frames: anims.generateFrameNumbers('characters', { start: 18, end: 19 }),
-          frameRate: 10,
-          repeat: 0
-        });
-        //Solo capa
-        anims.create({
-          key: "right-capa",
-          frames: anims.generateFrameNumbers('characters', { start: 14, end: 15 }),
-          frameRate: 10,
-          repeat: 0
-        });
-        //Solo espada
-        anims.create({
-          key: "right-espada",
-          frames: anims.generateFrameNumbers('characters', { start: 16, end: 17 }),
-          frameRate: 10,
-          repeat: 0
-        });
-        //Capa espada
-        anims.create({
-          key: "right-capa-espada",
-          frames: anims.generateFrameNumbers('characters', { start: 6, end: 7 }),
-          frameRate: 10,
-          repeat: 0
-        });
-        //Solo escudo
-        anims.create({
-          key: "right-escudo",
-          frames: anims.generateFrameNumbers('characters', { start: 24, end: 25 }),
-          frameRate: 10,
-          repeat: 0
-        });
-        //Escudo capa
-        anims.create({
-          key: "right-capa-escudo",
-          frames: anims.generateFrameNumbers('characters', { start: 32, end: 33 }),
-          frameRate: 10,
-          repeat: 0
-        });
-        //Escudo espada
-        anims.create({
-          key: "right-espada-escudo",
-          frames: anims.generateFrameNumbers('characters', { start: 26, end: 27 }),
-          frameRate: 10,
-          repeat: 0
-        });
-        //Todo
-        anims.create({
-          key: "right-capa-espada-escudo",
-          frames: anims.generateFrameNumbers('characters', { start: 28, end: 29 }),
-          frameRate: 10,
-          repeat: 0
-        });
+      //Sin nada
+      anims.create({
+        key: "right",
+        frames: anims.generateFrameNumbers('characters', { start: 18, end: 19 }),
+        frameRate: 10,
+        repeat: 0
+      });
+      //Solo capa
+      anims.create({
+        key: "right-capa",
+        frames: anims.generateFrameNumbers('characters', { start: 14, end: 15 }),
+        frameRate: 10,
+        repeat: 0
+      });
+      //Solo espada
+      anims.create({
+        key: "right-espada",
+        frames: anims.generateFrameNumbers('characters', { start: 16, end: 17 }),
+        frameRate: 10,
+        repeat: 0
+      });
+      //Capa espada
+      anims.create({
+        key: "right-capa-espada",
+        frames: anims.generateFrameNumbers('characters', { start: 6, end: 7 }),
+        frameRate: 10,
+        repeat: 0
+      });
+      //Solo escudo
+      anims.create({
+        key: "right-escudo",
+        frames: anims.generateFrameNumbers('characters', { start: 24, end: 25 }),
+        frameRate: 10,
+        repeat: 0
+      });
+      //Escudo capa
+      anims.create({
+        key: "right-capa-escudo",
+        frames: anims.generateFrameNumbers('characters', { start: 32, end: 33 }),
+        frameRate: 10,
+        repeat: 0
+      });
+      //Escudo espada
+      anims.create({
+        key: "right-espada-escudo",
+        frames: anims.generateFrameNumbers('characters', { start: 26, end: 27 }),
+        frameRate: 10,
+        repeat: 0
+      });
+      //Todo
+      anims.create({
+        key: "right-capa-espada-escudo",
+        frames: anims.generateFrameNumbers('characters', { start: 28, end: 29 }),
+        frameRate: 10,
+        repeat: 0
+      });
       //Sin nada
       anims.create({
         key: "left",
@@ -245,13 +245,14 @@ export default class Player {
         frameRate: 10,
         repeat: 0
       });
-    this.sprite = scene.physics.add
+    this.sprite = this.scene.physics.add
       .sprite(x, y, "characters")
       .setSize(10, 10)
       .setOffset(10, 10);
 
-    this.sprite.anims.play("up");
-
+    //this.sprite.anims.play("up");
+    if(this.mapa.localeCompare("verde") === 0)
+      this.sprite.body.setGravity(0,100);
     this.keys = scene.input.keyboard.createCursorKeys();
 
     function pintaBuffs(buffs){
@@ -273,30 +274,37 @@ export default class Player {
   update() {
     const keys = this.keys;
     const sprite = this.sprite;
-    const speed = 300;
-    //const prevVelocity = sprite.body.velocity.clone();
+    const speed = 400;
 
     // Stop any previous movement from the last frame
     if(this.mapa.localeCompare("verde") !== 0)
       sprite.body.setVelocity(0);
-
-    // Horizontal movement
-    if (keys.left.isDown && this.mapa.localeCompare("verde") !== 0)
-      sprite.body.setVelocityX(-speed);
-    else if(keys.left.isDown && this.mapa.localeCompare("verde") === 0)
-      sprite.body.setVelocityX(-speed/2);
-    else if (keys.right.isDown && this.mapa.localeCompare("verde") !== 0)
-      sprite.body.setVelocityX(speed);
-    else if(keys.right.isDown && this.mapa.localeCompare("verde") === 0)
-      sprite.body.setVelocityX(speed/2);
-    else sprite.body.setVelocityX(0);
-
-    // Vertical movement
-    if (keys.up.isDown && this.mapa.localeCompare("verde") !== 0) {
-      sprite.body.setVelocityY(-speed);
+    if(this.mapa.localeCompare("verde") !== 0){
+      if (keys.left.isDown){
+        sprite.body.setVelocityX(-speed);
+      }
+      else if(keys.right.isDown){
+        sprite.body.setVelocityX(speed);
+      }
+      else sprite.body.setVelocityX(0);
     }
-    else if (keys.up.isDown && sprite.body.onFloor() && this.mapa.localeCompare("verde") === 0)
-    {
+    else if(this.mapa.localeCompare("verde") === 0){
+      if(keys.left.isDown){
+        sprite.body.setVelocityX(-speed/2);
+      }
+      else if(keys.right.isDown){
+        sprite.body.setVelocityX(speed/2);
+      }
+      else sprite.body.setVelocityX(0);
+    }
+    
+    if(this.mapa.localeCompare("verde") !== 0){
+      if (keys.up.isDown) {
+        sprite.body.setVelocityY(-speed);
+      }
+    }    
+    else{
+      if (keys.up.isDown && sprite.body.onFloor())
         sprite.body.setVelocityY(-speed);
     }
     
@@ -305,7 +313,8 @@ export default class Player {
     }
 
     // Normalize and scale the velocity so that sprite can't move faster along a diagonal
-    sprite.body.velocity.normalize().scale(speed);
+    if(this.mapa.localeCompare("verde") !== 0)
+      sprite.body.velocity.normalize().scale(speed);
 
     // Update the animation last and give left/right/down animations precedence over up animations
     if (keys.down.isDown) {
@@ -420,12 +429,12 @@ export default class Player {
           sprite.anims.play("left-capa-espada-escudo", true);
           break;
       }
-    }else {
-      sprite.anims.stop();
+    }//else {
+      //sprite.anims.stop();
 
       // If we were moving & now we're not, then pick a single idle frame to use
       
-    }
+    //}
   }
 
   destroy() {

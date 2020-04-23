@@ -252,7 +252,7 @@ export default class Player {
 
     //this.sprite.anims.play("up");
     if(this.mapa.localeCompare("verde") === 0)
-      this.sprite.body.setGravity(0,100);
+      this.sprite.body.setGravity(0,200);
     this.keys = scene.input.keyboard.createCursorKeys();
 
     function pintaBuffs(buffs){

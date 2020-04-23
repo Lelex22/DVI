@@ -29,12 +29,14 @@ export default class GreenMapScene extends Phaser.Scene {
         this.load.image("heart", "../public/img/heart.png");
         this.load.spritesheet(
         "characters",
-        "../public/assets/spritesheets/edit1.png","../public/assets/spritesheets/Cyclops Sprite Sheet.png","../public/assets/spritesheets/enemigo.png",
+        "../public/assets/spritesheets/edit1.png","../public/assets/spritesheets/enemigo.png",
         {
             frameWidth: 33,
             frameHeight: 24
         }
         );
+        this.load.spritesheet("ciclopes","../public/assets/spritesheets/Cyclops Sprite Sheet.png",{frameWidth: 64,
+            frameHeight: 64});
         this.load.image('mapaverde', '../public/assets/tilesets/genaric-cartoon-charactor-sprite-png-15-original.png');
         this.load.tilemapTiledJSON('map', '../public/assets/tilesets/mapaVerde.json');
     }
@@ -49,7 +51,15 @@ export default class GreenMapScene extends Phaser.Scene {
         const escaleras = map.createStaticLayer("Escaleras", tileset, 0, 0);
         const puentes = map.createStaticLayer("Puentes", tileset, 0, 0);
         const tierra = map.createStaticLayer("Tierra", tileset, 0, 0);
-        
+        let arrayCiclopes = map.createFromObjects('Ciclopes', 9, {key: "ciclopes"});
+    
+        let ciclopsGroup = this.physics.add.group();
+    
+        for (var i = 0; i < arrayCiclopes.length; i++)
+        {       
+            ciclopsGroup.add(arrayCiclopes[i]);
+            arrayCiclopes[i].body.collideWorldBounds=true;    
+        }
     
         
         
@@ -75,7 +85,9 @@ export default class GreenMapScene extends Phaser.Scene {
         
         
         this.physics.add.collider(this.player.sprite, tierra);
+        this.physics.add.collider(ciclopsGroup, tierra);
         this.physics.add.collider(this.player.sprite, puentes);
+        
         const camera = this.cameras.main;
 
         // Constrain the camera so that it isn't allowed to move outside the width/height of tilemap
@@ -84,6 +96,7 @@ export default class GreenMapScene extends Phaser.Scene {
     }
 
     update(){
+        
         if(this.player.sprite.x <= 9){
             const cam = this.cameras.main;
             cam.fade(250, 0, 0, 0);

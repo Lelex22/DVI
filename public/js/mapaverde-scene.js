@@ -37,6 +37,9 @@ export default class GreenMapScene extends Phaser.Scene {
         );
         this.load.spritesheet("ciclopes","../public/assets/spritesheets/Cyclops Sprite Sheet.png",{frameWidth: 64,
             frameHeight: 64});
+        this.load.image('escaleras', '../public/assets/tilesets/escaleras3.jpg');
+        //this.load.image('escaleras2', '../public/assets/tilesets/escaleras2.jpg');
+        //this.load.image('escaleras3', '../public/assets/tilesets/escaleras3.jpg');
         this.load.image('mapaverde', '../public/assets/tilesets/genaric-cartoon-charactor-sprite-png-15-original.png');
         this.load.tilemapTiledJSON('map', '../public/assets/tilesets/mapaVerde.json');
     }
@@ -48,17 +51,22 @@ export default class GreenMapScene extends Phaser.Scene {
         const cielo = map.createStaticLayer("Cielo", tileset, 0, 0);
         
         const agua = map.createStaticLayer("Agua", tileset, 0, 0);
-        const escaleras = map.createStaticLayer("Escaleras", tileset, 0, 0);
+        //const escaleras = map.createStaticLayer("Escaleras", tileset, 0, 0);
         const puentes = map.createStaticLayer("Puentes", tileset, 0, 0);
         const tierra = map.createStaticLayer("Tierra", tileset, 0, 0);
         let arrayCiclopes = map.createFromObjects('Ciclopes', 9, {key: "ciclopes"});
-    
+        let arrayEscaleras = map.createFromObjects('Escaleras', 10, {key: "escaleras"});
         let ciclopsGroup = this.physics.add.group();
-    
+        let escalerasGroup = this.physics.add.group();
         for (var i = 0; i < arrayCiclopes.length; i++)
         {       
             ciclopsGroup.add(arrayCiclopes[i]);
             arrayCiclopes[i].body.collideWorldBounds=true;    
+        }
+        for (var j = 0; j < arrayEscaleras.length; j++)
+        {       
+            escalerasGroup.add(arrayEscaleras[j]);
+            arrayEscaleras[j].body.collideWorldBounds=true;    
         }
     
         
@@ -66,8 +74,9 @@ export default class GreenMapScene extends Phaser.Scene {
         //Faltaria añadir la estructura de los enemigos
         
         tierra.setCollisionByExclusion([-1]);
-        escaleras.setCollisionByExclusion([-1]);
+        //agua.setCollisionByExclusion([-1]);
         puentes.setCollisionByExclusion([-1]);
+        console.log(this.mapa);
         this.player = new Player(this, 10, 540, null, this.mapa);
         
         if(this.lifesPlayer && (this.coinsPlayer || this.coinsPlayer === 0) && this.buffsPlayer){
@@ -86,6 +95,8 @@ export default class GreenMapScene extends Phaser.Scene {
         
         this.physics.add.collider(this.player.sprite, tierra);
         this.physics.add.collider(ciclopsGroup, tierra);
+        this.physics.add.collider(escalerasGroup, tierra);
+        //this.physics.add.collider(this.player.sprite, agua);
         this.physics.add.collider(this.player.sprite, puentes);
         
         const camera = this.cameras.main;

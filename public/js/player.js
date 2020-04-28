@@ -1,6 +1,10 @@
-class Player extends Entidad{
+import Entidad from "./entidad.js";
+
+export default class Player extends Entidad{
   // Orden: Escudo 0 Espada 1 Capa 2
+
   constructor(scene, x, y, buffs, mapa) {
+    super(scene, x, y, mapa);
     if(buffs === null || buffs === undefined)
       this.buffsp = [false, false, false];
     else {
@@ -9,12 +13,13 @@ class Player extends Entidad{
       this.buffsp[1] = buffs[1]["value"];
       this.buffsp[2] = buffs[2]["value"];
     }
-    super(scene, x, y, mapa);
+    
     this.maxLife = 5;
     this.life = 5;
     this.coins = 1000;
     this.buffs = [{name: "Escudo", value: this.buffsp[0]}, {name: "Espada", value: this.buffsp[1]}, {name: "Capa", value: this.buffsp[2]}];
-    
+    this.mapa = this.getMapa();
+    console.log(this.mapa);
     const anims = scene.anims;
     this.pinta = pintaBuffs(this.buffsp);
      //Sin nada
@@ -341,7 +346,7 @@ class Player extends Entidad{
           break;
       }
     } else if (keys.up.isDown) {
-      if(this.mapa === "verde"){}
+      if(this.mapa.localeCompare("verde") === 0){}
       else{
         switch(this.pinta){
           case 0:

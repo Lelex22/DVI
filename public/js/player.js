@@ -1,4 +1,4 @@
-export default class Player {
+class Player extends Entidad{
   // Orden: Escudo 0 Espada 1 Capa 2
   constructor(scene, x, y, buffs, mapa) {
     if(buffs === null || buffs === undefined)
@@ -9,15 +9,11 @@ export default class Player {
       this.buffsp[1] = buffs[1]["value"];
       this.buffsp[2] = buffs[2]["value"];
     }
-    this.scene = scene;
+    super(scene, x, y, mapa);
     this.maxLife = 5;
     this.life = 5;
     this.coins = 1000;
     this.buffs = [{name: "Escudo", value: this.buffsp[0]}, {name: "Espada", value: this.buffsp[1]}, {name: "Capa", value: this.buffsp[2]}];
-    this.mapa = "";
-    if(mapa !== null && mapa !== undefined){
-      this.mapa = mapa;
-    }
     
     const anims = scene.anims;
     this.pinta = pintaBuffs(this.buffsp);

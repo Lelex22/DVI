@@ -1,6 +1,5 @@
-
 import Player from "./player.js";
-
+import Enemy from "./enemy.js";
 export default class GreenMapScene extends Phaser.Scene {
 
     constructor ()
@@ -58,17 +57,16 @@ export default class GreenMapScene extends Phaser.Scene {
         let arrayEscaleras = map.createFromObjects('Escaleras', 10, {key: "escaleras"});
         let ciclopsGroup = this.physics.add.group();
         let escalerasGroup = this.physics.add.group();
-        for (var i = 0; i < arrayCiclopes.length; i++)
+        for (const ciclope of arrayCiclopes)
         {       
-            ciclopsGroup.add(arrayCiclopes[i]);
-            arrayCiclopes[i].body.collideWorldBounds=true;    
+            ciclopsGroup.add(ciclope);
+            new Enemy(this, ciclope.x, ciclope.y, "verde", ciclope.type);
+            ciclope.body.collideWorldBounds=true;    
         }
-        for (var j = 0; j < arrayEscaleras.length; j++)
-        {       
-            escalerasGroup.add(arrayEscaleras[j]);
-            arrayEscaleras[j].body.collideWorldBounds=true;    
+        for (const escalera of arrayEscaleras) {
+            console.log(escalera);
+            escalerasGroup.add(escalera);
         }
-    
         
         
         //Faltaria añadir la estructura de los enemigos
@@ -94,6 +92,7 @@ export default class GreenMapScene extends Phaser.Scene {
         
         
         this.physics.add.collider(this.player.sprite, tierra);
+        this.physics.add.collider(this.player, ciclopsGroup);
         this.physics.add.collider(ciclopsGroup, tierra);
         this.physics.add.collider(escalerasGroup, tierra);
         //this.physics.add.collider(this.player.sprite, agua);
@@ -121,6 +120,3 @@ export default class GreenMapScene extends Phaser.Scene {
     }
     
 }
-
-
-

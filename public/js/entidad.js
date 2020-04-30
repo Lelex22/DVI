@@ -8,8 +8,17 @@ export default class Entidad{
         }
         else this.mapa = "no_definido";
     }
+    getScene(){
+        return this.scene;
+    }
     getMapa(){
         return this.mapa;
+    }
+    getX(){
+        return this.x;
+    }
+    getY(){
+        return this.y;
     }
 
 }

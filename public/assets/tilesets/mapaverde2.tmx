@@ -204,20 +204,20 @@
 </data>
  </layer>
  <objectgroup id="9" name="Ciclopes">
-  <object id="2" gid="3623" x="160.667" y="560.667" width="64" height="64"/>
-  <object id="3" gid="3623" x="910.667" y="559.333" width="64" height="64"/>
-  <object id="4" gid="3623" x="1312" y="158.667" width="64" height="64"/>
-  <object id="5" gid="3623" x="2264.67" y="560" width="64" height="64"/>
-  <object id="6" gid="3623" x="3024.67" y="224" width="64" height="64"/>
-  <object id="7" gid="3623" x="4699.33" y="414.667" width="64" height="64"/>
-  <object id="8" gid="3623" x="5623.33" y="176" width="64" height="64"/>
-  <object id="9" gid="3623" x="7263.33" y="530.667" width="64" height="64"/>
-  <object id="10" gid="3623" x="8510.67" y="560.667" width="64" height="64"/>
+  <object id="2" type="ciclope" gid="3623" x="10" y="560.667" width="64" height="64"/>
+  <object id="3" type="ciclope" gid="3623" x="910.667" y="559.333" width="64" height="64"/>
+  <object id="4" type="ciclope" gid="3623" x="1312" y="158.667" width="64" height="64"/>
+  <object id="5" type="ciclope" gid="3623" x="2264.67" y="560" width="64" height="64"/>
+  <object id="6" type="ciclope" gid="3623" x="3024.67" y="224" width="64" height="64"/>
+  <object id="7" type="ciclope" gid="3623" x="4699.33" y="414.667" width="64" height="64"/>
+  <object id="8" type="ciclope" gid="3623" x="5623.33" y="176" width="64" height="64"/>
+  <object id="9" type="ciclope" gid="3623" x="7263.33" y="530.667" width="64" height="64"/>
+  <object id="10" type="ciclope" gid="3623" x="8510.67" y="560.667" width="64" height="64"/>
  </objectgroup>
  <objectgroup id="10" name="Escaleras">
-  <object id="26" gid="3773" x="1091.33" y="557" width="26.6667" height="356"/>
-  <object id="27" gid="3773" x="2898.33" y="445.667" width="27.3333" height="233.333"/>
-  <object id="28" gid="3773" x="4658" y="415" width="28.6667" height="200.667"/>
+  <object id="26" name="escaleras1" type="escaleras" gid="3773" x="1091.33" y="557" width="26.6667" height="356"/>
+  <object id="27" name="escaleras2" type="escaleras" gid="3773" x="2898.33" y="445.667" width="27.3333" height="233.333"/>
+  <object id="28" name="escaleras3" type="escaleras" gid="3773" x="4658" y="415" width="28.6667" height="200.667"/>
  </objectgroup>
  <layer id="3" name="Agua" width="600" height="37" locked="1">
   <data encoding="csv">

@@ -1,16 +1,17 @@
 import Entidad from "./entidad.js";
 
 export default class Enemy extends Entidad{
-    constructor(scene, x, y, buffs, mapa,tipo) {
+    constructor(scene, x, y, mapa, tipo) {
         super(scene, x, y, mapa);
         this.maxLife = 3;
         this.tipo= tipo;
         this.mapa = this.getMapa();
-        this.pinta = pintaBuffs(this.buffsp);
-        this.inix = x;
-        this.iniy = y;
+        //this.pinta = pintaBuffs(this.buffsp);
+        this.inix = this.getX();
+        this.iniy = this.getY();
         this.pos = 0;
-        if(tipo == "vikingo"){
+        const anims = scene.anims;
+        if(tipo.localeCompare("vikingo") === 0){
             //Mueve derecha
              anims.create({
                 key: "movder",
@@ -41,7 +42,7 @@ export default class Enemy extends Entidad{
                 repeat: 0
             });
         }
-        else if(tipo == "ciclope"){
+        else if(tipo.localeCompare("ciclope") === 0){
             //Mueve derecha
             anims.create({
                 key: "movder",
@@ -104,41 +105,26 @@ export default class Enemy extends Entidad{
                 repeat: 0
             });
         }
-        this.sprite = this.scene.physics.add
-        .sprite(x, y, "characters")
-        .setSize(10, 10)
-        .setOffset(10, 10);
+        this.sprite = this.getScene().physics.add
+        .sprite(x, y, "ciclopes");
         
         if(this.mapa.localeCompare("verde") === 0)
-        this.sprite.body.setGravity(0,200);
-        this.keys = scene.input.keyboard.createCursorKeys();  
+            this.sprite.body.setGravity(0,200);
+        //this.keys = scene.input.keyboard.createCursorKeys();  
     }
 
     freeze() {
         this.sprite.body.moves = false;
     }
     update() {
-        const keys = this.keys;
-        const sprite = this.sprite;
-        const speed = 400;
-    
-        // Stop any previous movement from the last frame
-        if(this.mapa.localeCompare("verde") !== 0)
-          sprite.body.setVelocity(0);
-        
-    
-        // Normalize and scale the velocity so that sprite can't move faster along a diagonal
-        if(this.mapa.localeCompare("verde") !== 0)
-          sprite.body.velocity.normalize().scale(speed);
-    
         // Update the animation last and give left/right/down animations precedence over up animations
         if(this.inix == x && this.iniy == y){
             this.y--;
             this.pos--;
-            if(this.tipo == "vikingo"){
+            if(this.tipo.localeCompare("vikingo") === 0){
                 sprite.anims.play("movizq", true);
             }
-            else if(this.tipo== "ciclope"){
+            else if(this.tipo.localeCompare("ciclope") === 0){
                 sprite.anims.play("movizq", true);
             }
             else{
@@ -148,10 +134,10 @@ export default class Enemy extends Entidad{
         }else if(this.y < this.iniy && this.y > (this.y-5)){
             this.y--;
             this.pos--;
-            if(this.tipo == "vikingo"){
+            if(this.tipo.localeCompare("vikingo") === 0){
                 sprite.anims.play("movizq", true);
             }
-            else if(this.tipo== "ciclope"){
+            else if(this.tipo.localeCompare("ciclope") === 0){
                 sprite.anims.play("movizq", true);
             }
             else{
@@ -162,10 +148,10 @@ export default class Enemy extends Entidad{
         else if(this.y == (this.iniy-5) && pos < 0){
             this.y++;
             this.pos++;
-            if(this.tipo == "vikingo"){
+            if(this.tipo.localeCompare("vikingo") === 0){
                 sprite.anims.play("movizq", true);
             }
-            else if(this.tipo== "ciclope"){
+            else if(this.tipo.localeCompare("ciclope") === 0){
                 sprite.anims.play("movizq", true);
             }
             else{

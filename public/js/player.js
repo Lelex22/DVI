@@ -19,7 +19,7 @@ export default class Player extends Entidad{
     this.coins = 1000;
     this.buffs = [{name: "Escudo", value: this.buffsp[0]}, {name: "Espada", value: this.buffsp[1]}, {name: "Capa", value: this.buffsp[2]}];
     this.mapa = this.getMapa();
-    console.log(this.mapa);
+    //console.log(this.mapa);
     const anims = scene.anims;
     this.pinta = pintaBuffs(this.buffsp);
      //Sin nada

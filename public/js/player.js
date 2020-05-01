@@ -4,7 +4,12 @@ export default class Player extends Entidad{
   // Orden: Escudo 0 Espada 1 Capa 2
 
   constructor(scene, x, y, buffs, mapa) {
-    super(scene, x, y, mapa);
+    super(scene, x, y);
+    //this.setTexture(spritesheet);
+    if(mapa !== null && mapa !== undefined)
+      this.mapa = mapa;
+    else this.mapa = "no_definido";
+      this.mapa = mapa;
     if(buffs === null || buffs === undefined)
       this.buffsp = [false, false, false];
     else {
@@ -18,7 +23,6 @@ export default class Player extends Entidad{
     this.life = 5;
     this.coins = 1000;
     this.buffs = [{name: "Escudo", value: this.buffsp[0]}, {name: "Espada", value: this.buffsp[1]}, {name: "Capa", value: this.buffsp[2]}];
-    this.mapa = this.getMapa();
     //console.log(this.mapa);
     const anims = scene.anims;
     this.pinta = pintaBuffs(this.buffsp);

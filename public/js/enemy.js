@@ -2,27 +2,30 @@ import Entidad from "./entidad.js";
 
 export default class Enemy extends Entidad{
     constructor(scene, x, y, mapa, tipo) {
-        super(scene, x, y, mapa);
+        super(scene, x, y);
+        if(mapa !== null && mapa !== undefined)
+            this.mapa = mapa;
+        else this.mapa = "no_definido";
+            this.mapa = mapa;
         this.maxLife = 3;
         this.tipo= tipo;
-        this.mapa = this.getMapa();
         //this.pinta = pintaBuffs(this.buffsp);
-        this.inix = this.getX();
-        this.iniy = this.getY();
+        this.inix = this.x;
+        this.iniy = this.y;
         this.pos = 0;
         const anims = scene.anims;
         if(tipo.localeCompare("vikingo") === 0){
             //Mueve derecha
              anims.create({
                 key: "movder",
-                frames: anims.generateFrameNumbers('characters', { start: 0, end: 4 }),
+                frames: anims.generateFrameNumbers('vikingos', { start: 0, end: 4 }),
                 frameRate: 10,
                 repeat: 0
             });
             //Mueve izquierda
             anims.create({
                 key: "movizq",
-                frames: anims.generateFrameNumbers('characters', { start: 40, end: 44 }),
+                frames: anims.generateFrameNumbers('vikingos', { start: 40, end: 44 }),
                 frameRate: 10,
                 repeat: 0
             });
@@ -30,14 +33,14 @@ export default class Enemy extends Entidad{
             //Ataca derecha
             anims.create({
                 key: "atcder",
-                frames: anims.generateFrameNumbers('characters', { start: 16, end: 22 }),
+                frames: anims.generateFrameNumbers('vikingos', { start: 16, end: 22 }),
                 frameRate: 10,
                 repeat: 0
             });
             //Ataca izquierda
             anims.create({
                 key: "atcizq",
-                frames: anims.generateFrameNumbers('characters', { start: 56, end: 62 }),
+                frames: anims.generateFrameNumbers('vikingos', { start: 56, end: 62 }),
                 frameRate: 10,
                 repeat: 0
             });
@@ -46,14 +49,14 @@ export default class Enemy extends Entidad{
             //Mueve derecha
             anims.create({
                 key: "movder",
-                frames: anims.generateFrameNumbers('characters', { start: 15, end: 26 }),
+                frames: anims.generateFrameNumbers('ciclopes', { start: 15, end: 26 }),
                 frameRate: 10,
                 repeat: 0
             });
             //Mueve izquierda
             anims.create({
                 key: "movizq",
-                frames: anims.generateFrameNumbers('characters', { start: 165, end: 176 }),
+                frames: anims.generateFrameNumbers('ciclopes', { start: 165, end: 176 }),
                 frameRate: 10,
                 repeat: 0
             });
@@ -61,14 +64,14 @@ export default class Enemy extends Entidad{
             //Ataca derecha
             anims.create({
                 key: "atcder",
-                frames: anims.generateFrameNumbers('characters', { start: 45, end: 57 }),
+                frames: anims.generateFrameNumbers('ciclopes', { start: 45, end: 57 }),
                 frameRate: 10,
                 repeat: 0
             });
             //Ataca izquierda
             anims.create({
                 key: "atcizq",
-                frames: anims.generateFrameNumbers('characters', { start: 195, end: 207 }),
+                frames: anims.generateFrameNumbers('ciclopes', { start: 195, end: 207 }),
                 frameRate: 10,
                 repeat: 0
             });
@@ -78,14 +81,14 @@ export default class Enemy extends Entidad{
             //Mueve derecha
             anims.create({
                 key: "movder",
-                frames: anims.generateFrameNumbers('characters', { start: 0, end: 4 }),
+                frames: anims.generateFrameNumbers('ciclopes', { start: 0, end: 4 }),
                 frameRate: 10,
                 repeat: 0
             });
             //Mueve izquierda
             anims.create({
                 key: "movizq",
-                frames: anims.generateFrameNumbers('characters', { start: 0, end: 4 }),
+                frames: anims.generateFrameNumbers('ciclopes', { start: 0, end: 4 }),
                 frameRate: 10,
                 repeat: 0
             });
@@ -93,24 +96,25 @@ export default class Enemy extends Entidad{
             //Ataca derecha
             anims.create({
                 key: "atcder",
-                frames: anims.generateFrameNumbers('characters', { start: 0, end: 4 }),
+                frames: anims.generateFrameNumbers('ciclopes', { start: 0, end: 4 }),
                 frameRate: 10,
                 repeat: 0
             });
             //Ataca izquierda
             anims.create({
                 key: "atcizq",
-                frames: anims.generateFrameNumbers('characters', { start: 0, end: 4 }),
+                frames: anims.generateFrameNumbers('ciclopes', { start: 0, end: 4 }),
                 frameRate: 10,
                 repeat: 0
             });
         }
-        this.sprite = this.getScene().physics.add
-        .sprite(x, y, "ciclopes");
+        this.sprite = this.scene.physics.add.sprite(x, y, "ciclopes").setSize(30,43).setOffset(15, 21);
+
         
         if(this.mapa.localeCompare("verde") === 0)
             this.sprite.body.setGravity(0,200);
         //this.keys = scene.input.keyboard.createCursorKeys();  
+        
     }
 
     freeze() {

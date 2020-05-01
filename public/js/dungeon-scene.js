@@ -182,7 +182,7 @@ export default class DungeonScene extends Phaser.Scene {
     const playerRoom = startRoom;
     const x = map.tileToWorldX(playerRoom.centerX);
     const y = map.tileToWorldY(playerRoom.centerY);
-    this.player = new Player(this, x, y, this.buffsPlayer);
+    this.player = this.add.existing(new Player(this, x, y, this.buffsPlayer, "no_definido"));
     if(this.lifesPlayer && (this.coinsPlayer || this.coinsPlayer === 0) && this.buffsPlayer){
       this.buffsPlayer.forEach(function (elem, i){
         if(elem.value) 

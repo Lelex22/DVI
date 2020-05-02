@@ -1,7 +1,10 @@
 import Player from "./player.js";
 import Enemy from "./enemy.js";
-export default class GreenMapScene extends Phaser.Scene {
 
+const stepLimit = 100;
+
+export default class GreenMapScene extends Phaser.Scene {
+    
     constructor ()
     {
         super({
@@ -55,16 +58,18 @@ export default class GreenMapScene extends Phaser.Scene {
         const tierra = map.createStaticLayer("Tierra", tileset, 0, 0);
         let arrayCiclopes = [];
         let arrayEscaleras = map.createFromObjects('Escaleras', 10, {key: "escaleras"});
-        let ciclopsGroup = this.physics.add.group();
+        this.ciclopsGroup = this.physics.add.group();
         let escalerasGroup = this.physics.add.group();
         for (const ciclope of map.getObjectLayer('Ciclopes').objects)
         {       
-            let enemigo = new Enemy(this, ciclope.x, ciclope.y, "verde", ciclope.type);
-            arrayCiclopes.push(enemigo);
-            ciclopsGroup.add(enemigo.sprite);
+            let enemigo = this.add.existing(new Enemy(this, ciclope.x, ciclope.y, "verde", ciclope.type));
             enemigo.collideWorldBounds=true;
-                                 
+            enemigo.sprite.body.bounce.x = 1;    
+            enemigo.sprite.body.immovable = true;  
+            this.ciclopsGroup.add(enemigo.sprite);
+                           
         }
+        
         for (const escalera of map.getObjectLayer('Escaleras').objects) {
             this.physics.add.staticImage(escalera.x, escalera.y, "escaleras");
         }
@@ -73,7 +78,6 @@ export default class GreenMapScene extends Phaser.Scene {
         //Faltaria añadir la estructura de los enemigos
         
         tierra.setCollisionByExclusion([-1]);
-        //agua.setCollisionByExclusion([-1]);
         puentes.setCollisionByExclusion([-1]);
         this.player = this.add.existing(new Player(this, 10, 540, null, this.mapa) );
         
@@ -92,17 +96,11 @@ export default class GreenMapScene extends Phaser.Scene {
         
         
         this.physics.add.collider(this.player.sprite, tierra);
-        /*console.log(arrayCiclopes);
-        for(const item of arrayCiclopes){
-            this.physics.add.collider(item.sprite, tierra);
-            this.physics.add.collider(item.sprite, this.player.sprite);
-        }*/
-        this.physics.add.collider(ciclopsGroup, tierra);
-        this.physics.add.collider(ciclopsGroup, this.player.sprite);
+        this.physics.add.collider(this.ciclopsGroup, tierra);
         this.physics.add.collider(escalerasGroup, tierra);
-        //this.physics.add.collider(this.player.sprite, agua);
+        
         this.physics.add.collider(this.player.sprite, puentes);
-        this.physics.add.collider(this.player, ciclopsGroup);
+        this.physics.add.collider(this.player.sprite, this.ciclopsGroup, onTouchEnemy, null, this);
         
         const camera = this.cameras.main;
 
@@ -122,7 +120,14 @@ export default class GreenMapScene extends Phaser.Scene {
             });
         }
         else this.player.update();
-        
+        for(let enemy of this.ciclopsGroup.getChildren())
+            enemy.update();
     }
     
+    
 }
+function onTouchEnemy(player, enemy) {
+    enemy.body.velocity.x *= -1;
+    enemy.destroy();
+    // can add other code - damage player, etc.
+    }

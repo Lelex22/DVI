@@ -1,12 +1,9 @@
 import Entidad from "./entidad.js";
-
+const stepLimit = 5;
 export default class Enemy extends Entidad{
-    constructor(scene, x, y, mapa, tipo) {
+    constructor(scene, x, y, tipo) {
         super(scene, x, y);
-        if(mapa !== null && mapa !== undefined)
-            this.mapa = mapa;
-        else this.mapa = "no_definido";
-            this.mapa = mapa;
+        this.mapa = "verde";
         this.maxLife = 3;
         this.tipo= tipo;
         //this.pinta = pintaBuffs(this.buffsp);
@@ -109,63 +106,31 @@ export default class Enemy extends Entidad{
             });
         }
         this.sprite = this.scene.physics.add.sprite(x, y, "ciclopes").setSize(30,43).setOffset(15, 21);
-
-        
+        let rnd = Phaser.Math.RND;
+        this.sprite.setVelocityX(5);
+        this.sprite.stepCount = rnd.integerInRange(0, stepLimit);
         if(this.mapa.localeCompare("verde") === 0)
             this.sprite.body.setGravity(0,200);
-        //this.keys = scene.input.keyboard.createCursorKeys();  
-        
     }
-
+    
     freeze() {
         this.sprite.body.moves = false;
     }
     update() {
-        // Update the animation last and give left/right/down animations precedence over up animations
-        if(this.inix == x && this.iniy == y){
-            this.y--;
-            this.pos--;
-            if(this.tipo.localeCompare("vikingo") === 0){
-                sprite.anims.play("movizq", true);
-            }
-            else if(this.tipo.localeCompare("ciclope") === 0){
-                sprite.anims.play("movizq", true);
-            }
-            else{
-                //movimiento del resto de enemigos
-               // sprite.anims.play("down", true);
-            }
-        }else if(this.y < this.iniy && this.y > (this.y-5)){
-            this.y--;
-            this.pos--;
-            if(this.tipo.localeCompare("vikingo") === 0){
-                sprite.anims.play("movizq", true);
-            }
-            else if(this.tipo.localeCompare("ciclope") === 0){
-                sprite.anims.play("movizq", true);
-            }
-            else{
-                //movimiento del resto de enemigos
-               // sprite.anims.play("down", true);
-            }
+        if (this.body.velocity.x > 0 && enemy.right > platform.right) {
+            this.sprite.anims.play("movder", true);
+            this.body.velocity.x *= -1; // reverse direction
         }
-        else if(this.y == (this.iniy-5) && pos < 0){
-            this.y++;
-            this.pos++;
-            if(this.tipo.localeCompare("vikingo") === 0){
-                sprite.anims.play("movizq", true);
-            }
-            else if(this.tipo.localeCompare("ciclope") === 0){
-                sprite.anims.play("movizq", true);
-            }
-            else{
-                //movimiento del resto de enemigos
-               // sprite.anims.play("down", true);
-            }
+        // else if enemy moving to left and has started to move over left edge of platform
+        else if (this.body.velocity.x < 0 && enemy.left < platform.left) {
+            this.sprite.anims.play("movizq", true);
+            this.body.velocity.x *= -1; // reverse direction
         }
     }
     
-      destroy() {
+    destroy() {
         this.sprite.destroy();
-      }
+    }
+
+
 } 

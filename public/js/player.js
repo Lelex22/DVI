@@ -3,13 +3,10 @@ import Entidad from "./entidad.js";
 export default class Player extends Entidad{
   // Orden: Escudo 0 Espada 1 Capa 2
 
-  constructor(scene, x, y, buffs, mapa) {
+  constructor(scene, x, y, buffs) {
     super(scene, x, y);
     //this.setTexture(spritesheet);
-    if(mapa !== null && mapa !== undefined)
-      this.mapa = mapa;
-    else this.mapa = "no_definido";
-      this.mapa = mapa;
+    this.mapa = "verde";
     if(buffs === null || buffs === undefined)
       this.buffsp = [false, false, false];
     else {

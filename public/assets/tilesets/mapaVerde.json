@@ -25,7 +25,7 @@
         {
          "draworder":"topdown",
          "id":9,
-         "name":"Ciclopes",
+         "name":"Objects",
          "objects":[
                 {
                  "gid":3623,
@@ -134,29 +134,18 @@
                  "width":64,
                  "x":8510.67,
                  "y":560.667
-                }],
-         "opacity":1,
-         "type":"objectgroup",
-         "visible":true,
-         "x":0,
-         "y":0
-        }, 
-        {
-         "draworder":"topdown",
-         "id":10,
-         "name":"Escaleras",
-         "objects":[
+                },         
                 {
                  "gid":3773,
-                 "height":356,
+                 "height":306,
                  "id":26,
                  "name":"escaleras1",
                  "rotation":0,
                  "type":"escaleras",
                  "visible":true,
                  "width":26.6667,
-                 "x":1091.33,
-                 "y":557
+                 "x":1103,
+                 "y":400
                 }, 
                 {
                  "gid":3773,

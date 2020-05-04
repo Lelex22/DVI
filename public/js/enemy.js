@@ -1,17 +1,18 @@
 import Entidad from "./entidad.js";
-const stepLimit = 5;
-export default class Enemy extends Entidad{
-    constructor(scene, x, y, tipo) {
-        super(scene, x, y);
-        this.mapa = "verde";
+const stepLimit = 50;
+export default class Enemy extends Phaser.GameObjects.Sprite{
+    constructor(scene, x, y, mapa, tipo) {
+        super(scene, x, y, tipo);
+        this.scene.add.existing(this);
+        this.scene.physics.add.existing(this);
+        this.life = 3;
+        this.scene = scene;
+        this.mapa = mapa;
         this.maxLife = 3;
-        this.tipo= tipo;
+        this.tipo = tipo;
         //this.pinta = pintaBuffs(this.buffsp);
-        this.inix = this.x;
-        this.iniy = this.y;
-        this.pos = 0;
-        const anims = scene.anims;
-        if(tipo.localeCompare("vikingo") === 0){
+        const anims = this.scene.anims;
+        if(this.tipo.localeCompare("vikingo") === 0){
             //Mueve derecha
              anims.create({
                 key: "movder",
@@ -42,18 +43,18 @@ export default class Enemy extends Entidad{
                 repeat: 0
             });
         }
-        else if(tipo.localeCompare("ciclope") === 0){
+        else if(this.tipo.localeCompare("ciclope") === 0){
             //Mueve derecha
             anims.create({
                 key: "movder",
-                frames: anims.generateFrameNumbers('ciclopes', { start: 15, end: 26 }),
+                frames: anims.generateFrameNumbers('ciclope', { start: 15, end: 26 }),
                 frameRate: 10,
                 repeat: 0
             });
             //Mueve izquierda
             anims.create({
                 key: "movizq",
-                frames: anims.generateFrameNumbers('ciclopes', { start: 165, end: 176 }),
+                frames: anims.generateFrameNumbers('ciclope', { start: 165, end: 176 }),
                 frameRate: 10,
                 repeat: 0
             });
@@ -61,15 +62,21 @@ export default class Enemy extends Entidad{
             //Ataca derecha
             anims.create({
                 key: "atcder",
-                frames: anims.generateFrameNumbers('ciclopes', { start: 45, end: 57 }),
+                frames: anims.generateFrameNumbers('ciclope', { start: 45, end: 57 }),
                 frameRate: 10,
                 repeat: 0
             });
             //Ataca izquierda
             anims.create({
                 key: "atcizq",
-                frames: anims.generateFrameNumbers('ciclopes', { start: 195, end: 207 }),
+                frames: anims.generateFrameNumbers('ciclope', { start: 195, end: 207 }),
                 frameRate: 10,
+                repeat: 0
+            });
+            anims.create({
+                key: "stand",
+                frames: anims.generateFrameNumbers('ciclope', { start: 150, end: 150 }),
+                frameRate: 1,
                 repeat: 0
             });
         }
@@ -78,14 +85,14 @@ export default class Enemy extends Entidad{
             //Mueve derecha
             anims.create({
                 key: "movder",
-                frames: anims.generateFrameNumbers('ciclopes', { start: 0, end: 4 }),
+                frames: anims.generateFrameNumbers('ciclope', { start: 0, end: 4 }),
                 frameRate: 10,
                 repeat: 0
             });
             //Mueve izquierda
             anims.create({
                 key: "movizq",
-                frames: anims.generateFrameNumbers('ciclopes', { start: 0, end: 4 }),
+                frames: anims.generateFrameNumbers('ciclope', { start: 0, end: 4 }),
                 frameRate: 10,
                 repeat: 0
             });
@@ -93,43 +100,53 @@ export default class Enemy extends Entidad{
             //Ataca derecha
             anims.create({
                 key: "atcder",
-                frames: anims.generateFrameNumbers('ciclopes', { start: 0, end: 4 }),
+                frames: anims.generateFrameNumbers('ciclope', { start: 0, end: 4 }),
                 frameRate: 10,
                 repeat: 0
             });
             //Ataca izquierda
             anims.create({
                 key: "atcizq",
-                frames: anims.generateFrameNumbers('ciclopes', { start: 0, end: 4 }),
+                frames: anims.generateFrameNumbers('ciclope', { start: 0, end: 4 }),
                 frameRate: 10,
                 repeat: 0
             });
         }
-        this.sprite = this.scene.physics.add.sprite(x, y, "ciclopes").setSize(30,43).setOffset(15, 21);
+        this.body.setSize(30,43).setOffset(15, 21);
         let rnd = Phaser.Math.RND;
-        this.sprite.setVelocityX(5);
-        this.sprite.stepCount = rnd.integerInRange(0, stepLimit);
+        this.body.velocity.x = rnd.integerInRange(125, 175) * rnd.sign();
+        this.stepCount = rnd.integerInRange(0, stepLimit);
+        console.log(this.stepCount);
         if(this.mapa.localeCompare("verde") === 0)
-            this.sprite.body.setGravity(0,200);
+            this.body.setGravity(0,200);
     }
     
     freeze() {
-        this.sprite.body.moves = false;
+        this.body.moves = false;
     }
-    update() {
-        if (this.body.velocity.x > 0 && enemy.right > platform.right) {
-            this.sprite.anims.play("movder", true);
-            this.body.velocity.x *= -1; // reverse direction
+    preUpdate() {
+        // increase enemy's step counter
+        this.stepCount++;
+        // check if enemy's step counter has reach limit
+        if (this.stepCount > stepLimit) {
+            // reverse enemy direction
+            this.body.velocity.x *= -1;
+            // reset enemy's step counter
+            this.stepCount = 0;
+            // can add other code - change enemy animation, etc.
         }
-        // else if enemy moving to left and has started to move over left edge of platform
-        else if (this.body.velocity.x < 0 && enemy.left < platform.left) {
-            this.sprite.anims.play("movizq", true);
-            this.body.velocity.x *= -1; // reverse direction
+       if (Math.sign(this.body.velocity.x) === 1) {
+            this.anims.play("movder", true);
         }
+        //else if enemy moving to left and has started to move over left edge of platform
+        else if (Math.sign(this.body.velocity.x) === -1) {
+            this.anims.play("movizq", true);
+        }
+        else this.anims.play("stand", true);
     }
     
     destroy() {
-        this.sprite.destroy();
+        this.destroy();
     }
 
 

@@ -1,7 +1,8 @@
 import Player from "./player.js";
 import Enemy from "./enemy.js";
+import Escaleras from "./escaleras.js";
 
-const stepLimit = 100;
+const stepLimit = 15;
 
 export default class GreenMapScene extends Phaser.Scene {
     
@@ -30,14 +31,14 @@ export default class GreenMapScene extends Phaser.Scene {
     preload(){
         this.load.image("heart", "../public/img/heart.png");
         this.load.spritesheet(
-        "characters",
+        "player",
         "../public/assets/spritesheets/edit1.png",
         {
             frameWidth: 33,
             frameHeight: 24
         }
         );
-        this.load.spritesheet("ciclopes","../public/assets/spritesheets/Cyclops Sprite Sheet.png",{frameWidth: 64,
+        this.load.spritesheet("ciclope","../public/assets/spritesheets/Cyclops Sprite Sheet.png",{frameWidth: 64,
             frameHeight: 64});
         this.load.image('escaleras', '../public/assets/tilesets/escaleras3.jpg');
         //this.load.image('escaleras2', '../public/assets/tilesets/escaleras2.jpg');
@@ -53,33 +54,34 @@ export default class GreenMapScene extends Phaser.Scene {
         const cielo = map.createStaticLayer("Cielo", tileset, 0, 0);
         
         const agua = map.createStaticLayer("Agua", tileset, 0, 0);
-        //const escaleras = map.createStaticLayer("Escaleras", tileset, 0, 0);
         const puentes = map.createStaticLayer("Puentes", tileset, 0, 0);
         const tierra = map.createStaticLayer("Tierra", tileset, 0, 0);
-        let arrayCiclopes = [];
-        let arrayEscaleras = map.createFromObjects('Escaleras', 10, {key: "escaleras"});
-        this.ciclopsGroup = this.physics.add.group();
-        let escalerasGroup = this.physics.add.group();
-        for (const ciclope of map.getObjectLayer('Ciclopes').objects)
-        {       
-            let enemigo = this.add.existing(new Enemy(this, ciclope.x, ciclope.y, "verde", ciclope.type));
-            enemigo.collideWorldBounds=true;
-            enemigo.sprite.body.bounce.x = 1;    
-            enemigo.sprite.body.immovable = true;  
-            this.ciclopsGroup.add(enemigo.sprite);
-                           
-        }
         
-        for (const escalera of map.getObjectLayer('Escaleras').objects) {
-            this.physics.add.staticImage(escalera.x, escalera.y, "escaleras");
+        this.escaleras = [];
+        this.ciclopsGroup = this.physics.add.group();
+        this.escalerasGroup = this.physics.add.group();
+        for (const objeto of map.getObjectLayer('Objects').objects)
+        {       
+            if(objeto.type.localeCompare("ciclope") === 0){
+            let enemigo = new Enemy(this, objeto.x, objeto.y, "verde", objeto.type);
+            enemigo.body.bounce.x = 1;    
+            this.ciclopsGroup.add(enemigo);
+            }
+            else {
+                let escalera = new Escaleras(this, objeto.x, objeto.y);
+                this.escaleras.push(escalera);
+            }                           
         }
         
         
         //Faltaria añadir la estructura de los enemigos
-        
+        this.physics.world.addOverlap(this.escaleras[0], this.player, () => {
+            console.log("Overlap???");
+        });
         tierra.setCollisionByExclusion([-1]);
         puentes.setCollisionByExclusion([-1]);
-        this.player = this.add.existing(new Player(this, 10, 540, null, this.mapa) );
+        
+        this.player = new Player(this, 10, 540, null, this.mapa, this.lifesPlayer);
         
         if(this.lifesPlayer && (this.coinsPlayer || this.coinsPlayer === 0) && this.buffsPlayer){
             this.buffsPlayer.forEach(function (elem, i){
@@ -95,23 +97,27 @@ export default class GreenMapScene extends Phaser.Scene {
         
         
         
-        this.physics.add.collider(this.player.sprite, tierra);
+        this.physics.add.collider(this.player, tierra);
+        //this.physics.add.collider(this.ciclopsGroup, tierra);
+        for(const escalera of this.escaleras)
+            this.physics.world.addOverlap(escalera, this.player, () => {
+                console.log("Overlap");
+            });
+       
+        this.physics.add.collider(this.player, puentes);
+        this.physics.add.collider(this.player, this.ciclopsGroup, onTouchEnemy, null, this);
         this.physics.add.collider(this.ciclopsGroup, tierra);
-        this.physics.add.collider(escalerasGroup, tierra);
-        
-        this.physics.add.collider(this.player.sprite, puentes);
-        this.physics.add.collider(this.player.sprite, this.ciclopsGroup, onTouchEnemy, null, this);
-        
+
+
         const camera = this.cameras.main;
 
         // Constrain the camera so that it isn't allowed to move outside the width/height of tilemap
         camera.setBounds(0, 0, map.widthInPixels, map.heightInPixels);
-        camera.startFollow(this.player.sprite);
+        camera.startFollow(this.player);
     }
 
     update(){
-        
-        if(this.player.sprite.x <= 9){
+        if(this.player.x <= 9){
             const cam = this.cameras.main;
             cam.fade(250, 0, 0, 0);
             cam.once("camerafadeoutcomplete", () => {
@@ -119,15 +125,12 @@ export default class GreenMapScene extends Phaser.Scene {
                 this.scene.start("DungeonScene", {vidas: this.player.life, monedas: this.player.coins, buffs: this.player.buffs});
             });
         }
-        else this.player.update();
-        for(let enemy of this.ciclopsGroup.getChildren())
-            enemy.update();
+            
+            
     }
     
     
 }
 function onTouchEnemy(player, enemy) {
     enemy.body.velocity.x *= -1;
-    enemy.destroy();
-    // can add other code - damage player, etc.
     }

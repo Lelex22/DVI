@@ -6,7 +6,6 @@ export default class Enemy extends Phaser.GameObjects.Sprite{
         this.scene.add.existing(this);
         this.scene.physics.add.existing(this);
         this.life = 3;
-        this.scene = scene;
         this.mapa = mapa;
         this.maxLife = 3;
         this.tipo = tipo;
@@ -116,7 +115,6 @@ export default class Enemy extends Phaser.GameObjects.Sprite{
         let rnd = Phaser.Math.RND;
         this.body.velocity.x = rnd.integerInRange(125, 175) * rnd.sign();
         this.stepCount = rnd.integerInRange(0, stepLimit);
-        console.log(this.stepCount);
         if(this.mapa.localeCompare("verde") === 0)
             this.body.setGravity(0,200);
     }

@@ -1,15 +1,14 @@
-export default class Escaleras {
-    constructor(scene, x, y) {
-        this.scene = scene;
-        this.scene.physics.add.staticImage(x, y, "escaleras");
-        
-        console.log("Creadas");
+export default class Escaleras extends Phaser.GameObjects.Sprite {
+    constructor(scene, x, y, name) {
+        super(scene, x, y, name);
+        this.scene.add.existing(this);
+        this.scene.physics.add.existing(this);
     }
-    
-    update() {
-        if (this.scene.physics.overlap(this.scene.player, this)) console.log("Overlap");
+
+    preUpdate() {
+
     }
-    
+
     destroy() {
         this.destroy();
     }

@@ -28,7 +28,11 @@ export default class GreenMapScene extends Phaser.Scene {
         //else this.player = new Player(this, 0, 0);
     }
     preload() {
-        this.load.image("heart", "../public/img/heart.png");
+        this.load.image("5vidas", "../public/assets/imagenes/5vidas.png");
+        this.load.image("4vidas", "../public/assets/imagenes/4vidas.png");
+        this.load.image("3vidas", "../public/assets/imagenes/3vidas.png");
+        this.load.image("2vidas", "../public/assets/imagenes/2vidas.png");
+        this.load.image("1vida", "../public/assets/imagenes/1vida.png");
         this.load.spritesheet(
             "player",
             "../public/assets/spritesheets/edit1.png",
@@ -59,6 +63,7 @@ export default class GreenMapScene extends Phaser.Scene {
         const tierra = map.createStaticLayer("Tierra", tileset, 0, 0);
         this.escalerasGroup = this.physics.add.staticGroup();
         this.ciclopsGroup = this.physics.add.group();
+        this.lifeGroup = this.physics.add.group();
         //this.escalerasGroup = this.physics.add.group();
         for (const objeto of map.getObjectLayer('Objects').objects) {
             if (objeto.type.localeCompare("ciclope") === 0) {
@@ -71,7 +76,6 @@ export default class GreenMapScene extends Phaser.Scene {
                 this.escalerasGroup.add(new Escaleras(this, objeto.x, objeto.y, objeto.name));
             }
         }
-        console.log(this.escalerasGroup);
 
         //Faltaria añadir la estructura de los enemigos
         tierra.setCollisionByExclusion([-1]);
@@ -88,19 +92,22 @@ export default class GreenMapScene extends Phaser.Scene {
             this.player.coins = this.coinsPlayer;
             this.player.life = this.lifesPlayer;
         }
-        for (let i = 0; i < this.player.life; i++)
-            this.add.image(32 * i + 16, 20, 'heart').setScrollFactor(0);
-
+        // for (let i = 0; i < this.player.life; i++)
+        //     this.add.image(32 * i + 16, 20, 'heart')
+        this.vidas = this.add.sprite(16, 20, "5vidas").setOrigin(0).setScrollFactor(0);
+        this.vidas.setTexture("5vidas");
 
 
         this.physics.add.collider(this.player, tierra);
-        //this.physics.add.collider(this.ciclopsGroup, tierra);
+        this.physics.add.collider(this.ciclopsGroup, tierra);
+        this.physics.add.collider(this.ciclopsGroup, this.ciclopsGroup);
         this.physics.add.overlap(this.player, this.escalerasGroup, () => {
             console.log("Overlap");
         });
+        
         this.physics.add.collider(this.player, puentes);
-        this.physics.add.collider(this.player, this.ciclopsGroup, onTouchEnemy, null, this);
-        this.physics.add.collider(this.ciclopsGroup, tierra);
+        this.physics.add.overlap(this.player, this.ciclopsGroup, onTouchEnemy, null, this);
+        //this.physics.add.collider(this.ciclopsGroup, tierra);
 
 
         const camera = this.cameras.main;
@@ -119,12 +126,61 @@ export default class GreenMapScene extends Phaser.Scene {
                 this.scene.start("DungeonScene", { vidas: this.player.life, monedas: this.player.coins, buffs: this.player.buffs });
             });
         }
-
-
+        else this.player.update();
+        updateLife(this.vidas, this.player.life);
     }
 
 
 }
-function onTouchEnemy(player, enemy) {
-    enemy.body.velocity.x *= -1;
+function onTouchEnemy(player) {
+    if(!this.player.enemyTouch){
+        this.player.enemyTouch = true;
+        this.player.tint = 0xff0000;
+        if (this.player.body.touching.down) {
+            this.player.body.setVelocityY(-200);
+            this.player.body.setVelocityX(200);
+        }
+        else if (this.player.body.touching.right) {
+            this.player.body.setVelocityY(-200);
+            this.player.body.setVelocityX(200);
+        }
+        else if (this.player.body.touching.left) {
+            this.player.body.setVelocityY(-200);
+            this.player.body.setVelocityX(-200);
+        }
+        else {
+            this.player.body.setVelocityY(-200);
+        }
+        if(this.player.enemyTouch){
+            this.time.addEvent({ delay: 2000, callback: function(){
+                    player.tint = 0xffffff;
+                    player.enemyTouch = false;
+                    player.life -= 1;
+                },
+            });
+            
+        }
+    }
+}
+
+function updateLife(vidas, life){
+    switch (life) {
+        case 5:
+            vidas.setTexture("5vidas");
+            break;
+        case 4:
+            vidas.setTexture("4vidas");
+            break;
+        case 3:
+            vidas.setTexture("3vidas");
+            break;
+        case 2:
+            vidas.setTexture("2vidas");
+            break;
+        case 1:
+            vidas.setTexture("1vida");
+            break;
+        default:
+            break;
+    }
 }

@@ -5,10 +5,11 @@ export default class Player extends Phaser.GameObjects.Sprite{
 
   constructor(scene, x, y, buffs, life) {
     super(scene, x, y, 'player');
+    this.enemyTouch = false;
     this.scene.add.existing(this);
     this.scene.physics.add.existing(this);
-    //this.body.setCollideWorldBounds();
-    this.life = life;
+    this.life = 5;
+
     this.scene = scene;
     //this.setTexture(spritesheet);
     this.mapa = "verde";
@@ -252,7 +253,7 @@ export default class Player extends Phaser.GameObjects.Sprite{
         repeat: 0
       });
 
-    this.body.setSize(10, 10).setOffset(10, 10);
+    
     
     //this.sprite.anims.play("up");
     if(this.mapa.localeCompare("verde") === 0){
@@ -277,7 +278,12 @@ export default class Player extends Phaser.GameObjects.Sprite{
     this.body.moves = false;
   }
 
-  preUpdate() {
+  preUpdate(d, t) {
+    super.preUpdate(d, t);
+    this.body.setSize(10, 10).setOffset(10, 10);
+  }
+
+  update(){
     const keys = this.keys;
     const speed = 400;
 
@@ -435,37 +441,44 @@ export default class Player extends Phaser.GameObjects.Sprite{
           break;
       }
     }
-    else {
-      switch(this.pinta){
-        case 0:
-          this.anims.play("right", true);
-          break;
-        case 1:
-          this.anims.play("right-capa", true);
-          break;
-        case 10:
-          this.anims.play("right-espada", true);
-          break;
-        case 11:
-          this.anims.play("right-capa-espada", true);
-          break;
-        case 100:
-          this.anims.play("right-escudo", true);
-          break;
-        case 101:
-          this.anims.play("right-capa-escudo", true);
-          break;
-        case 110:
-          this.anims.play("right-espada-escudo", true);
-          break;
-        case 111:
-          this.anims.play("right-capa-espada-escudo", true);
-          break;
-      }
-    }
+    // else {
+    //   switch(this.pinta){
+    //     case 0:
+    //       this.anims.play("right", true);
+    //       break;
+    //     case 1:
+    //       this.anims.play("right-capa", true);
+    //       break;
+    //     case 10:
+    //       this.anims.play("right-espada", true);
+    //       break;
+    //     case 11:
+    //       this.anims.play("right-capa-espada", true);
+    //       break;
+    //     case 100:
+    //       this.anims.play("right-escudo", true);
+    //       break;
+    //     case 101:
+    //       this.anims.play("right-capa-escudo", true);
+    //       break;
+    //     case 110:
+    //       this.anims.play("right-espada-escudo", true);
+    //       break;
+    //     case 111:
+    //       this.anims.play("right-capa-espada-escudo", true);
+    //       break;
+    //   }
+    // }
+    // if (this.body.velocity.x > 0)
+    //         this.setFlipX(true);
+    //     else if (this.body.velocity.x < 0)
+    //         this.setFlipX(false); 
   }
 
   destroy() {
     this.destroy();
+  }
+  alive(){
+    return this.life > 0;
   }
 }

@@ -17,7 +17,6 @@ export default class DungeonScene extends Phaser.Scene {
   }
   init(data){
     if(data !== null){
-      console.log("Done");
       this.lifesPlayer = data.vidas;
       this.coinsPlayer = data.monedas;
       this.buffsPlayer = data.buffs;
@@ -28,11 +27,11 @@ export default class DungeonScene extends Phaser.Scene {
   
 
   preload() {
-    this.load.image("tiles", "../DVI/public/assets/tilesets/prueba2.png");
-    this.load.image("heart", "../DVI/public/img/heart.png");
+    this.load.image("tiles", "../public/assets/tilesets/prueba2.png");
+    this.load.image("heart", "../public/img/heart.png");
     this.load.spritesheet(
       "characters",
-      "../DVI/public/assets/spritesheets/edit1.png",
+      "../public/assets/spritesheets/edit1.png",
       {
         frameWidth: 33,
         frameHeight: 24
@@ -183,7 +182,7 @@ export default class DungeonScene extends Phaser.Scene {
     const playerRoom = startRoom;
     const x = map.tileToWorldX(playerRoom.centerX);
     const y = map.tileToWorldY(playerRoom.centerY);
-    this.player = new Player(this, x, y, this.buffsPlayer);
+    this.player = this.add.existing(new Player(this, x, y, this.buffsPlayer, "no_definido"));
     if(this.lifesPlayer && (this.coinsPlayer || this.coinsPlayer === 0) && this.buffsPlayer){
       this.buffsPlayer.forEach(function (elem, i){
         if(elem.value) 

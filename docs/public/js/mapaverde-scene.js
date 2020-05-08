@@ -28,32 +28,32 @@ export default class GreenMapScene extends Phaser.Scene {
         //else this.player = new Player(this, 0, 0);
     }
     preload() {
-        this.load.image("5vidas", "../public/assets/imagenes/5vidas.png");
-        this.load.image("4vidas", "../public/assets/imagenes/4vidas.png");
-        this.load.image("3vidas", "../public/assets/imagenes/3vidas.png");
-        this.load.image("2vidas", "../public/assets/imagenes/2vidas.png");
-        this.load.image("1vida", "../public/assets/imagenes/1vida.png");
+        this.load.image("5vidas", "../DVI/public/assets/imagenes/5vidas.png");
+        this.load.image("4vidas", "../DVI/public/assets/imagenes/4vidas.png");
+        this.load.image("3vidas", "../DVI/public/assets/imagenes/3vidas.png");
+        this.load.image("2vidas", "../DVI/public/assets/imagenes/2vidas.png");
+        this.load.image("1vida", "../DVI/public/assets/imagenes/1vida.png");
         this.load.spritesheet(
             "player",
-            "../public/assets/spritesheets/edit1.png",
+            "../DVI/public/assets/spritesheets/edit1.png",
             {
                 frameWidth: 33,
                 frameHeight: 24
             }
         );
-        this.load.spritesheet("ciclope", "../public/assets/spritesheets/Cyclops Sprite Sheet.png", {
+        this.load.spritesheet("ciclope", "../DVI/public/assets/spritesheets/Cyclops Sprite Sheet.png", {
             frameWidth: 64,
             frameHeight: 64
         });
-        this.load.spritesheet("coin", "../public/assets/imagenes/coins.png", {
+        this.load.spritesheet("coin", "../DVI/public/assets/imagenes/coins.png", {
             frameWidth: 22.8333,
             frameHeight: 29
         });
-        this.load.image('escaleras1', '../public/assets/tilesets/pruebanewtiles2.png');
-        this.load.image('escaleras2', '../public/assets/tilesets/pruebanewtiles3.png');
-        this.load.image('escaleras3', '../public/assets/tilesets/pruebanewtiles.png');
-        this.load.image('mapaverde', '../public/assets/tilesets/genaric-cartoon-charactor-sprite-png-15-original.png');
-        this.load.tilemapTiledJSON('map', '../public/assets/tilesets/mapaVerde.json');
+        this.load.image('escaleras1', '../DVI/public/assets/tilesets/pruebanewtiles2.png');
+        this.load.image('escaleras2', '../DVI/public/assets/tilesets/pruebanewtiles3.png');
+        this.load.image('escaleras3', '../DVI/public/assets/tilesets/pruebanewtiles.png');
+        this.load.image('mapaverde', '../DVI/public/assets/tilesets/genaric-cartoon-charactor-sprite-png-15-original.png');
+        this.load.tilemapTiledJSON('map', '../DVI/public/assets/tilesets/mapaVerde.json');
     }
     create() {
 

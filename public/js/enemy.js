@@ -146,10 +146,4 @@ export default class Enemy extends Phaser.GameObjects.Sprite {
             this.anims.play("movizq", true);
         }
     }
-
-    destroy() {
-        this.destroy();
-    }
-
-
 } 

@@ -9,7 +9,7 @@ export default class Player extends Phaser.GameObjects.Sprite{
     this.scene.add.existing(this);
     this.scene.physics.add.existing(this);
     this.life = 5;
-
+    this.speed = 400;
     this.scene = scene;
     //this.setTexture(spritesheet);
     this.mapa = "verde";
@@ -285,47 +285,52 @@ export default class Player extends Phaser.GameObjects.Sprite{
 
   update(){
     const keys = this.keys;
-    const speed = 400;
+    
 
     // Stop any previous movement from the last frame
     if(this.mapa.localeCompare("verde") !== 0)
       this.body.setVelocity(0);
     if(this.mapa.localeCompare("verde") !== 0){
       if (keys.left.isDown){
-        this.body.setVelocityX(-speed);
+        this.body.setVelocityX(-this.speed);
       }
       else if(keys.right.isDown){
-        this.body.setVelocityX(speed);
+        this.body.setVelocityX(this.speed);
       }
       else this.body.setVelocityX(0);
     }
     else if(this.mapa.localeCompare("verde") === 0){
       if(keys.left.isDown){
-        this.body.setVelocityX(-speed/2);
+        this.body.setVelocityX(-this.speed/2);
       }
       else if(keys.right.isDown){
-        this.body.setVelocityX(speed/2);
+        this.body.setVelocityX(this.speed/2);
       }
       else this.body.setVelocityX(0);
     }
     
     if(this.mapa.localeCompare("verde") !== 0){
       if (keys.up.isDown) {
-        this.body.setVelocityY(-speed);
+        this.body.setVelocityY(-this.speed);
       }
     }    
     else{
       if (keys.up.isDown && this.body.onFloor())
-        this.body.setVelocityY(-speed);
+        this.body.setVelocityY(-this.speed);
     }
-    
+    if(this.escaleras){
+      this.body.setGravity(0,0);
+      if (keys.up.isDown) {
+        this.body.setVelocityY(-this.speed);
+      }
+    }
     if (keys.down.isDown && this.mapa.localeCompare("verde") !== 0) {
-      this.body.setVelocityY(speed);
+      this.body.setVelocityY(this.speed);
     }
 
     // Normalize and scale the velocity so that sprite can't move faster along a diagonal
     if(this.mapa.localeCompare("verde") !== 0)
-      this.body.velocity.normalize().scale(speed);
+      this.body.velocity.normalize().scale(this.speed);
 
     // Update the animation last and give left/right/down animations precedence over up animations
     if (keys.down.isDown) {

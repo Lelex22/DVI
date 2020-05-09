@@ -6,6 +6,7 @@ export default class Enemy extends Phaser.GameObjects.Sprite {
         this.scene.physics.add.existing(this);
         this.body.setCollideWorldBounds(true);
         this.life = 3;
+        this.atacado = false;
         this.mapa = mapa;
         this.maxLife = 3;
         this.tipo = tipo;
@@ -125,7 +126,7 @@ export default class Enemy extends Phaser.GameObjects.Sprite {
     preUpdate(d, t) {
         super.preUpdate(d, t);
         this.setScale(1);
-        this.body.setSize(30, 43).setOffset(15, 21);
+        this.body.setSize(40, 43).setOffset(20, 21);
         this.anims.play("movizq", true);
         
         // increase enemy's step counter
@@ -144,6 +145,10 @@ export default class Enemy extends Phaser.GameObjects.Sprite {
         //else if enemy moving to left and has started to move over left edge of platform
         else if (Math.sign(this.body.velocity.x) === -1) {
             this.anims.play("movizq", true);
+        }
+        if(this.life <= 0){
+            this.scene.ciclopsGroup.killAndHide(this);
+            this.body.enable = false;
         }
     }
 } 

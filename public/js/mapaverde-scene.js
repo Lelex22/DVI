@@ -49,6 +49,14 @@ export default class GreenMapScene extends Phaser.Scene {
             frameWidth: 22.8333,
             frameHeight: 29
         });
+        this.load.spritesheet("fregona", "../public/assets/spritesheets/fregona.png", {
+            frameWidth: 26,
+            frameHeight: 14
+        });
+        this.load.spritesheet("fregonaiz", "../public/assets/spritesheets/fregonaiz.png", {
+            frameWidth: 26,
+            frameHeight: 14
+        });
         this.load.image('escaleras1', '../public/assets/tilesets/pruebanewtiles2.png');
         this.load.image('escaleras2', '../public/assets/tilesets/pruebanewtiles3.png');
         this.load.image('escaleras3', '../public/assets/tilesets/pruebanewtiles.png');
@@ -86,8 +94,12 @@ export default class GreenMapScene extends Phaser.Scene {
         //Faltaria añadir la estructura de los enemigos
         tierra.setCollisionByExclusion([-1]);
         puentes.setCollisionByExclusion([-1]);
-
-        this.player = new Player(this, 10, 540, null, this.mapa, this.lifesPlayer);
+        
+        this.player = new Player(this, 10, 540, [{name: "Escudo", value: false}, {name: "Espada", value: true}, {name: "Capa", value: false}], this.lifesPlayer);
+        this.armas = this.physics.add.group({
+            immovable: true,
+            allowGravity: false
+        });
         for (const objeto of map.getObjectLayer('Objects').objects) {
             if(objeto.type.localeCompare("ciclope") !== 0) {
                 //let escalera = new Escaleras(this, objeto.x, objeto.y, objeto.name);
@@ -125,8 +137,8 @@ export default class GreenMapScene extends Phaser.Scene {
         this.physics.add.collider(this.player, puentes);
         this.physics.add.overlap(this.player, this.ciclopsGroup, onTouchEnemy, null, this);
         this.physics.add.overlap(this.player, this.coinsGroup, getCoin, null, this);
-
-
+        this.physics.add.overlap(this.armas, this.ciclopsGroup, attackEnemy, null, this);
+        //this.physics.add.overlap(this.player, agua, gameOverPorAgua, null, this);
         const camera = this.cameras.main;
 
         // Constrain the camera so that it isn't allowed to move outside the width/height of tilemap
@@ -155,6 +167,18 @@ export default class GreenMapScene extends Phaser.Scene {
 
 
 }
+function attackEnemy(player, enemy){
+    if(!enemy.atacado){
+        enemy.atacado = true;
+        enemy.life -= 1;
+        enemy.tint = 0xff0000;
+        this.time.addEvent({ delay: 500, callback: function(){
+            enemy.atacado = false;
+            enemy.tint = 0xffffff;
+            },
+        });
+    }
+}
 function onTouchEnemy(player) {
     if(!this.player.enemyTouch){
         this.player.enemyTouch = true;
@@ -175,10 +199,10 @@ function onTouchEnemy(player) {
             this.player.body.setVelocityY(-200);
         }
         if(this.player.enemyTouch){
+            player.life -= 1;
             this.time.addEvent({ delay: 2000, callback: function(){
                     player.tint = 0xffffff;
                     player.enemyTouch = false;
-                    player.life -= 1;
                 },
             });
             
@@ -219,3 +243,8 @@ function updateLife(vidas, life){
             break;
     }
 }
+//No descomentar hasta que la capa de tierra no tenga debajo la de agua
+//function gameOverPorAgua(){
+//    console.log("Fin");
+//    this.scene.pause(this);
+//}

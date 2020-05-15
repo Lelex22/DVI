@@ -133,8 +133,8 @@ export default class GreenMapScene extends Phaser.Scene {
         //     this.add.image(32 * i + 16, 20, 'heart')
         this.vidas = this.add.sprite(16, 20, "5vidas").setOrigin(0).setScrollFactor(0);
         this.vidas.setTexture("5vidas");
-
-
+        this.monedas = this.add.sprite(650, 20, "coin").setOrigin(0).setScrollFactor(0).setScale(1.5);
+        this.text = this.add.text(690, 27, "X " + this.player.coins, { fontFamily: 'Georgia, "Goudy Bookletter 1911", Times, serif', fontSize: "30px" }).setOrigin(0).setScrollFactor(0);
         this.physics.add.collider(this.player, tierra);
         this.physics.add.collider(this.ciclopsGroup, tierra);
         this.physics.add.collider(this.ciclopsGroup, this.ciclopsGroup);
@@ -145,7 +145,7 @@ export default class GreenMapScene extends Phaser.Scene {
         this.physics.add.overlap(this.player, this.coinsGroup, getCoin, null, this);
         this.physics.add.overlap(this.armas, this.ciclopsGroup, attackEnemy, null, this);
         this.physics.add.overlap(this.armasEnemigos, this.player, attackPlayer, null, this);
-        //this.physics.add.overlap(this.player, agua, gameOverPorAgua, null, this);
+        this.physics.add.overlap(this.player, agua, gameOverPorAgua, null, this);
         const camera = this.cameras.main;
 
         // Constrain the camera so that it isn't allowed to move outside the width/height of tilemap
@@ -241,7 +241,7 @@ function getCoin(player, coin){
     this.coinsGroup.killAndHide(coin);
     coin.body.enable = false;
     player.coins += 1;
-    console.log(player.coins);
+    this.text.setText("X " + player.coins);
 }
 
 function updateLife(vidas, life){
@@ -266,7 +266,9 @@ function updateLife(vidas, life){
     }
 }
 //No descomentar hasta que la capa de tierra no tenga debajo la de agua
-//function gameOverPorAgua(){
-//    console.log("Fin");
-//    this.scene.pause(this);
-//}
+function gameOverPorAgua(player){
+    if(player.body.y >= 585){
+        console.log("Fin");
+        this.scene.pause(this);
+    }
+}

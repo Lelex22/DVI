@@ -33,6 +33,7 @@ export default class GreenMapScene extends Phaser.Scene {
         this.load.image("3vidas", "../public/assets/imagenes/3vidas.png");
         this.load.image("2vidas", "../public/assets/imagenes/2vidas.png");
         this.load.image("1vida", "../public/assets/imagenes/1vida.png");
+        this.load.image("piedra", "../public/assets/imagenes/piedra.png");
         this.load.spritesheet(
             "player",
             "../public/assets/spritesheets/edit1.png",
@@ -100,6 +101,10 @@ export default class GreenMapScene extends Phaser.Scene {
             immovable: true,
             allowGravity: false
         });
+        this.armasEnemigos = this.physics.add.group({
+            immovable: true,
+            allowGravity: false
+        });
         for (const objeto of map.getObjectLayer('Objects').objects) {
             if(objeto.type.localeCompare("ciclope") !== 0) {
                 //let escalera = new Escaleras(this, objeto.x, objeto.y, objeto.name);
@@ -135,9 +140,11 @@ export default class GreenMapScene extends Phaser.Scene {
         this.physics.add.collider(this.ciclopsGroup, this.ciclopsGroup);
         this.physics.add.collider(this.coinsGroup, tierra);        
         this.physics.add.collider(this.player, puentes);
+        this.physics.add.collider(this.armasEnemigos, tierra, colisiona, null, this);
         this.physics.add.overlap(this.player, this.ciclopsGroup, onTouchEnemy, null, this);
         this.physics.add.overlap(this.player, this.coinsGroup, getCoin, null, this);
         this.physics.add.overlap(this.armas, this.ciclopsGroup, attackEnemy, null, this);
+        this.physics.add.overlap(this.armasEnemigos, this.player, attackPlayer, null, this);
         //this.physics.add.overlap(this.player, agua, gameOverPorAgua, null, this);
         const camera = this.cameras.main;
 
@@ -167,6 +174,9 @@ export default class GreenMapScene extends Phaser.Scene {
 
 
 }
+function colisiona(arma){
+    arma.destroy();
+}
 function attackEnemy(player, enemy){
     if(!enemy.atacado){
         enemy.atacado = true;
@@ -179,8 +189,20 @@ function attackEnemy(player, enemy){
         });
     }
 }
+function attackPlayer(player, arma){
+    if(!player.atacado){
+        player.atacado = true;
+        player.life -= 1;
+        player.tint = 0xff0000;
+        this.time.addEvent({ delay: 500, callback: function(){
+            player.atacado = false;
+            player.tint = 0xffffff;
+            },
+        });
+    }
+}
 function onTouchEnemy(player) {
-    if(!this.player.enemyTouch){
+    if(!this.player.enemyTouch && !this.player.atacado){
         this.player.enemyTouch = true;
         this.player.tint = 0xff0000;
         if (this.player.body.touching.down) {

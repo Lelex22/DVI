@@ -6,6 +6,7 @@ export default class Player extends Phaser.GameObjects.Sprite{
   constructor(scene, x, y, buffs, life) {
     super(scene, x, y, 'player');
     this.enemyTouch = false;
+    this.atacado = false;
     this.scene.add.existing(this);
     this.scene.physics.add.existing(this);
     this.life = 5;
@@ -400,7 +401,6 @@ export default class Player extends Phaser.GameObjects.Sprite{
 
   update(){
     const keys = this.keys;
-    
 
     // Stop any previous movement from the last frame
     if(this.mapa.localeCompare("verde") !== 0)
@@ -434,7 +434,7 @@ export default class Player extends Phaser.GameObjects.Sprite{
           this.body.setVelocityY(-this.speed);
         }
       }
-      else if (Phaser.Input.Keyboard.JustDown(this.space)) {
+      else if (Phaser.Input.Keyboard.JustDown(this.space) && this.buffs[1]["value"]) {
         if (!this.isAttacking){
           let fregona;
           this.body.setVelocityX(0);

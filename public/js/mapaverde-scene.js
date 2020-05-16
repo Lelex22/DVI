@@ -1,7 +1,6 @@
 import Player from "./player.js";
 import Enemy from "./enemy.js";
 import Coin from "./coins.js";
-
 const stepLimit = 15;
 
 export default class GreenMapScene extends Phaser.Scene {
@@ -25,9 +24,17 @@ export default class GreenMapScene extends Phaser.Scene {
             this.buffsPlayer = data.buffs;
             this.mapa = data.mapa;
         }
-        //else this.player = new Player(this, 0, 0);
     }
     preload() {
+        //Audio mapa verde
+        this.load.audio("audio_mapaverde", "../public/assets/audio/mapaverde.mp3");
+        //Audios 
+        this.load.audio("atacaplayer", "../public/assets/audio/atacaplayer.mp3");
+        this.load.audio("defiendeplayer", "../public/assets/audio/defiendeplayer.mp3");
+        this.load.audio("atacaciclope", "../public/assets/audio/atacaciclope.wav");
+        this.load.audio("luigiatacado", "../public/assets/audio/luigiatacado.wav");
+        this.load.audio("menufin", "../public/assets/audio/menufin.mp3");
+        this.load.audio("fin", "../public/assets/audio/fin.wav");
         this.load.image("5vidas", "../public/assets/imagenes/5vidas.png");
         this.load.image("4vidas", "../public/assets/imagenes/4vidas.png");
         this.load.image("3vidas", "../public/assets/imagenes/3vidas.png");
@@ -65,12 +72,23 @@ export default class GreenMapScene extends Phaser.Scene {
         this.load.tilemapTiledJSON('map', '../public/assets/tilesets/mapaVerde.json');
     }
     create() {
-
+        this.scene.get("Preloads");
         const map = this.make.tilemap({ key: "map" });
         let tileset = map.addTilesetImage('genaric-cartoon-charactor-sprite-png-15-original', 'mapaverde');
-
+        //Audio
+        const config = {
+            mute: false,
+            volume: 0.5,
+            rate: 1,
+            detune: 0,
+            seek: 0,
+            loop: true,
+            delay: 0
+        };
+        this.audio = this.sound.add("audio_mapaverde", config);
+		this.audio.play();
+        //Capas
         const cielo = map.createStaticLayer("Cielo", tileset, 0, 0);
-
         const agua = map.createStaticLayer("Agua", tileset, 0, 0);
         const puentes = map.createStaticLayer("Puentes", tileset, 0, 0);
         const tierra = map.createStaticLayer("Tierra", tileset, 0, 0);
@@ -82,8 +100,6 @@ export default class GreenMapScene extends Phaser.Scene {
             coin.body.bounce.x = 1; 
             this.coinsGroup.add(coin);
         }
-   
-        //this.escalerasGroup = this.physics.add.group();
         for (const objeto of map.getObjectLayer('Objects').objects) {
             if (objeto.type.localeCompare("ciclope") === 0) {
                 let enemigo = new Enemy(this, objeto.x, objeto.y, "verde", objeto.type);
@@ -91,8 +107,6 @@ export default class GreenMapScene extends Phaser.Scene {
                 this.ciclopsGroup.add(enemigo);
             }
         }
-
-        //Faltaria añadir la estructura de los enemigos
         tierra.setCollisionByExclusion([-1]);
         puentes.setCollisionByExclusion([-1]);
         
@@ -107,7 +121,6 @@ export default class GreenMapScene extends Phaser.Scene {
         });
         for (const objeto of map.getObjectLayer('Objects').objects) {
             if(objeto.type.localeCompare("ciclope") !== 0) {
-                //let escalera = new Escaleras(this, objeto.x, objeto.y, objeto.name);
                 if(objeto.name.localeCompare("escaleras1") === 0){
                     this.escaleras1 = this.add.image(objeto.x, objeto.y, objeto.name);
                     console.log(this.escaleras1);
@@ -129,8 +142,6 @@ export default class GreenMapScene extends Phaser.Scene {
             this.player.coins = this.coinsPlayer;
             this.player.life = this.lifesPlayer;
         }
-        // for (let i = 0; i < this.player.life; i++)
-        //     this.add.image(32 * i + 16, 20, 'heart')
         this.vidas = this.add.sprite(16, 20, "5vidas").setOrigin(0).setScrollFactor(0);
         this.vidas.setTexture("5vidas");
         this.monedas = this.add.sprite(650, 20, "coin").setOrigin(0).setScrollFactor(0).setScale(1.5);
@@ -154,22 +165,48 @@ export default class GreenMapScene extends Phaser.Scene {
     }
 
     update() {
-        if(this.player.x >= this.escaleras1.x - 25 && this.player.x <= this.escaleras1.x + 25 && this.player.y > this.escaleras1.y/2)
-            onTouchEscalera(this.player, this.escaleras1);
-        if(this.player.x >= this.escaleras2.x - 16 && this.player.x <= this.escaleras2.x + 16 && this.player.y > this.escaleras2.y/2)
-            onTouchEscalera(this.player, this.escaleras2);
-        if(this.player.x >= this.escaleras3.x - 16 && this.player.x <= this.escaleras3.x + 16 && this.player.y > this.escaleras3.y/2)
-            onTouchEscalera(this.player, this.escaleras3);
-        if (this.player.x <= 9) {
-            const cam = this.cameras.main;
-            cam.fade(250, 0, 0, 0);
-            cam.once("camerafadeoutcomplete", () => {
-                this.scene.start("DungeonScene", { vidas: this.player.life, monedas: this.player.coins, buffs: this.player.buffs });
-                this.player.destroy();
-            });
+        if(this.player.life > 0){
+            if(this.player.x >= this.escaleras1.x - 25 && this.player.x <= this.escaleras1.x + 25 && this.player.y > this.escaleras1.y/2)
+                onTouchEscalera(this.player, this.escaleras1);
+            if(this.player.x >= this.escaleras2.x - 16 && this.player.x <= this.escaleras2.x + 16 && this.player.y > this.escaleras2.y/2)
+                onTouchEscalera(this.player, this.escaleras2);
+            if(this.player.x >= this.escaleras3.x - 16 && this.player.x <= this.escaleras3.x + 16 && this.player.y > this.escaleras3.y/2)
+                onTouchEscalera(this.player, this.escaleras3);
+            if (this.player.x <= 9) {
+                const cam = this.cameras.main;
+                cam.fade(250, 0, 0, 0);
+                cam.once("camerafadeoutcomplete", () => {
+                    this.scene.start("DungeonScene", { vidas: this.player.life, monedas: this.player.coins, buffs: this.player.buffs });
+                    this.player.destroy();
+                });
+            }
+            else if (this.player.x >= 9523) {
+                this.player.coins += 20;
+                const cam = this.cameras.main;
+                cam.fade(250, 0, 0, 0);
+                cam.once("camerafadeoutcomplete", () => {
+                    this.scene.start("DungeonScene", { vidas: this.player.life, monedas: this.player.coins, buffs: this.player.buffs });
+                    this.player.destroy();
+                });
+            }
+            else this.player.update();
+            updateLife(this.vidas, this.player.life);
         }
-        else this.player.update();
-        updateLife(this.vidas, this.player.life);
+        else {
+            updateLife(this.vidas, this.player.life);
+            this.audio.stop();
+            this.scene.launch('GameOver');
+            this.scene.pause(this);
+            let audio = this.sound.add("fin", {
+                volume: 1.5,
+              });
+            audio.play();
+            let audiofin = this.sound.add("menufin", {
+                volume: 1.5,
+                delay: 3000
+              });
+            audiofin.play();
+        }
     }
 
 
@@ -194,6 +231,12 @@ function attackPlayer(player, arma){
         player.atacado = true;
         player.life -= 1;
         player.tint = 0xff0000;
+        if(player.life >= 1){
+            let audio_atacado = this.sound.add("luigiatacado", {
+                volume: 1.5,
+            });
+            audio_atacado.play();
+            }
         this.time.addEvent({ delay: 500, callback: function(){
             player.atacado = false;
             player.tint = 0xffffff;
@@ -262,13 +305,13 @@ function updateLife(vidas, life){
             vidas.setTexture("1vida");
             break;
         default:
+            vidas.destroy();
             break;
     }
 }
 //No descomentar hasta que la capa de tierra no tenga debajo la de agua
 function gameOverPorAgua(player){
-    if(player.body.y >= 585){
-        console.log("Fin");
-        this.scene.pause(this);
+    if(player.body.y >= 580){
+        player.life = 0;
     }
 }

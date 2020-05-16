@@ -452,6 +452,10 @@ export default class Player extends Phaser.GameObjects.Sprite{
             fregona = new Fregona(this.scene, this.body.x - 22, this.body.y + 5, "fregonaiz", this);
           else fregona = new Fregona(this.scene, this.body.x - 12, this.body.y + 5, "fregonaiz", this);
           this.isAttacking = true;
+          let audio_ataque = this.scene.sound.add("atacaplayer", {
+            volume: 2,
+          });
+          audio_ataque.play();
         }
       }
       else this.body.setVelocityX(0);

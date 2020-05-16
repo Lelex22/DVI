@@ -9,6 +9,7 @@
 
 
 import GreenMapScene from "./mapaverde-scene.js";
+import GameOver from "./gameover.js";
 
 
 const config = {
@@ -18,7 +19,7 @@ const config = {
   backgroundColor: "#000",
   parent: "game-container",
   pixelArt: true,
-  scene: [ GreenMapScene ],
+  scene: [ GreenMapScene, GameOver ],
   physics: {
     default: "arcade",
     arcade: {

@@ -203,8 +203,14 @@ export default class Enemy extends Phaser.GameObjects.Sprite {
                     this.anims.play("atcder", true);
                     lastSpeed = true;
                 }
+                if(this.anims.currentFrame.index == 2 && !this.piedra){
+                    let audio_ataque = this.scene.sound.add("atacaciclope", {
+                        volume: 0.5,
+                      });
+                      audio_ataque.play();
+                }
                 //Cuando llega al ultimo frame del ataque aparece la piedra
-                if(this.anims.currentFrame.index == 11 && !this.piedra){
+                else if(this.anims.currentFrame.index == 11 && !this.piedra){
                     let piedra = new Piedra(this.scene, this.body.x, this.body.y, this, lastSpeed);
                     this.piedra = true;
                 }

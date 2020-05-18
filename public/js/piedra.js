@@ -12,7 +12,7 @@ export default class Piedra extends Phaser.GameObjects.Sprite {
         console.log(speed);
         this.body.allowGravity = false;
         this.scene.armasEnemigos.add(this);
-        this.body.setOffset(10,10);
+        this.body.setOffset(5,10);
         this.body.syncBounds = true;
     }
 

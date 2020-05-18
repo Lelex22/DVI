@@ -6,7 +6,7 @@ export default class Fregona extends Phaser.GameObjects.Sprite {
         this.duracionAtaque = 10;
         this.creacion = 0;
         this.player = player;
-        this.scene.armas.add(this);
+        this.scene.fregona.add(this);
     }
 
     preUpdate(d, t) {

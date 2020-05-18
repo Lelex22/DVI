@@ -65,6 +65,14 @@ export default class GreenMapScene extends Phaser.Scene {
             frameWidth: 26,
             frameHeight: 14
         });
+        this.load.spritesheet("escudo", "../public/assets/spritesheets/escudo.png", {
+            frameWidth: 60,
+            frameHeight: 165
+        });
+        this.load.spritesheet("escudoiz", "../public/assets/spritesheets/escudoiz.png", {
+            frameWidth: 60,
+            frameHeight: 165
+        });
         this.load.image('escaleras1', '../public/assets/tilesets/pruebanewtiles2.png');
         this.load.image('escaleras2', '../public/assets/tilesets/pruebanewtiles3.png');
         this.load.image('escaleras3', '../public/assets/tilesets/pruebanewtiles.png');
@@ -72,7 +80,6 @@ export default class GreenMapScene extends Phaser.Scene {
         this.load.tilemapTiledJSON('map', '../public/assets/tilesets/mapaVerde.json');
     }
     create() {
-        this.scene.get("Preloads");
         const map = this.make.tilemap({ key: "map" });
         let tileset = map.addTilesetImage('genaric-cartoon-charactor-sprite-png-15-original', 'mapaverde');
         //Audio
@@ -110,8 +117,12 @@ export default class GreenMapScene extends Phaser.Scene {
         tierra.setCollisionByExclusion([-1]);
         puentes.setCollisionByExclusion([-1]);
         
-        this.player = new Player(this, 10, 540, [{name: "Escudo", value: false}, {name: "Espada", value: true}, {name: "Capa", value: false}], this.lifesPlayer);
-        this.armas = this.physics.add.group({
+        this.player = new Player(this, 10, 540, [{name: "Escudo", value: true}, {name: "Espada", value: true}, {name: "Capa", value: false}], this.lifesPlayer);
+        this.fregona = this.physics.add.group({
+            immovable: true,
+            allowGravity: false
+        });
+        this.escudo = this.physics.add.group({
             immovable: true,
             allowGravity: false
         });
@@ -152,9 +163,10 @@ export default class GreenMapScene extends Phaser.Scene {
         this.physics.add.collider(this.coinsGroup, tierra);        
         this.physics.add.collider(this.player, puentes);
         this.physics.add.collider(this.armasEnemigos, tierra, colisiona, null, this);
+        this.physics.add.collider(this.escudo, this.armasEnemigos, defiende, null, this);
         this.physics.add.overlap(this.player, this.ciclopsGroup, onTouchEnemy, null, this);
         this.physics.add.overlap(this.player, this.coinsGroup, getCoin, null, this);
-        this.physics.add.overlap(this.armas, this.ciclopsGroup, attackEnemy, null, this);
+        this.physics.add.overlap(this.fregona, this.ciclopsGroup, attackEnemy, null, this);
         this.physics.add.overlap(this.armasEnemigos, this.player, attackPlayer, null, this);
         this.physics.add.overlap(this.player, agua, gameOverPorAgua, null, this);
         const camera = this.cameras.main;
@@ -214,6 +226,13 @@ export default class GreenMapScene extends Phaser.Scene {
 function colisiona(arma){
     arma.destroy();
 }
+function defiende(escudo, arma){
+    let audio_defensa = this.sound.add("defiendeplayer", {
+        volume: 2,
+    });
+    audio_defensa.play();
+    arma.destroy();
+}
 function attackEnemy(player, enemy){
     if(!enemy.atacado){
         enemy.atacado = true;
@@ -227,7 +246,7 @@ function attackEnemy(player, enemy){
     }
 }
 function attackPlayer(player, arma){
-    if(!player.atacado){
+    if(!player.atacado && !player.enemyTouch){
         player.atacado = true;
         player.life -= 1;
         player.tint = 0xff0000;
@@ -237,7 +256,7 @@ function attackPlayer(player, arma){
             });
             audio_atacado.play();
             }
-        this.time.addEvent({ delay: 500, callback: function(){
+        this.time.addEvent({ delay: 1000, callback: function(){
             player.atacado = false;
             player.tint = 0xffffff;
             },
@@ -245,25 +264,25 @@ function attackPlayer(player, arma){
     }
 }
 function onTouchEnemy(player) {
-    if(!this.player.enemyTouch && !this.player.atacado){
-        this.player.enemyTouch = true;
-        this.player.tint = 0xff0000;
-        if (this.player.body.touching.down) {
-            this.player.body.setVelocityY(-200);
-            this.player.body.setVelocityX(200);
+    if(!player.enemyTouch && !player.atacado){
+        player.enemyTouch = true;
+        player.tint = 0xff0000;
+        if (player.body.touching.down) {
+            player.body.setVelocityY(-200);
+            player.body.setVelocityX(200);
         }
-        else if (this.player.body.touching.right) {
-            this.player.body.setVelocityY(-200);
-            this.player.body.setVelocityX(200);
+        else if (player.body.touching.right) {
+            player.body.setVelocityY(-200);
+            player.body.setVelocityX(200);
         }
-        else if (this.player.body.touching.left) {
-            this.player.body.setVelocityY(-200);
-            this.player.body.setVelocityX(-200);
+        else if (player.body.touching.left) {
+            player.body.setVelocityY(-200);
+            player.body.setVelocityX(-200);
         }
         else {
-            this.player.body.setVelocityY(-200);
+            player.body.setVelocityY(-200);
         }
-        if(this.player.enemyTouch){
+        if(player.enemyTouch){
             player.life -= 1;
             this.time.addEvent({ delay: 2000, callback: function(){
                     player.tint = 0xffffff;

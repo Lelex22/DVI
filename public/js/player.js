@@ -1,5 +1,5 @@
 import Fregona from "./fregona.js";
-
+import Escudo from "./escudo.js";
 export default class Player extends Phaser.GameObjects.Sprite{
   // Orden: Escudo 0 Espada 1 Capa 2
 
@@ -14,6 +14,7 @@ export default class Player extends Phaser.GameObjects.Sprite{
     this.scene = scene;
     this.lastPosition = null;
     this.isAttacking = false;
+    this.isDefending = false;
     this.mapa = "verde";
     if(buffs === null || buffs === undefined)
       this.buffsp = [false, false, false];
@@ -375,7 +376,8 @@ export default class Player extends Phaser.GameObjects.Sprite{
     }
     //this.scene.add.existing(this);
     this.keys = scene.input.keyboard.createCursorKeys();
-    this.space = scene.input.keyboard.addKey('SPACE');
+    this.s = scene.input.keyboard.addKey('S');
+    this.a = scene.input.keyboard.addKey('A');
     function pintaBuffs(buffs){
       let ret = [];
       if(buffs[0]) ret[0] = 1;
@@ -434,7 +436,7 @@ export default class Player extends Phaser.GameObjects.Sprite{
           this.body.setVelocityY(-this.speed);
         }
       }
-      else if (Phaser.Input.Keyboard.JustDown(this.space) && this.buffs[1]["value"]) {
+      else if (Phaser.Input.Keyboard.JustDown(this.s) && this.buffs[1]["value"]) {
         if (!this.isAttacking){
           let fregona;
           this.body.setVelocityX(0);
@@ -457,6 +459,34 @@ export default class Player extends Phaser.GameObjects.Sprite{
           });
           audio_ataque.play();
         }
+      }
+      else if (Phaser.Input.Keyboard.JustDown(this.a) && this.buffs[0]["value"]) {
+          this.isDefending = true;
+          this.body.setVelocityX(0);
+          keys.right.enabled = false;
+          keys.left.enabled = false;
+          keys.up.enabled = false;
+          let escudo;
+          if(this.lastPosition.includes("escudo")){
+            let anim = this.lastPosition.replace("-escudo","");
+            this.anims.play(anim, false);
+          }
+          else this.anims.play(this.lastPosition, false);
+          if(this.lastPosition.includes("right")){
+            //if(this.lastPosition != null && (this.lastPosition.includes("capa") || this.lastPosition.includes("espada")))
+            //  fregona = new Fregona(this.scene, this.body.x + 13, this.body.y + 5, "fregona", this);
+            escudo = new Escudo(this.scene, this.body.x + 12, this.body.y + 5, "escudoiz", this);
+          }
+          // else if(this.lastPosition != null && (this.lastPosition.includes("capa") || this.lastPosition.includes("espada"))) 
+          //   fregona = new Fregona(this.scene, this.body.x - 22, this.body.y + 5, "fregonaiz", this);
+          else escudo = new Escudo(this.scene, this.body.x - 20, this.body.y + 5, "escudo", this);
+          this.isDefending = true;
+      }
+      else if(Phaser.Input.Keyboard.JustUp(this.a) && this.buffs[0]["value"]){
+        this.isDefending = false;
+        keys.right.enabled = true;
+        keys.left.enabled = true;
+        keys.up.enabled = true;
       }
       else this.body.setVelocityX(0);
       if (keys.up.isDown && this.body.onFloor()) {
@@ -605,7 +635,7 @@ export default class Player extends Phaser.GameObjects.Sprite{
       }
     }
     else {
-      if(this.lastPosition != null && !this.space.isDown && !this.isAttacking){
+      if(this.lastPosition != null && !this.s.isDown && !this.isAttacking && !this.a.isDown && !this.isDefending){
         this.anims.play(this.lastPosition, true);
       }
     }

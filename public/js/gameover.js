@@ -7,6 +7,7 @@ export default class GameOver extends Phaser.Scene {
         this.load.image("gameover", "../public/assets/imagenes/gameover.png");
         this.load.image("click", "../public/assets/imagenes/subimagengameover.png");
         this.load.image("click2", "../public/assets/imagenes/volveraempezar.png");
+        this.load.audio("bye", "../public/assets/audio/despedida.wav");
     }
     create() {
         this.add.image(400, 300, "gameover");
@@ -18,6 +19,9 @@ export default class GameOver extends Phaser.Scene {
             click.setTexture('click');
         });
         click.on("pointerup", () => {
+            this.sound.add("bye", {
+                volume: 1.5,
+            }).play();
             this.scene.start("DungeonScene", { vidas: 5, monedas: 0, buffs: null });
         });
     }

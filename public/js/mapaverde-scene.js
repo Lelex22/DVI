@@ -117,7 +117,7 @@ export default class GreenMapScene extends Phaser.Scene {
         tierra.setCollisionByExclusion([-1]);
         puentes.setCollisionByExclusion([-1]);
         
-        this.player = new Player(this, 10, 540, [{name: "Escudo", value: true}, {name: "Espada", value: true}, {name: "Capa", value: false}], this.lifesPlayer);
+        this.player = new Player(this, 10, 540, [{name: "Escudo", value: true}, {name: "Espada", value: true}, {name: "Capa", value: true}], this.lifesPlayer);
         this.fregona = this.physics.add.group({
             immovable: true,
             allowGravity: false
@@ -264,32 +264,38 @@ function attackPlayer(player, arma){
     }
 }
 function onTouchEnemy(player) {
-    if(!player.enemyTouch && !player.atacado){
-        player.enemyTouch = true;
-        player.tint = 0xff0000;
-        if (player.body.touching.down) {
-            player.body.setVelocityY(-200);
-            player.body.setVelocityX(200);
-        }
-        else if (player.body.touching.right) {
-            player.body.setVelocityY(-200);
-            player.body.setVelocityX(200);
-        }
-        else if (player.body.touching.left) {
-            player.body.setVelocityY(-200);
-            player.body.setVelocityX(-200);
-        }
-        else {
-            player.body.setVelocityY(-200);
-        }
-        if(player.enemyTouch){
-            player.life -= 1;
-            this.time.addEvent({ delay: 2000, callback: function(){
-                    player.tint = 0xffffff;
-                    player.enemyTouch = false;
-                },
-            });
+    if (player.body.touching.down) {
+        player.body.setVelocityY(-200);
+        player.body.setVelocityX(200);
+    }
+    else if (player.body.touching.right) {
+        player.body.setVelocityY(-200);
+        player.body.setVelocityX(200);
+    }
+    else if (player.body.touching.left) {
+        player.body.setVelocityY(-200);
+        player.body.setVelocityX(-200);
+    }
+    else {
+        player.body.setVelocityY(-200);
+    }
+    if(!player.buffs[2]["value"]){
+        if(!player.enemyTouch && !player.atacado){
+            player.enemyTouch = true;
+            player.tint = 0xff0000;
             
+            if(player.enemyTouch){
+                this.sound.add("luigiatacado", {
+                    volume: 1.5,
+                }).play();
+                player.life -= 1;
+                this.time.addEvent({ delay: 2000, callback: function(){
+                        player.tint = 0xffffff;
+                        player.enemyTouch = false;
+                    },
+                });
+                
+            }
         }
     }
 }

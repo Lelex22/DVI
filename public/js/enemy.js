@@ -1,4 +1,5 @@
 import Piedra from "./piedra.js";
+import Coin from "./coins.js";
 
 const stepLimit = 200;
 export default class Enemy extends Phaser.GameObjects.Sprite {
@@ -17,6 +18,7 @@ export default class Enemy extends Phaser.GameObjects.Sprite {
         this.piedra = false;
         this.mapa = mapa;
         this.maxLife = 3;
+        this.bonus = 0;
         this.tipo = tipo;
         this.lastPosition = null;
         this.body.setVelocityX(this.speed);
@@ -238,9 +240,15 @@ export default class Enemy extends Phaser.GameObjects.Sprite {
         else {
             this.anims.play("muere", true);
             this.body.enable = false;
+            
             this.scene.time.addEvent({ delay: 1000, callback: function(){
                 this.scene.ciclopsGroup.killAndHide(this);
-                
+                while(this.bonus < 5){
+                    let coin = new Coin(this.scene, this.x, 530);
+                    coin.body.bounce.x = 1; 
+                    this.scene.coinsGroup.add(coin);
+                    this.bonus++;
+                }
                 }, callbackScope: this
             });            
         }

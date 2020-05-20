@@ -203,7 +203,7 @@ export default class GreenMapScene extends Phaser.Scene {
         else {
             updateLife(this.vidas, this.player.life);
             this.audio.stop();
-            this.scene.launch('GameOver');
+            this.scene.launch('GameOver', {escena: this});
             this.scene.pause(this);
             let audio = this.sound.add("fin", {
                 volume: 1.5,

@@ -212,7 +212,7 @@ export default class DungeonScene extends Phaser.Scene {
     this.monedas = this.add.sprite(650, 20, "coin").setOrigin(0).setScrollFactor(0).setScale(1.5);
     this.textMonedas = this.add.text(690, 27, "X " + this.player.coins, { fontFamily: 'Georgia, "Goudy Bookletter 1911", Times, serif', fontSize: "30px" }).setOrigin(0).setScrollFactor(0);
     // Help text that has a "fixed" position on the screen
-    this.add.text(16, 460, `Find the shop or levels. \nBuff espada: ${this.player.buffs[1].value}. \nLife: ${this.player.life}`, {
+    this.add.text(16, 460, 'Busca la tienda o los niveles.', {
         font: "18px monospace",
         fill: "#000000",
         padding: { x: 20, y: 10 },

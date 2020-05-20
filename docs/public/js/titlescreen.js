@@ -5,10 +5,10 @@ export default class TitleScreenScene extends Phaser.Scene {
         super('TitleScreenScene');
     }
     preload(){
-        this.load.bitmapFont('nokia', '../public/assets/nokia16.png', '../public/assets/nokia16.xml');
-        this.load.image("background", '../public/img/title3.png');
-        this.load.image("background2", '../public/img/title4.png');
-        this.load.image("luigi", '../public/img/title2.png');
+        this.load.bitmapFont('nokia', '../DVI/public/assets/nokia16.png', '../DVI/public/assets/nokia16.xml');
+        this.load.image("background", '../DVI/public/img/title3.png');
+        this.load.image("background2", '../DVI/public/img/title4.png');
+        this.load.image("luigi", '../DVI/public/img/title2.png');
     }
     create(){
         this.anims.create({

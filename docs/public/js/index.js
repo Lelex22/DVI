@@ -7,9 +7,11 @@
  *      https://opengameart.org/content/a-platformer-in-the-forest
  */
 
-
+import DungeonScene from "./dungeon-scene.js";
+import ShopScene from "./ShopScene.js";
 import GreenMapScene from "./mapaverde-scene.js";
-
+import TitleScreenScene from "./titlescreen.js";
+import GameOver from "./gameover.js";
 
 const config = {
   type: Phaser.AUTO,
@@ -18,7 +20,7 @@ const config = {
   backgroundColor: "#000",
   parent: "game-container",
   pixelArt: true,
-  scene: [ GreenMapScene ],
+  scene: [ TitleScreenScene, DungeonScene, ShopScene, GreenMapScene, GameOver ],
   physics: {
     default: "arcade",
     arcade: {

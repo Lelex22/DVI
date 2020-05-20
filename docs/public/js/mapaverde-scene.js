@@ -119,7 +119,7 @@ export default class GreenMapScene extends Phaser.Scene {
         tierra.setCollisionByExclusion([-1]);
         puentes.setCollisionByExclusion([-1]);
         
-        this.player = new Player(this, 10, 540, this.buffsPlayer, this.mapa, this.lifesPlayer, this.coinsPlayer);
+        this.player = new Player(this, 10, 540, [{name: "Escudo", value: false}, {name: "Espada", value: true}, {name: "Capa", value: false}], this.mapa, this.lifesPlayer, this.coinsPlayer);
         this.fregona = this.physics.add.group({
             immovable: true,
             allowGravity: false

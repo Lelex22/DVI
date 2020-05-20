@@ -3,19 +3,19 @@ import Escudo from "./escudo.js";
 export default class Player extends Phaser.GameObjects.Sprite{
   // Orden: Escudo 0 Espada 1 Capa 2
 
-  constructor(scene, x, y, buffs, life) {
+  constructor(scene, x, y, buffs, mapa, life, coins) {
     super(scene, x, y, 'player');
     this.enemyTouch = false;
     this.atacado = false;
     this.scene.add.existing(this);
     this.scene.physics.add.existing(this);
-    this.life = 5;
+    console.log(life);
     this.speed = 400;
     this.scene = scene;
     this.lastPosition = null;
     this.isAttacking = false;
     this.isDefending = false;
-    this.mapa = "verde";
+    this.mapa = mapa;
     if(buffs === null || buffs === undefined)
       this.buffsp = [false, false, false];
     else {
@@ -24,11 +24,14 @@ export default class Player extends Phaser.GameObjects.Sprite{
       this.buffsp[1] = buffs[1]["value"];
       this.buffsp[2] = buffs[2]["value"];
     }
-    
-    this.maxLife = 5;
-    this.coins = 1000;
     this.buffs = [{name: "Escudo", value: this.buffsp[0]}, {name: "Espada", value: this.buffsp[1]}, {name: "Capa", value: this.buffsp[2]}];
-    //console.log(this.mapa);
+    if(coins === null || coins === undefined)
+        this.coins = 0;
+    else this.coins = coins;
+    if(life === null || life === undefined || life === "undefined")
+        this.life = 5;
+    else this.life = life;
+    this.maxLife = 5;
     const anims = this.scene.anims;
     this.pinta = pintaBuffs(this.buffsp);
      //Sin nada
@@ -374,7 +377,6 @@ export default class Player extends Phaser.GameObjects.Sprite{
     if(this.mapa.localeCompare("verde") === 0){
       this.body.setGravity(0,200);
     }
-    //this.scene.add.existing(this);
     this.keys = scene.input.keyboard.createCursorKeys();
     this.s = scene.input.keyboard.addKey('S');
     this.a = scene.input.keyboard.addKey('A');
@@ -414,13 +416,13 @@ export default class Player extends Phaser.GameObjects.Sprite{
       else if(keys.right.isDown){
         this.body.setVelocityX(this.speed);
       }
-      else if (keys.up.isDown) {
+      else this.body.setVelocityX(0);
+      if (keys.up.isDown) {
         this.body.setVelocityY(-this.speed);
       }
       else if (keys.down.isDown) {
         this.body.setVelocityY(this.speed);
-      }
-      else this.body.setVelocityX(0);
+      }      
     }
     else if(this.mapa.localeCompare("verde") === 0){
       if(keys.left.isDown){

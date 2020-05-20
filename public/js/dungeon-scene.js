@@ -12,7 +12,6 @@ import TilemapVisibility from "./tilemap-visibility.js";
 export default class DungeonScene extends Phaser.Scene {
   constructor() {
     super('DungeonScene');
-    this.level = 0;
     
   }
   init(data){
@@ -20,7 +19,6 @@ export default class DungeonScene extends Phaser.Scene {
       this.lifesPlayer = data.vidas;
       this.coinsPlayer = data.monedas;
       this.buffsPlayer = data.buffs;
-      console.log(this.buffsPlayer);
     }
     //else this.player = new Player(this, 0, 0);
   }
@@ -28,9 +26,17 @@ export default class DungeonScene extends Phaser.Scene {
 
   preload() {
     this.load.image("tiles", "../public/assets/tilesets/prueba2.png");
-    this.load.image("heart", "../public/img/heart.png");
+    this.load.image("5vidas", "../public/assets/imagenes/5vidas.png");
+    this.load.image("4vidas", "../public/assets/imagenes/4vidas.png");
+    this.load.image("3vidas", "../public/assets/imagenes/3vidas.png");
+    this.load.image("2vidas", "../public/assets/imagenes/2vidas.png");
+    this.load.image("1vida", "../public/assets/imagenes/1vida.png");
+    this.load.spritesheet("coin", "../public/assets/imagenes/coins.png", {
+      frameWidth: 22.8333,
+      frameHeight: 29
+    });
     this.load.spritesheet(
-      "characters",
+      "player",
       "../public/assets/spritesheets/edit1.png",
       {
         frameWidth: 33,
@@ -40,8 +46,6 @@ export default class DungeonScene extends Phaser.Scene {
   }
 
   create() {
-    
-    this.level++;
     this.hasPlayerReachedShop = false;
 
     // Generate a random world with a few extra options:
@@ -161,8 +165,8 @@ export default class DungeonScene extends Phaser.Scene {
       const cam = this.cameras.main;
       cam.fade(250, 0, 0, 0);
       cam.once("camerafadeoutcomplete", () => {
-        this.scene.start("ShopScene", {vidas: this.player.life, monedas: this.player.coins, buffs: this.player.buffs});
-        this.player.destroy();
+        this.scene.start("ShopScene", {vidas: this.player.life, monedas: this.player.coins, buffs: this.player.buffs, mapa: "tienda"});
+        this.scene.stop();
       });
     });
 
@@ -174,7 +178,7 @@ export default class DungeonScene extends Phaser.Scene {
       cam.fade(250, 0, 0, 0);
       cam.once("camerafadeoutcomplete", () => {
         this.scene.start("GreenMapScene", {vidas: this.player.life, monedas: this.player.coins, buffs: this.player.buffs, mapa:"verde"});
-        this.player.destroy();
+        this.scene.stop();
       });
     });
 
@@ -182,32 +186,31 @@ export default class DungeonScene extends Phaser.Scene {
     const playerRoom = startRoom;
     const x = map.tileToWorldX(playerRoom.centerX);
     const y = map.tileToWorldY(playerRoom.centerY);
-    this.player = this.add.existing(new Player(this, x, y, this.buffsPlayer, "no_definido"));
-    if(this.lifesPlayer && (this.coinsPlayer || this.coinsPlayer === 0) && this.buffsPlayer){
-      this.buffsPlayer.forEach(function (elem, i){
-        if(elem.value) 
-          this.player.buffs[i].value = elem.value;
-      }, this);
-      this.player.buffs = this.buffsPlayer;
-      this.player.coins = this.coinsPlayer;
-      this.player.life = this.lifesPlayer;
-    }
+    this.player = new Player(this, x, y, this.buffsPlayer, "no_definido", this.lifesPlayer, this.coinsPlayer);
+    // if(this.lifesPlayer && (this.coinsPlayer || this.coinsPlayer === 0) && this.buffsPlayer){
+    //   this.buffsPlayer.forEach(function (elem, i){
+    //     if(elem.value) 
+    //       this.player.buffs[i].value = elem.value;
+    //   }, this);
+    //   this.player.buffs = this.buffsPlayer;
+    //   this.player.coins = this.coinsPlayer;
+    //   this.player.life = this.lifesPlayer;
+    // }
     // Watch the player and tilemap layers for collisions, for the duration of the scene:
-    this.physics.add.collider(this.player.sprite, this.groundLayer);
-    this.physics.add.collider(this.player.sprite, this.stuffLayer);
+    this.physics.add.collider(this.player, this.groundLayer);
+    this.physics.add.collider(this.player, this.stuffLayer);
 
     // Phaser supports multiple cameras, but you can access the default camera like this:
     const camera = this.cameras.main;
 
     // Constrain the camera so that it isn't allowed to move outside the width/height of tilemap
     camera.setBounds(0, 0, map.widthInPixels, map.heightInPixels);
-    camera.startFollow(this.player.sprite);
+    camera.startFollow(this.player);
     /* Vidas: Se supone que ese this.life = 5 no va a ser necesario, sino que vamos
     a obtener las vidas restantes */
-    
-    for(let i = 0; i < this.player.life; i++)
-      this.add.image(32 * i + 16, 20, 'heart').setScrollFactor(0);
-    
+    this.vidas = dibujaVidas(this, this.player.life);
+    this.monedas = this.add.sprite(650, 20, "coin").setOrigin(0).setScrollFactor(0).setScale(1.5);
+    this.textMonedas = this.add.text(690, 27, "X " + this.player.coins, { fontFamily: 'Georgia, "Goudy Bookletter 1911", Times, serif', fontSize: "30px" }).setOrigin(0).setScrollFactor(0);
     // Help text that has a "fixed" position on the screen
     this.add.text(16, 460, `Find the shop or levels. \nBuff espada: ${this.player.buffs[1].value}. \nLife: ${this.player.life}`, {
         font: "18px monospace",
@@ -226,10 +229,31 @@ export default class DungeonScene extends Phaser.Scene {
 
     // Find the player's room using another helper method from the dungeon that converts from
     // dungeon XY (in grid units) to the corresponding room object
-    const playerTileX = this.groundLayer.worldToTileX(this.player.sprite.x);
-    const playerTileY = this.groundLayer.worldToTileY(this.player.sprite.y);
+    const playerTileX = this.groundLayer.worldToTileX(this.player.x);
+    const playerTileY = this.groundLayer.worldToTileY(this.player.y);
     const playerRoom = this.dungeon.getRoomAt(playerTileX, playerTileY);
 
     this.tilemapVisibility.setActiveRoom(playerRoom);
+  }
+}
+function dibujaVidas(scene, vidasPlayer){
+  switch (vidasPlayer) {
+      case 5:
+          return scene.add.sprite(16, 20, "5vidas").setOrigin(0).setScrollFactor(0);
+          break;
+      case 4:
+          return scene.add.sprite(16, 20, "4vidas").setOrigin(0).setScrollFactor(0);
+          break;
+      case 3:
+          return scene.add.sprite(16, 20, "3vidas").setOrigin(0).setScrollFactor(0);
+          break;
+      case 2:
+          return scene.add.sprite(16, 20, "2vidas").setOrigin(0).setScrollFactor(0);
+          break;
+      case 1:
+          return scene.add.sprite(16, 20, "1vida").setOrigin(0).setScrollFactor(0);
+          break;
+      default:
+          break;
   }
 }

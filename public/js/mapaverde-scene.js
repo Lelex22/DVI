@@ -18,6 +18,7 @@ export default class GreenMapScene extends Phaser.Scene {
     }
 
     init(data) {
+        console.log(data);
         if (data !== null) {
             this.lifesPlayer = data.vidas;
             this.coinsPlayer = data.monedas;
@@ -77,10 +78,11 @@ export default class GreenMapScene extends Phaser.Scene {
         this.load.image('escaleras2', '../public/assets/tilesets/pruebanewtiles3.png');
         this.load.image('escaleras3', '../public/assets/tilesets/pruebanewtiles.png');
         this.load.image('mapaverde', '../public/assets/tilesets/genaric-cartoon-charactor-sprite-png-15-original.png');
-        this.load.tilemapTiledJSON('map', '../public/assets/tilesets/mapaVerde.json');
+        this.load.tilemapTiledJSON('map1', '../public/assets/tilesets/mapaVerde.json');
     }
     create() {
-        const map = this.make.tilemap({ key: "map" });
+        this.bonusFin = false;
+        const map = this.make.tilemap({ key: "map1" });
         let tileset = map.addTilesetImage('genaric-cartoon-charactor-sprite-png-15-original', 'mapaverde');
         //Audio
         const config = {
@@ -117,7 +119,7 @@ export default class GreenMapScene extends Phaser.Scene {
         tierra.setCollisionByExclusion([-1]);
         puentes.setCollisionByExclusion([-1]);
         
-        this.player = new Player(this, 10, 540, [{name: "Escudo", value: true}, {name: "Espada", value: true}, {name: "Capa", value: true}], this.lifesPlayer);
+        this.player = new Player(this, 10, 540, this.buffsPlayer, this.mapa, this.lifesPlayer, this.coinsPlayer);
         this.fregona = this.physics.add.group({
             immovable: true,
             allowGravity: false
@@ -144,17 +146,8 @@ export default class GreenMapScene extends Phaser.Scene {
                 }
             }
         }
-        if (this.lifesPlayer && (this.coinsPlayer || this.coinsPlayer === 0) && this.buffsPlayer) {
-            this.buffsPlayer.forEach(function (elem, i) {
-                if (elem.value)
-                    this.player.buffs[i].value = elem.value;
-            }, this);
-            this.player.buffs = this.buffsPlayer;
-            this.player.coins = this.coinsPlayer;
-            this.player.life = this.lifesPlayer;
-        }
-        this.vidas = this.add.sprite(16, 20, "5vidas").setOrigin(0).setScrollFactor(0);
-        this.vidas.setTexture("5vidas");
+        this.vidas = dibujaVidas(this,this.player.life);
+        
         this.monedas = this.add.sprite(650, 20, "coin").setOrigin(0).setScrollFactor(0).setScale(1.5);
         this.text = this.add.text(690, 27, "X " + this.player.coins, { fontFamily: 'Georgia, "Goudy Bookletter 1911", Times, serif', fontSize: "30px" }).setOrigin(0).setScrollFactor(0);
         this.physics.add.collider(this.player, tierra);
@@ -189,16 +182,19 @@ export default class GreenMapScene extends Phaser.Scene {
                 cam.fade(250, 0, 0, 0);
                 cam.once("camerafadeoutcomplete", () => {
                     this.scene.start("DungeonScene", { vidas: this.player.life, monedas: this.player.coins, buffs: this.player.buffs });
-                    this.player.destroy();
+                    this.scene.stop();
                 });
             }
             else if (this.player.x >= 9523) {
-                this.player.coins += 20;
+                if(!this.bonusFin){
+                    this.bonusFin = true;
+                    this.player.coins += 20;
+                }
                 const cam = this.cameras.main;
                 cam.fade(250, 0, 0, 0);
                 cam.once("camerafadeoutcomplete", () => {
                     this.scene.start("DungeonScene", { vidas: this.player.life, monedas: this.player.coins, buffs: this.player.buffs });
-                    this.player.destroy();
+                    this.scene.stop();
                 });
             }
             else this.player.update();
@@ -311,7 +307,27 @@ function getCoin(player, coin){
     player.coins += 1;
     this.text.setText("X " + player.coins);
 }
-
+function dibujaVidas(scene, vidasPlayer){
+    switch (vidasPlayer) {
+        case 5:
+            return scene.add.sprite(16, 20, "5vidas").setOrigin(0).setScrollFactor(0);
+            break;
+        case 4:
+            return scene.add.sprite(16, 20, "4vidas").setOrigin(0).setScrollFactor(0);
+            break;
+        case 3:
+            return scene.add.sprite(16, 20, "3vidas").setOrigin(0).setScrollFactor(0);
+            break;
+        case 2:
+            return scene.add.sprite(16, 20, "2vidas").setOrigin(0).setScrollFactor(0);
+            break;
+        case 1:
+            return scene.add.sprite(16, 20, "1vida").setOrigin(0).setScrollFactor(0);
+            break;
+        default:
+            break;
+    }
+  }
 function updateLife(vidas, life){
     switch (life) {
         case 5:

@@ -15,6 +15,9 @@ export default class Player extends Phaser.GameObjects.Sprite{
     this.lastPosition = null;
     this.isAttacking = false;
     this.isDefending = false;
+    this.escaleras = false;
+    this.yEscalera = null;
+    this.xEscalera = null;
     this.mapa = mapa;
     if(buffs === null || buffs === undefined)
       this.buffsp = [false, false, false];
@@ -97,13 +100,6 @@ export default class Player extends Phaser.GameObjects.Sprite{
       else if(keys.right.isDown){
         this.body.setVelocityX(this.speed/2);
       }
-
-      else if(this.escaleras){
-        this.body.setGravity(0,0);
-        if (keys.up.isDown) {
-          this.body.setVelocityY(-this.speed);
-        }
-      }
       else if (Phaser.Input.Keyboard.JustDown(this.s) && this.buffs[1]["value"]) {
         if (!this.isAttacking){
           let fregona;
@@ -157,8 +153,22 @@ export default class Player extends Phaser.GameObjects.Sprite{
         keys.up.enabled = true;
       }
       else this.body.setVelocityX(0);
-      if (keys.up.isDown && this.body.onFloor()) {
+      if (keys.up.isDown && this.body.onFloor() && !this.escaleras) {
+        this.body.setGravity(0,200);
         this.body.setVelocityY(-this.speed);
+        //this.anims.play(this.lastPosition, true);
+      }
+      else if(this.escaleras){
+        this.body.setGravity(0,0);
+        this.anims.play("up", true);
+        if (keys.up.isDown) {
+          if(this.y <= this.yEscalera/2 - 10 && this.x <= this.xEscalera + 16 && this.x >= this.xEscalera - 16){
+              this.body.setVelocityY(this.speed/2);
+          }
+          else{
+            this.body.setVelocityY(-this.speed/2);
+          }
+        }
       }
     }
   

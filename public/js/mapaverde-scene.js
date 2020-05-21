@@ -110,13 +110,6 @@ export default class GreenMapScene extends Phaser.Scene {
             this.coinsGroup.add(coin);
         }
         for (const objeto of map.getObjectLayer('Objects').objects) {
-            if (objeto.type.localeCompare("ciclope") === 0) {
-                let enemigo = new Enemy(this, objeto.x, objeto.y, "verde", objeto.type);
-                enemigo.body.bounce.x = 1;
-                this.ciclopsGroup.add(enemigo);
-            }
-        }
-        for (const objeto of map.getObjectLayer('Objects').objects) {
             if(objeto.type.localeCompare("ciclope") !== 0) {
                 if(objeto.name.localeCompare("escaleras1") === 0){
                     this.escaleras1 = this.add.image(objeto.x, objeto.y, objeto.name);
@@ -130,6 +123,15 @@ export default class GreenMapScene extends Phaser.Scene {
                 }
             }
         }
+
+        for (const objeto of map.getObjectLayer('Objects').objects) {
+            if (objeto.type.localeCompare("ciclope") === 0) {
+                let enemigo = new Enemy(this, objeto.x, objeto.y, "verde", objeto.type);
+                enemigo.body.bounce.x = 1;
+                this.ciclopsGroup.add(enemigo);
+            }
+        }
+        
         tierra.setCollisionByExclusion([-1]);
         puentes.setCollisionByExclusion([-1]);
         
@@ -184,6 +186,8 @@ export default class GreenMapScene extends Phaser.Scene {
                 cam.fade(250, 0, 0, 0);
                 cam.once("camerafadeoutcomplete", () => {
                     this.scene.start("DungeonScene", { vidas: this.player.life, monedas: this.player.coins, buffs: this.player.buffs });
+                    this.sound.removeByKey("audio_mapaverde");
+                    this.audio = null;
                     this.scene.stop();
                 });
             }
@@ -196,6 +200,8 @@ export default class GreenMapScene extends Phaser.Scene {
                 cam.fade(250, 0, 0, 0);
                 cam.once("camerafadeoutcomplete", () => {
                     this.scene.start("DungeonScene", { vidas: this.player.life, monedas: this.player.coins, buffs: this.player.buffs });
+                    this.sound.removeByKey("audio_mapaverde");
+                    this.audio = null;
                     this.scene.stop();
                 });
             }
@@ -259,6 +265,7 @@ function attackPlayer(player, arma){
             player.tint = 0xffffff;
             },
         });
+        arma.destroy();
     }
 }
 function onTouchEnemy(player) {

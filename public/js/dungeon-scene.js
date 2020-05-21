@@ -25,6 +25,8 @@ export default class DungeonScene extends Phaser.Scene {
   
 
   preload() {
+    this.load.audio("mazmorra", "../public/assets/audio/dungeon.mp3");
+    this.load.audio("letsgo", "../public/assets/audio/letsgo.wav");
     this.load.image("tiles", "../public/assets/tilesets/prueba2.png");
     this.load.image("5vidas", "../public/assets/imagenes/5vidas.png");
     this.load.image("4vidas", "../public/assets/imagenes/4vidas.png");
@@ -46,8 +48,25 @@ export default class DungeonScene extends Phaser.Scene {
   }
 
   create() {
+    //Audio
+    const config = {
+      mute: false,
+      volume: 0.5,
+      rate: 1,
+      detune: 0,
+      seek: 0,
+      loop: true,
+      delay: 0
+    };
+    if(this.backgroundsong === null || this.backgroundsong === undefined)
+      this.backgroundsong = this.sound.add("mazmorra", config);
+    if(this.backgroundsong !== null && this.backgroundsong !== undefined && !this.backgroundsong.isPlaying)
+        this.backgroundsong.play();
     this.hasPlayerReachedShop = false;
-
+    let audio = this.sound.add("letsgo", {
+      volume: 1.5,
+    });
+    
     // Generate a random world with a few extra options:
     //  - Rooms should only have odd number dimensions so that they have a center tile.
     //  - Doors should be at least 2 tiles away from corners, so that we can place a corner tile on
@@ -159,6 +178,7 @@ export default class DungeonScene extends Phaser.Scene {
     this.stuffLayer.setCollisionByExclusion([-1, 4, 12]);
 
     this.stuffLayer.setTileIndexCallback(TILES.SHOP, () => {
+      audio.play();
       this.stuffLayer.setTileIndexCallback(TILES.SHOP, null);
       this.hasPlayerReachedShop = true;
       this.player.freeze();
@@ -171,6 +191,7 @@ export default class DungeonScene extends Phaser.Scene {
     });
 
     this.stuffLayer.setTileIndexCallback(TILES.MAPAVERDE, () => {
+      audio.play();
       this.stuffLayer.setTileIndexCallback(TILES.MAPAVERDE, null);
       this.hasPlayerReachedShop = true;
       this.player.freeze();
@@ -178,24 +199,17 @@ export default class DungeonScene extends Phaser.Scene {
       cam.fade(250, 0, 0, 0);
       cam.once("camerafadeoutcomplete", () => {
         this.scene.start("GreenMapScene", {vidas: this.player.life, monedas: this.player.coins, buffs: this.player.buffs, mapa:"verde"});
+        this.sound.removeByKey("mazmorra");
+        this.backgroundsong = null;
         this.scene.stop();
       });
     });
-
+    
     // Place the player in the first room
     const playerRoom = startRoom;
     const x = map.tileToWorldX(playerRoom.centerX);
     const y = map.tileToWorldY(playerRoom.centerY);
     this.player = new Player(this, x, y, this.buffsPlayer, "no_definido", this.lifesPlayer, this.coinsPlayer);
-    // if(this.lifesPlayer && (this.coinsPlayer || this.coinsPlayer === 0) && this.buffsPlayer){
-    //   this.buffsPlayer.forEach(function (elem, i){
-    //     if(elem.value) 
-    //       this.player.buffs[i].value = elem.value;
-    //   }, this);
-    //   this.player.buffs = this.buffsPlayer;
-    //   this.player.coins = this.coinsPlayer;
-    //   this.player.life = this.lifesPlayer;
-    // }
     // Watch the player and tilemap layers for collisions, for the duration of the scene:
     this.physics.add.collider(this.player, this.groundLayer);
     this.physics.add.collider(this.player, this.stuffLayer);

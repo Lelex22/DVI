@@ -20,7 +20,7 @@ const config = {
   backgroundColor: "#000",
   parent: "game-container",
   pixelArt: true,
-  scene: [ TitleScreenScene, DungeonScene, ShopScene, GreenMapScene, GameOver ],
+  scene: [ GreenMapScene, GameOver ],
   physics: {
     default: "arcade",
     arcade: {

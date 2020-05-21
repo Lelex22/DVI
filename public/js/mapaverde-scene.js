@@ -116,6 +116,20 @@ export default class GreenMapScene extends Phaser.Scene {
                 this.ciclopsGroup.add(enemigo);
             }
         }
+        for (const objeto of map.getObjectLayer('Objects').objects) {
+            if(objeto.type.localeCompare("ciclope") !== 0) {
+                if(objeto.name.localeCompare("escaleras1") === 0){
+                    this.escaleras1 = this.add.image(objeto.x, objeto.y, objeto.name);
+                    console.log(this.escaleras1);
+                }
+                else if(objeto.name.localeCompare("escaleras2") === 0){
+                    this.escaleras2 = this.add.image(objeto.x, objeto.y, objeto.name);
+                }
+                else if(objeto.name.localeCompare("escaleras3") === 0){
+                    this.escaleras3 = this.add.image(objeto.x, objeto.y, objeto.name);
+                }
+            }
+        }
         tierra.setCollisionByExclusion([-1]);
         puentes.setCollisionByExclusion([-1]);
         
@@ -132,20 +146,7 @@ export default class GreenMapScene extends Phaser.Scene {
             immovable: true,
             allowGravity: false
         });
-        for (const objeto of map.getObjectLayer('Objects').objects) {
-            if(objeto.type.localeCompare("ciclope") !== 0) {
-                if(objeto.name.localeCompare("escaleras1") === 0){
-                    this.escaleras1 = this.add.image(objeto.x, objeto.y, objeto.name);
-                    console.log(this.escaleras1);
-                }
-                else if(objeto.name.localeCompare("escaleras2") === 0){
-                    this.escaleras2 = this.add.image(objeto.x, objeto.y, objeto.name);
-                }
-                else if(objeto.name.localeCompare("escaleras3") === 0){
-                    this.escaleras3 = this.add.image(objeto.x, objeto.y, objeto.name);
-                }
-            }
-        }
+        
         this.vidas = dibujaVidas(this,this.player.life);
         
         this.monedas = this.add.sprite(650, 20, "coin").setOrigin(0).setScrollFactor(0).setScale(1.5);
@@ -173,10 +174,11 @@ export default class GreenMapScene extends Phaser.Scene {
         if(this.player.life > 0){
             if(this.player.x >= this.escaleras1.x - 25 && this.player.x <= this.escaleras1.x + 25 && this.player.y > this.escaleras1.y/2)
                 onTouchEscalera(this.player, this.escaleras1);
-            if(this.player.x >= this.escaleras2.x - 16 && this.player.x <= this.escaleras2.x + 16 && this.player.y > this.escaleras2.y/2)
+            else if(this.player.x >= this.escaleras2.x - 16 && this.player.x <= this.escaleras2.x + 16 && this.player.y > this.escaleras2.y/2)
                 onTouchEscalera(this.player, this.escaleras2);
-            if(this.player.x >= this.escaleras3.x - 16 && this.player.x <= this.escaleras3.x + 16 && this.player.y > this.escaleras3.y/2)
+            else if(this.player.x >= this.escaleras3.x - 16 && this.player.x <= this.escaleras3.x + 16 && this.player.y > this.escaleras3.y/2)
                 onTouchEscalera(this.player, this.escaleras3);
+            else this.player.escaleras = false;
             if (this.player.x <= 9) {
                 const cam = this.cameras.main;
                 cam.fade(250, 0, 0, 0);
@@ -296,10 +298,9 @@ function onTouchEnemy(player) {
     }
 }
 function onTouchEscalera(player,escalera) {
-    if(player.y <= escalera.y/2){
-        player.body.setVelocityY(player.speed);
-    }
-    else player.body.setVelocityY(-player.speed);
+    player.escaleras = true;
+    player.yEscalera = escalera.y;
+    player.xEscalera = escalera.x;
 }
 function getCoin(player, coin){
     this.coinsGroup.killAndHide(coin);

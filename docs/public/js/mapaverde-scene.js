@@ -26,60 +26,7 @@ export default class GreenMapScene extends Phaser.Scene {
             this.mapa = data.mapa;
         }
     }
-    preload() {
-        //Audio mapa verde
-        this.load.audio("audio_mapaverde", "../DVI/public/assets/audio/mapaverde.mp3");
-        //Audios 
-        this.load.audio("atacaplayer", "../DVI/public/assets/audio/atacaplayer.mp3");
-        this.load.audio("defiendeplayer", "../DVI/public/assets/audio/defiendeplayer.mp3");
-        this.load.audio("atacaciclope", "../DVI/public/assets/audio/atacaciclope.wav");
-        this.load.audio("luigiatacado", "../DVI/public/assets/audio/luigiatacado.wav");
-        this.load.audio("menufin", "../DVI/public/assets/audio/menufin.mp3");
-        this.load.audio("fin", "../DVI/public/assets/audio/fin.wav");
-        this.load.image("5vidas", "../DVI/public/assets/imagenes/5vidas.png");
-        this.load.image("4vidas", "../DVI/public/assets/imagenes/4vidas.png");
-        this.load.image("3vidas", "../DVI/public/assets/imagenes/3vidas.png");
-        this.load.image("2vidas", "../DVI/public/assets/imagenes/2vidas.png");
-        this.load.image("1vida", "../DVI/public/assets/imagenes/1vida.png");
-        this.load.image("piedra", "../DVI/public/assets/imagenes/piedra.png");
-        this.load.spritesheet(
-            "player",
-            "../DVI/public/assets/spritesheets/edit1.png",
-            {
-                frameWidth: 33,
-                frameHeight: 24
-            }
-        );
-        this.load.spritesheet("ciclope", "../DVI/public/assets/spritesheets/Cyclops Sprite Sheet.png", {
-            frameWidth: 64,
-            frameHeight: 64
-        });
-        this.load.spritesheet("coin", "../DVI/public/assets/imagenes/coins.png", {
-            frameWidth: 22.8333,
-            frameHeight: 29
-        });
-        this.load.spritesheet("fregona", "../DVI/public/assets/spritesheets/fregona.png", {
-            frameWidth: 26,
-            frameHeight: 14
-        });
-        this.load.spritesheet("fregonaiz", "../DVI/public/assets/spritesheets/fregonaiz.png", {
-            frameWidth: 26,
-            frameHeight: 14
-        });
-        this.load.spritesheet("escudo", "../DVI/public/assets/spritesheets/escudo.png", {
-            frameWidth: 60,
-            frameHeight: 165
-        });
-        this.load.spritesheet("escudoiz", "../DVI/public/assets/spritesheets/escudoiz.png", {
-            frameWidth: 60,
-            frameHeight: 165
-        });
-        this.load.image('escaleras1', '../DVI/public/assets/tilesets/pruebanewtiles2.png');
-        this.load.image('escaleras2', '../DVI/public/assets/tilesets/pruebanewtiles3.png');
-        this.load.image('escaleras3', '../DVI/public/assets/tilesets/pruebanewtiles.png');
-        this.load.image('mapaverde', '../DVI/public/assets/tilesets/genaric-cartoon-charactor-sprite-png-15-original.png');
-        this.load.tilemapTiledJSON('map1', '../DVI/public/assets/tilesets/mapaVerde.json');
-    }
+    preload() {}
     create() {
         this.bonusFin = false;
         const map = this.make.tilemap({ key: "map1" });
@@ -110,29 +57,6 @@ export default class GreenMapScene extends Phaser.Scene {
             this.coinsGroup.add(coin);
         }
         for (const objeto of map.getObjectLayer('Objects').objects) {
-            if (objeto.type.localeCompare("ciclope") === 0) {
-                let enemigo = new Enemy(this, objeto.x, objeto.y, "verde", objeto.type);
-                enemigo.body.bounce.x = 1;
-                this.ciclopsGroup.add(enemigo);
-            }
-        }
-        tierra.setCollisionByExclusion([-1]);
-        puentes.setCollisionByExclusion([-1]);
-        
-        this.player = new Player(this, 10, 540, [{name: "Escudo", value: false}, {name: "Espada", value: true}, {name: "Capa", value: false}], this.mapa, this.lifesPlayer, this.coinsPlayer);
-        this.fregona = this.physics.add.group({
-            immovable: true,
-            allowGravity: false
-        });
-        this.escudo = this.physics.add.group({
-            immovable: true,
-            allowGravity: false
-        });
-        this.armasEnemigos = this.physics.add.group({
-            immovable: true,
-            allowGravity: false
-        });
-        for (const objeto of map.getObjectLayer('Objects').objects) {
             if(objeto.type.localeCompare("ciclope") !== 0) {
                 if(objeto.name.localeCompare("escaleras1") === 0){
                     this.escaleras1 = this.add.image(objeto.x, objeto.y, objeto.name);
@@ -146,6 +70,32 @@ export default class GreenMapScene extends Phaser.Scene {
                 }
             }
         }
+
+        for (const objeto of map.getObjectLayer('Objects').objects) {
+            if (objeto.type.localeCompare("ciclope") === 0) {
+                let enemigo = new Enemy(this, objeto.x, objeto.y, "verde", objeto.type);
+                enemigo.body.bounce.x = 1;
+                this.ciclopsGroup.add(enemigo);
+            }
+        }
+        
+        tierra.setCollisionByExclusion([-1]);
+        puentes.setCollisionByExclusion([-1]);
+        
+        this.player = new Player(this, 10, 540, this.buffsPlayer, this.mapa, this.lifesPlayer, this.coinsPlayer);
+        this.fregona = this.physics.add.group({
+            immovable: true,
+            allowGravity: false
+        });
+        this.escudo = this.physics.add.group({
+            immovable: true,
+            allowGravity: false
+        });
+        this.armasEnemigos = this.physics.add.group({
+            immovable: true,
+            allowGravity: false
+        });
+        
         this.vidas = dibujaVidas(this,this.player.life);
         
         this.monedas = this.add.sprite(650, 20, "coin").setOrigin(0).setScrollFactor(0).setScale(1.5);
@@ -173,15 +123,18 @@ export default class GreenMapScene extends Phaser.Scene {
         if(this.player.life > 0){
             if(this.player.x >= this.escaleras1.x - 25 && this.player.x <= this.escaleras1.x + 25 && this.player.y > this.escaleras1.y/2)
                 onTouchEscalera(this.player, this.escaleras1);
-            if(this.player.x >= this.escaleras2.x - 16 && this.player.x <= this.escaleras2.x + 16 && this.player.y > this.escaleras2.y/2)
+            else if(this.player.x >= this.escaleras2.x - 16 && this.player.x <= this.escaleras2.x + 16 && this.player.y > this.escaleras2.y/2)
                 onTouchEscalera(this.player, this.escaleras2);
-            if(this.player.x >= this.escaleras3.x - 16 && this.player.x <= this.escaleras3.x + 16 && this.player.y > this.escaleras3.y/2)
+            else if(this.player.x >= this.escaleras3.x - 16 && this.player.x <= this.escaleras3.x + 16 && this.player.y > this.escaleras3.y/2)
                 onTouchEscalera(this.player, this.escaleras3);
+            else this.player.escaleras = false;
             if (this.player.x <= 9) {
                 const cam = this.cameras.main;
                 cam.fade(250, 0, 0, 0);
                 cam.once("camerafadeoutcomplete", () => {
                     this.scene.start("DungeonScene", { vidas: this.player.life, monedas: this.player.coins, buffs: this.player.buffs });
+                    this.sound.removeByKey("audio_mapaverde");
+                    this.audio = null;
                     this.scene.stop();
                 });
             }
@@ -194,6 +147,8 @@ export default class GreenMapScene extends Phaser.Scene {
                 cam.fade(250, 0, 0, 0);
                 cam.once("camerafadeoutcomplete", () => {
                     this.scene.start("DungeonScene", { vidas: this.player.life, monedas: this.player.coins, buffs: this.player.buffs });
+                    this.sound.removeByKey("audio_mapaverde");
+                    this.audio = null;
                     this.scene.stop();
                 });
             }
@@ -257,6 +212,7 @@ function attackPlayer(player, arma){
             player.tint = 0xffffff;
             },
         });
+        arma.destroy();
     }
 }
 function onTouchEnemy(player) {
@@ -296,10 +252,9 @@ function onTouchEnemy(player) {
     }
 }
 function onTouchEscalera(player,escalera) {
-    if(player.y <= escalera.y/2){
-        player.body.setVelocityY(player.speed);
-    }
-    else player.body.setVelocityY(-player.speed);
+    player.escaleras = true;
+    player.yEscalera = escalera.y;
+    player.xEscalera = escalera.x;
 }
 function getCoin(player, coin){
     this.coinsGroup.killAndHide(coin);
@@ -352,7 +307,7 @@ function updateLife(vidas, life){
 }
 //No descomentar hasta que la capa de tierra no tenga debajo la de agua
 function gameOverPorAgua(player){
-    if(player.body.y >= 580){
+    if(player.body.y >= 580 || player.y >= 580){
         player.life = 0;
     }
 }

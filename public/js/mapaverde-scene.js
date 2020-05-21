@@ -26,60 +26,7 @@ export default class GreenMapScene extends Phaser.Scene {
             this.mapa = data.mapa;
         }
     }
-    preload() {
-        //Audio mapa verde
-        this.load.audio("audio_mapaverde", "../public/assets/audio/mapaverde.mp3");
-        //Audios 
-        this.load.audio("atacaplayer", "../public/assets/audio/atacaplayer.mp3");
-        this.load.audio("defiendeplayer", "../public/assets/audio/defiendeplayer.mp3");
-        this.load.audio("atacaciclope", "../public/assets/audio/atacaciclope.wav");
-        this.load.audio("luigiatacado", "../public/assets/audio/luigiatacado.wav");
-        this.load.audio("menufin", "../public/assets/audio/menufin.mp3");
-        this.load.audio("fin", "../public/assets/audio/fin.wav");
-        this.load.image("5vidas", "../public/assets/imagenes/5vidas.png");
-        this.load.image("4vidas", "../public/assets/imagenes/4vidas.png");
-        this.load.image("3vidas", "../public/assets/imagenes/3vidas.png");
-        this.load.image("2vidas", "../public/assets/imagenes/2vidas.png");
-        this.load.image("1vida", "../public/assets/imagenes/1vida.png");
-        this.load.image("piedra", "../public/assets/imagenes/piedra.png");
-        this.load.spritesheet(
-            "player",
-            "../public/assets/spritesheets/edit1.png",
-            {
-                frameWidth: 33,
-                frameHeight: 24
-            }
-        );
-        this.load.spritesheet("ciclope", "../public/assets/spritesheets/Cyclops Sprite Sheet.png", {
-            frameWidth: 64,
-            frameHeight: 64
-        });
-        this.load.spritesheet("coin", "../public/assets/imagenes/coins.png", {
-            frameWidth: 22.8333,
-            frameHeight: 29
-        });
-        this.load.spritesheet("fregona", "../public/assets/spritesheets/fregona.png", {
-            frameWidth: 26,
-            frameHeight: 14
-        });
-        this.load.spritesheet("fregonaiz", "../public/assets/spritesheets/fregonaiz.png", {
-            frameWidth: 26,
-            frameHeight: 14
-        });
-        this.load.spritesheet("escudo", "../public/assets/spritesheets/escudo.png", {
-            frameWidth: 60,
-            frameHeight: 165
-        });
-        this.load.spritesheet("escudoiz", "../public/assets/spritesheets/escudoiz.png", {
-            frameWidth: 60,
-            frameHeight: 165
-        });
-        this.load.image('escaleras1', '../public/assets/tilesets/pruebanewtiles2.png');
-        this.load.image('escaleras2', '../public/assets/tilesets/pruebanewtiles3.png');
-        this.load.image('escaleras3', '../public/assets/tilesets/pruebanewtiles.png');
-        this.load.image('mapaverde', '../public/assets/tilesets/genaric-cartoon-charactor-sprite-png-15-original.png');
-        this.load.tilemapTiledJSON('map1', '../public/assets/tilesets/mapaVerde.json');
-    }
+    preload() {}
     create() {
         this.bonusFin = false;
         const map = this.make.tilemap({ key: "map1" });
@@ -360,7 +307,7 @@ function updateLife(vidas, life){
 }
 //No descomentar hasta que la capa de tierra no tenga debajo la de agua
 function gameOverPorAgua(player){
-    if(player.body.y >= 580){
+    if(player.body.y >= 580 || player.y >= 580){
         player.life = 0;
     }
 }

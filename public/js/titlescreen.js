@@ -4,13 +4,9 @@ export default class TitleScreenScene extends Phaser.Scene {
     {
         super('TitleScreenScene');
     }
-    preload(){
-        this.load.bitmapFont('nokia', '../public/assets/nokia16.png', '../public/assets/nokia16.xml');
-        this.load.image("background", '../public/img/title3.png');
-        this.load.image("background2", '../public/img/title4.png');
-        this.load.image("luigi", '../public/img/title2.png');
-    }
+    preload(){}
     create(){
+        this.carga = this.scene.get('Preloads');        
         this.anims.create({
             key: "run",
             frames: [
@@ -24,11 +20,9 @@ export default class TitleScreenScene extends Phaser.Scene {
         this.background = this.add.sprite(400, 300, 'background').play('run');
         this.add.image(400, 300, 'luigi');
         this.add.dynamicBitmapText(100, 100, 'nokia', 'Zelgui', 128).setScrollFactor(0);
-        this.add.dynamicBitmapText(30, 500, 'nokia', 'Pulsa ENTER para iniciar', 30).setScrollFactor(0);
-        
+        this.add.dynamicBitmapText(30, 500, 'nokia', 'Pulsa ENTER para iniciar', 30).setScrollFactor(0);        
     }
-    update(){
-        
+    update(){        
         this.background.anims.play("run", true);
         if(this.key.isDown){
             this.scene.start("DungeonScene");

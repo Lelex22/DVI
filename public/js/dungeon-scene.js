@@ -24,30 +24,10 @@ export default class DungeonScene extends Phaser.Scene {
   }
   
 
-  preload() {
-    this.load.audio("mazmorra", "../public/assets/audio/dungeon.mp3");
-    this.load.audio("letsgo", "../public/assets/audio/letsgo.wav");
-    this.load.image("tiles", "../public/assets/tilesets/prueba2.png");
-    this.load.image("5vidas", "../public/assets/imagenes/5vidas.png");
-    this.load.image("4vidas", "../public/assets/imagenes/4vidas.png");
-    this.load.image("3vidas", "../public/assets/imagenes/3vidas.png");
-    this.load.image("2vidas", "../public/assets/imagenes/2vidas.png");
-    this.load.image("1vida", "../public/assets/imagenes/1vida.png");
-    this.load.spritesheet("coin", "../public/assets/imagenes/coins.png", {
-      frameWidth: 22.8333,
-      frameHeight: 29
-    });
-    this.load.spritesheet(
-      "player",
-      "../public/assets/spritesheets/edit1.png",
-      {
-        frameWidth: 33,
-        frameHeight: 24
-      }
-    );
-  }
+  preload() {}
 
   create() {
+    this.carga = this.scene.get("Preloads");
     //Audio
     const config = {
       mute: false,

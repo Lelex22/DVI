@@ -16,6 +16,7 @@ export default class Preloads extends Phaser.Scene {
         this.load.image("3vidas", "../public/assets/imagenes/3vidas.png");
         this.load.image("2vidas", "../public/assets/imagenes/2vidas.png");
         this.load.image("1vida", "../public/assets/imagenes/1vida.png");
+        this.load.image("lavabackground", "../public/assets/tilesets/Background (5).png");
         this.load.spritesheet("coin", "../public/assets/imagenes/coins.png", {
         frameWidth: 22.8333,
         frameHeight: 29
@@ -39,13 +40,14 @@ export default class Preloads extends Phaser.Scene {
         this.load.audio("menufin", "../public/assets/audio/menufin.mp3");
         this.load.audio("fin", "../public/assets/audio/fin.wav");
         this.load.image("piedra", "../public/assets/imagenes/piedra.png");
+        this.load.image("smash", "../public/assets/imagenes/smash.png");
         this.load.spritesheet("ciclope", "../public/assets/spritesheets/Cyclops Sprite Sheet.png", {
             frameWidth: 64,
             frameHeight: 64
         });
         this.load.spritesheet("vikingos", "../public/assets/spritesheets/enemigo.png", {
             frameWidth: 32,
-            frameHeight: 40
+            frameHeight: 32
         });
         this.load.spritesheet("fregona", "../public/assets/spritesheets/fregona.png", {
             frameWidth: 26,

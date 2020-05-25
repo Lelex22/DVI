@@ -45,9 +45,9 @@ export default class LavaMapScene extends Phaser.Scene {
         this.audio = this.sound.add("audio_mapaverde", config);
 		this.audio.play();
         //Capas
+        this.add.image(8000, 300, "lavabackground");
         const cielo = map2.createStaticLayer("cielo", tileset, 0, 0);
         const lava = map2.createStaticLayer("lava", tileset, 0, 0);
-        const objetos = map2.createStaticLayer("Objetos", tileset, 0, 0);
         const tierra = map2.createStaticLayer("Tierra", tileset, 0, 0);
         this.vikingsGroup = this.physics.add.group();
         this.lifeGroup = this.physics.add.group();
@@ -102,7 +102,6 @@ export default class LavaMapScene extends Phaser.Scene {
     }
 
     update() {
-        console.log(this.player.x);
         if(this.player.life > 0){
             if (this.player.x <= 9) {
                 const cam = this.cameras.main;
@@ -114,7 +113,7 @@ export default class LavaMapScene extends Phaser.Scene {
                     this.scene.stop();
                 });
             }
-            else if (this.player.x >= 15523) {
+            else if (this.player.x >= 15990) {
                 if(!this.bonusFin){
                     this.bonusFin = true;
                     this.player.coins += 20;

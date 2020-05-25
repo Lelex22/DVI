@@ -1,4 +1,4 @@
-import Piedra from "./piedra.js";
+import Smash from "./smash.js";
 import Coin from "./coins.js";
 
 const stepLimit = 200;
@@ -15,7 +15,7 @@ export default class Viking extends Phaser.GameObjects.Sprite {
         this.puedeAtacar = true;
         this.tiempoEntreAtaques = 100;
         this.tiempo = 100;
-        this.piedra = false;
+        this.smash = false;
         this.mapa = mapa;
         this.maxLife = 3;
         this.bonus = 0;
@@ -24,112 +24,44 @@ export default class Viking extends Phaser.GameObjects.Sprite {
         this.body.setVelocityX(this.speed);
         const anims = this.scene.anims;
         if (this.tipo.localeCompare("vikingo") === 0) {
-            //Mueve derecha
-            anims.create({
-                key: "movder",
-                frames: anims.generateFrameNumbers('vikingos', { start: 0, end: 4 }),
-                frameRate: 10,
-                repeat: 0
-            });
-            //Mueve izquierda
-            anims.create({
-                key: "movizq",
-                frames: anims.generateFrameNumbers('vikingos', { start: 40, end: 44 }),
-                frameRate: 10,
-                repeat: 0
-            });
-
-            //Ataca derecha
-            anims.create({
-                key: "atcder",
-                frames: anims.generateFrameNumbers('vikingos', { start: 16, end: 22 }),
-                frameRate: 10,
-                repeat: 0
-            });
-            //Ataca izquierda
-            anims.create({
-                key: "atcizq",
-                frames: anims.generateFrameNumbers('vikingos', { start: 56, end: 62 }),
-                frameRate: 10,
-                repeat: 0
-            });
-        }
-        else if (this.tipo.localeCompare("ciclope") === 0) {
             //Muere
             anims.create({
                 key: "muere",
-                frames: anims.generateFrameNumbers('ciclope', { start: 241, end: 248 }),
-                frameRate: 8,
+                frames: anims.generateFrameNumbers('vikingos', { start: 40, end: 46 }),
+                frameRate: 6,
                 repeat: -1
             });
             //Mueve derecha
             anims.create({
                 key: "movder",
-                frames: anims.generateFrameNumbers('ciclope', { start: 15, end: 26 }),
-                frameRate: 12,
+                frames: anims.generateFrameNumbers('vikingos', { start: 10, end: 17 }),
+                frameRate: 8,
                 repeat: -1
             });
             //Mueve izquierda
             anims.create({
                 key: "movizq",
-                frames: anims.generateFrameNumbers('ciclope', { start: 165, end: 176 }),
-                frameRate: 12,
+                frames: anims.generateFrameNumbers('vikingos', { start: 60, end: 67 }),
+                frameRate: 8,
                 repeat: -1
             });
 
             //Ataca derecha
             anims.create({
                 key: "atcder",
-                frames: anims.generateFrameNumbers('ciclope', { start: 46, end: 57 }),
-                frameRate: 12,
-                repeat: 0
+                frames: anims.generateFrameNumbers('vikingos', { start: 20, end: 26 }),
+                frameRate: 7,
+                repeat: -1
             });
             //Ataca izquierda
             anims.create({
                 key: "atcizq",
-                frames: anims.generateFrameNumbers('ciclope', { start: 196, end: 207 }),
-                frameRate: 12,
-                repeat: 0
-            });
-            anims.create({
-                key: "stand",
-                frames: anims.generateFrameNumbers('ciclope', { start: 150, end: 150 }),
-                frameRate: 1,
-                repeat: 0
+                frames: anims.generateFrameNumbers('vikingos', { start: 70, end: 76 }),
+                frameRate: 7,
+                repeat: -1
             });
         }
-        //enemigo extra
-        // else {
-        //     //Mueve derecha
-        //     anims.create({
-        //         key: "movder",
-        //         frames: anims.generateFrameNumbers('ciclope', { start: 0, end: 4 }),
-        //         frameRate: 10,
-        //         repeat: 0
-        //     });
-        //     //Mueve izquierda
-        //     anims.create({
-        //         key: "movizq",
-        //         frames: anims.generateFrameNumbers('ciclope', { start: 0, end: 4 }),
-        //         frameRate: 10,
-        //         repeat: 0
-        //     });
-
-        //     //Ataca derecha
-        //     anims.create({
-        //         key: "atcder",
-        //         frames: anims.generateFrameNumbers('ciclope', { start: 0, end: 4 }),
-        //         frameRate: 10,
-        //         repeat: 0
-        //     });
-        //     //Ataca izquierda
-        //     anims.create({
-        //         key: "atcizq",
-        //         frames: anims.generateFrameNumbers('ciclope', { start: 0, end: 4 }),
-        //         frameRate: 10,
-        //         repeat: 0
-        //     });
-        // }
+        
         this.body.setSize(32, 40).setOffset(0,-10);
         this.stepCount = Phaser.Math.Between(0, stepLimit);
         if (this.mapa.localeCompare("verde") === 0)
@@ -205,18 +137,18 @@ export default class Viking extends Phaser.GameObjects.Sprite {
                     this.anims.play("atcder", true);
                     lastSpeed = true;
                 }
-                if(this.anims.currentFrame.index == 2 && !this.piedra){
+                if(this.anims.currentFrame.index == 2 && !this.smash){
                     let audio_ataque = this.scene.sound.add("atacaciclope", {
                         volume: 0.5,
                       });
                       audio_ataque.play();
                 }
                 //Cuando llega al ultimo frame del ataque aparece la piedra
-                else if(this.anims.currentFrame.index == 11 && !this.piedra){
-                    let piedra = new Piedra(this.scene, this.body.x, this.body.y, this, lastSpeed);
-                    this.piedra = true;
+                else if(this.anims.currentFrame.index == 4 && !this.smash){
+                    let smash = new Smash(this.scene, this.body.x, this.body.y, this, lastSpeed);
+                    this.smash = true;
                 }
-                else if(this.anims.currentFrame.index == 12){
+                else if(this.anims.currentFrame.index == 7){
                     this.puedeAtacar = false;
                     this.play(this.lastPosition, true);
                     if(this.lastPosition.localeCompare("movizq") === 0)
@@ -233,7 +165,7 @@ export default class Viking extends Phaser.GameObjects.Sprite {
             }
             if(this.tiempo >= this.tiempoEntreAtaques){
                 this.puedeAtacar = true;
-                this.piedra = false;
+                this.smash = false;
             }
             else this.tiempo++;
         }
@@ -243,7 +175,7 @@ export default class Viking extends Phaser.GameObjects.Sprite {
             
             this.scene.time.addEvent({ delay: 1000, callback: function(){
                 this.scene.ciclopsGroup.killAndHide(this);
-                while(this.bonus < 5){
+                while(this.bonus < 10){
                     let coin = new Coin(this.scene, this.x, 530);
                     coin.body.bounce.x = 1; 
                     this.scene.coinsGroup.add(coin);

@@ -4,7 +4,7 @@
  "layers":[
         {
          "id":8,
-         "image":"..\/..\/Background2.png",
+         "image":"Background2.png",
          "name":"Fondo",
          "opacity":1,
          "type":"imagelayer",
@@ -179,15 +179,15 @@
  "tilesets":[
         {
          "firstgid":1,
-         "source":"Spritesheet_tileset.tsx"
+         "source":"Spritesheet_tileset.png"
         }, 
         {
          "firstgid":3073,
-         "source":"enemigo.tsx"
+         "source":"../spritesheets/enemigo.png"
         }, 
         {
          "firstgid":3173,
-         "source":"imageedit_13_7724971945.tsx"
+         "source":"../spritesheets/imageedit_13_7724971945.png"
         }],
  "tilewidth":16,
  "type":"map",

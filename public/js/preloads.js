@@ -43,6 +43,10 @@ export default class Preloads extends Phaser.Scene {
             frameWidth: 64,
             frameHeight: 64
         });
+        this.load.spritesheet("vikingos", "../public/assets/spritesheets/enemigo.png", {
+            frameWidth: 32,
+            frameHeight: 40
+        });
         this.load.spritesheet("fregona", "../public/assets/spritesheets/fregona.png", {
             frameWidth: 26,
             frameHeight: 14
@@ -63,9 +67,150 @@ export default class Preloads extends Phaser.Scene {
         this.load.image('escaleras2', '../public/assets/tilesets/pruebanewtiles3.png');
         this.load.image('escaleras3', '../public/assets/tilesets/pruebanewtiles.png');
         this.load.image('mapaverde', '../public/assets/tilesets/genaric-cartoon-charactor-sprite-png-15-original.png');
+        this.load.image('mapalava', '../public/assets/tilesets/Spritesheet_tileset.png');
         this.load.tilemapTiledJSON('map1', '../public/assets/tilesets/mapaVerde.json');
+        this.load.tilemapTiledJSON('map2', '../public/assets/tilesets/nivel2.json');
     }
     create(){
-        this.scene.start("TitleScreenScene");
+        //this.scene.start("TitleScreenScene");
+        this.scene.start("LavaMapScene");
+    }
+    //Funciones mapas
+    colisiona(arma){
+        arma.destroy();
+    }
+    defiende(escudo, arma){
+        let audio_defensa = this.sound.add("defiendeplayer", {
+            volume: 2,
+        });
+        audio_defensa.play();
+        arma.destroy();
+    }
+    attackEnemy(player, enemy){
+        if(!enemy.atacado){
+            enemy.atacado = true;
+            enemy.life -= 1;
+            enemy.tint = 0xff0000;
+            this.time.addEvent({ delay: 500, callback: function(){
+                enemy.atacado = false;
+                enemy.tint = 0xffffff;
+                },
+            });
+        }
+    }
+    attackPlayer(player, arma){
+        if(!player.atacado && !player.enemyTouch){
+            player.atacado = true;
+            player.life -= 1;
+            player.tint = 0xff0000;
+            if(player.life >= 1){
+                let audio_atacado = this.sound.add("luigiatacado", {
+                    volume: 1.5,
+                });
+                audio_atacado.play();
+                }
+            this.time.addEvent({ delay: 1000, callback: function(){
+                player.atacado = false;
+                player.tint = 0xffffff;
+                },
+            });
+            arma.destroy();
+        }
+    }
+    onTouchEnemy(player) {
+        if (player.body.touching.down) {
+            player.body.setVelocityY(-200);
+            player.body.setVelocityX(200);
+        }
+        else if (player.body.touching.right) {
+            player.body.setVelocityY(-200);
+            player.body.setVelocityX(200);
+        }
+        else if (player.body.touching.left) {
+            player.body.setVelocityY(-200);
+            player.body.setVelocityX(-200);
+        }
+        else {
+            player.body.setVelocityY(-200);
+        }
+        if(!player.buffs[2]["value"]){
+            if(!player.enemyTouch && !player.atacado){
+                player.enemyTouch = true;
+                player.tint = 0xff0000;
+                
+                if(player.enemyTouch){
+                    this.sound.add("luigiatacado", {
+                        volume: 1.5,
+                    }).play();
+                    player.life -= 1;
+                    this.time.addEvent({ delay: 2000, callback: function(){
+                            player.tint = 0xffffff;
+                            player.enemyTouch = false;
+                        },
+                    });
+                    
+                }
+            }
+        }
+    }
+    onTouchEscalera(player,escalera) {
+        player.escaleras = true;
+        player.yEscalera = escalera.y;
+        player.xEscalera = escalera.x;
+    }
+    getCoin(player, coin){
+        this.coinsGroup.killAndHide(coin);
+        coin.body.enable = false;
+        player.coins += 1;
+        this.text.setText("X " + player.coins);
+    }
+    dibujaVidas(scene, vidasPlayer){
+        switch (vidasPlayer) {
+            case 5:
+                return scene.add.sprite(16, 20, "5vidas").setOrigin(0).setScrollFactor(0);
+                break;
+            case 4:
+                return scene.add.sprite(16, 20, "4vidas").setOrigin(0).setScrollFactor(0);
+                break;
+            case 3:
+                return scene.add.sprite(16, 20, "3vidas").setOrigin(0).setScrollFactor(0);
+                break;
+            case 2:
+                return scene.add.sprite(16, 20, "2vidas").setOrigin(0).setScrollFactor(0);
+                break;
+            case 1:
+                return scene.add.sprite(16, 20, "1vida").setOrigin(0).setScrollFactor(0);
+                break;
+            default:
+                break;
+        }
+    }
+    updateLife(vidas, life){
+        switch (life) {
+            case 5:
+                vidas.setTexture("5vidas");
+                break;
+            case 4:
+                vidas.setTexture("4vidas");
+                break;
+            case 3:
+                vidas.setTexture("3vidas");
+                break;
+            case 2:
+                vidas.setTexture("2vidas");
+                break;
+            case 1:
+                vidas.setTexture("1vida");
+                break;
+            default:
+                vidas.destroy();
+                break;
+        }
+    }
+    //No descomentar hasta que la capa de tierra no tenga debajo la de agua
+    gameOverPorAgua(player){
+        if(player.body.y >= 580 || player.y >= 580){
+            player.life = 0;
+        }
     }
 }

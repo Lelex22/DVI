@@ -24,10 +24,12 @@ export default class GreenMapScene extends Phaser.Scene {
             this.coinsPlayer = data.monedas;
             this.buffsPlayer = data.buffs;
             this.mapa = data.mapa;
+            //this.mapa = "verde";
         }
     }
     preload() {}
     create() {
+        this.carga = this.scene.get("Preloads");
         this.bonusFin = false;
         const map = this.make.tilemap({ key: "map1" });
         let tileset = map.addTilesetImage('genaric-cartoon-charactor-sprite-png-15-original', 'mapaverde');

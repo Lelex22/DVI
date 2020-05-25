@@ -40,14 +40,14 @@ export default class Preloads extends Phaser.Scene {
         this.load.audio("menufin", "../public/assets/audio/menufin.mp3");
         this.load.audio("fin", "../public/assets/audio/fin.wav");
         this.load.image("piedra", "../public/assets/imagenes/piedra.png");
-        this.load.image("smash", "../public/assets/imagenes/smash.png");
+        this.load.image("smash", "../public/assets/imagenes/smash1.png");
         this.load.spritesheet("ciclope", "../public/assets/spritesheets/Cyclops Sprite Sheet.png", {
             frameWidth: 64,
             frameHeight: 64
         });
-        this.load.spritesheet("vikingos", "../public/assets/spritesheets/enemigo.png", {
-            frameWidth: 32,
-            frameHeight: 32
+        this.load.spritesheet("vikingos", "../public/assets/spritesheets/enemigo1.png", {
+            frameWidth: 64,
+            frameHeight: 64
         });
         this.load.spritesheet("fregona", "../public/assets/spritesheets/fregona.png", {
             frameWidth: 26,

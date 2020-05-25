@@ -62,7 +62,7 @@ export default class Viking extends Phaser.GameObjects.Sprite {
             });
         }
         
-        this.body.setSize(32, 40).setOffset(0,-10);
+        this.body.setSize(32, 40).setOffset(0,18);
         this.stepCount = Phaser.Math.Between(0, stepLimit);
         if (this.mapa.localeCompare("verde") === 0)
             this.body.setGravity(0, 200);
@@ -145,7 +145,10 @@ export default class Viking extends Phaser.GameObjects.Sprite {
                 }
                 //Cuando llega al ultimo frame del ataque aparece la piedra
                 else if(this.anims.currentFrame.index == 4 && !this.smash){
-                    let smash = new Smash(this.scene, this.body.x, this.body.y, this, lastSpeed);
+                    let smash;
+                    if(lastSpeed)
+                        smash = new Smash(this.scene, this.body.x + 25, this.body.y, this, lastSpeed);
+                    else smash = new Smash(this.scene, this.body.x, this.body.y, this, lastSpeed);
                     this.smash = true;
                 }
                 else if(this.anims.currentFrame.index == 7){

@@ -4,7 +4,7 @@
      "export":
         {
          "format":"json",
-         "target":"tienda.tmx"
+         "target":"tienda.json"
         }
     },
  "height":30,

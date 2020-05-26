@@ -177,7 +177,7 @@ export default class Viking extends Phaser.GameObjects.Sprite {
             this.body.enable = false;
             
             this.scene.time.addEvent({ delay: 1000, callback: function(){
-                this.scene.ciclopsGroup.killAndHide(this);
+                this.scene.vikingsGroup.killAndHide(this);
                 while(this.bonus < 10){
                     let coin = new Coin(this.scene, this.x, 530);
                     coin.body.bounce.x = 1; 

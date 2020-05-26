@@ -1,7 +1,7 @@
-import Smash from "./fireball.js";
+import Fireball from "./fireball.js";
 import Coin from "./coins.js";
 
-const stepLimit = 200;
+const stepLimit = 500;
 export default class Mago extends Phaser.GameObjects.Sprite {
     constructor(scene, x, y, mapa, tipo) {
         super(scene, x, y, tipo);
@@ -13,7 +13,7 @@ export default class Mago extends Phaser.GameObjects.Sprite {
         this.firstInstance = true;
         this.atacado = false;
         this.puedeAtacar = true;
-        this.tiempoEntreAtaques = 100;
+        this.tiempoEntreAtaques = 50;
         this.tiempo = 100;
         this.smash = false;
         this.mapa = mapa;
@@ -23,46 +23,43 @@ export default class Mago extends Phaser.GameObjects.Sprite {
         this.lastPosition = null;
         this.body.setVelocityX(this.speed);
         const anims = this.scene.anims;
-        if (this.tipo.localeCompare("Mago") === 0) {
-            //Muere
-            anims.create({
-                key: "muere",
-                frames: anims.generateFrameNumbers('mago', { start: 16, end: 19 }),
-                frameRate: 6,
-                repeat: -1
-            });
-            //Mueve derecha
-            anims.create({
-                key: "movder",
-                frames: anims.generateFrameNumbers('mago', { start: 8, end: 11 }),
-                frameRate: 8,
-                repeat: -1
-            });
-            //Mueve izquierda
-            anims.create({
-                key: "movizq",
-                frames: anims.generateFrameNumbers('mago', { start: 12, end: 15 }),
-                frameRate: 8,
-                repeat: -1
-            });
+        //Muere
+        anims.create({
+            key: "muerem",
+            frames: anims.generateFrameNumbers('mago', { start: 16, end: 19 }),
+            frameRate: 4,
+            repeat: 0
+        });
+        //Mueve derecha
+        anims.create({
+            key: "movderm",
+            frames: anims.generateFrameNumbers('mago', { start: 8, end: 11 }),
+            frameRate: 4,
+            repeat: 0
+        });
+        //Mueve izquierda
+        anims.create({
+            key: "movizqm",
+            frames: anims.generateFrameNumbers('mago', { start: 12, end: 15 }),
+            frameRate: 4,
+            repeat: 0
+        });
 
-            //Ataca derecha
-            anims.create({
-                key: "atcder",
-                frames: anims.generateFrameNumbers('mago', { start: 24, end: 27 }),
-                frameRate: 7,
-                repeat: -1
-            });
-            //Ataca izquierda
-            anims.create({
-                key: "atcizq",
-                frames: anims.generateFrameNumbers('mago', { start: 28, end: 31 }),
-                frameRate: 7,
-                repeat: -1
-            });
-        }
-        
-        this.body.setSize(32, 40).setOffset(0,18);
+        //Ataca derecha
+        anims.create({
+            key: "atcderm",
+            frames: anims.generateFrameNumbers('mago', { start: 24, end: 27 }),
+            frameRate: 4,
+            repeat: 0
+        });
+        //Ataca izquierda
+        anims.create({
+            key: "atcizqm",
+            frames: anims.generateFrameNumbers('mago', { start: 28, end: 31 }),
+            frameRate: 4,
+            repeat: 0
+        });
+        this.body.setOffset(0,-12);
         this.stepCount = Phaser.Math.Between(0, stepLimit);
         if (this.mapa.localeCompare("verde") === 0)
             this.body.setGravity(0, 200);
@@ -76,8 +73,8 @@ export default class Mago extends Phaser.GameObjects.Sprite {
         if(this.life > 0){
             if(this.firstInstance){
                 this.body.velocity.x = this.speed;
-                this.anims.play("movizq", true);
-                this.lastPosition = "movizq";
+                this.anims.play("movizqm", true);
+                this.lastPosition = "movizqm";
                 this.firstInstance = false;
             }
             let p = this.body.x - this.scene.player.body.x;
@@ -85,7 +82,7 @@ export default class Mago extends Phaser.GameObjects.Sprite {
                 p = -p;
             }
 
-            if (this.scene.player.body.bottom == this.body.bottom && p < 200) {   
+            if (this.scene.player.body.bottom == this.body.bottom && p < 300) {   
                 // if player to left of enemy AND enemy moving to right
                 if (this.scene.player.body.x < this.body.x && this.body.velocity.x > 0) {
                     // move enemy to left            
@@ -125,36 +122,33 @@ export default class Mago extends Phaser.GameObjects.Sprite {
                     cambiaSprite(this);
                 }
             }
-            if(this.puedeAtacar && p < 200){     
+            if(this.puedeAtacar && p < 300){     
                 //Variable con el signo de la velocidad de la piedra: true es positiva false negativa
                 let lastSpeed;       
                 this.body.setVelocityX(0);
-                if(this.lastPosition.localeCompare("movizq") === 0){
-                    this.anims.play("atcizq", true);
+                if(this.lastPosition.localeCompare("movizqm") === 0){
+                    this.anims.play("atcizqm", true);
                     lastSpeed = false;
                 }
                 else{
-                    this.anims.play("atcder", true);
+                    this.anims.play("atcdemr", true);
                     lastSpeed = true;
                 }
-                if(this.anims.currentFrame.index == 2 && !this.smash){
+                if(this.anims.currentFrame.index == 1 && !this.smash){
                     let audio_ataque = this.scene.sound.add("atacaciclope", {
                         volume: 0.5,
                       });
                       audio_ataque.play();
+                      let fireball;
+                      if(lastSpeed)
+                          fireball = new Fireball(this.scene, this.body.x + 25, this.body.y, this, lastSpeed);
+                      else fireball = new Fireball(this.scene, this.body.x, this.body.y, this, lastSpeed);
+                      this.smash = true;
                 }
-                //Cuando llega al ultimo frame del ataque aparece la piedra
-                else if(this.anims.currentFrame.index == 4 && !this.smash){
-                    let smash;
-                    if(lastSpeed)
-                        smash = new Smash(this.scene, this.body.x + 25, this.body.y, this, lastSpeed);
-                    else smash = new Smash(this.scene, this.body.x, this.body.y, this, lastSpeed);
-                    this.smash = true;
-                }
-                else if(this.anims.currentFrame.index == 7){
+                else if(this.anims.currentFrame.index == 3){
                     this.puedeAtacar = false;
                     this.play(this.lastPosition, true);
-                    if(this.lastPosition.localeCompare("movizq") === 0)
+                    if(this.lastPosition.localeCompare("movizqm") === 0)
                         this.body.setVelocityX(-this.speed);
                     else this.body.setVelocityX(this.speed);
                 }
@@ -162,7 +156,7 @@ export default class Mago extends Phaser.GameObjects.Sprite {
             }
             else {
                 this.play(this.lastPosition, true);
-                if(this.lastPosition.localeCompare("movizq") === 0)
+                if(this.lastPosition.localeCompare("movizqm") === 0)
                     this.body.setVelocityX(-this.speed);
                 else this.body.setVelocityX(this.speed);
             }
@@ -173,11 +167,11 @@ export default class Mago extends Phaser.GameObjects.Sprite {
             else this.tiempo++;
         }
         else {
-            this.anims.play("muere", true);
+            this.anims.play("muerem", true);
             this.body.enable = false;
             
             this.scene.time.addEvent({ delay: 1000, callback: function(){
-                this.scene.ciclopsGroup.killAndHide(this);
+                this.scene.magosGroup.killAndHide(this);
                 while(this.bonus < 10){
                     let coin = new Coin(this.scene, this.x, 530);
                     coin.body.bounce.x = 1; 
@@ -191,12 +185,12 @@ export default class Mago extends Phaser.GameObjects.Sprite {
 } 
 function cambiaSprite(enemy){
     if (Math.sign(enemy.body.velocity.x) === 1) {
-        enemy.anims.play("movder", true);
-        enemy.lastPosition = "movder";
+        enemy.anims.play("movderm", true);
+        enemy.lastPosition = "movderm";
     }
     //else if enemy moving to left and has started to move over left edge of platform
     else if (Math.sign(enemy.body.velocity.x) === -1) {
-        enemy.anims.play("movizq", true);
-        enemy.lastPosition = "movizq";
+        enemy.anims.play("movizqm", true);
+        enemy.lastPosition = "movizqm";
     }
 }

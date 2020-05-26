@@ -51,6 +51,7 @@ export default class LavaMapScene extends Phaser.Scene {
         const lava = map2.createStaticLayer("lava", tileset, 0, 0);
         const tierra = map2.createStaticLayer("Tierra", tileset, 0, 0);
         this.vikingsGroup = this.physics.add.group();
+        this.magosGroup = this.physics.add.group();
         this.lifeGroup = this.physics.add.group();
         this.coinsGroup = this.physics.add.group();
         for(let i = 1; i <= 20; i++){
@@ -58,21 +59,23 @@ export default class LavaMapScene extends Phaser.Scene {
             coin.body.bounce.x = 1; 
             this.coinsGroup.add(coin);
         }
-        for (const objeto of map2.getObjectLayer('Vikingos').objects) {
-                let enemigo = new Viking(this, objeto.x, objeto.y, "verde", "vikingo");
+        for (const objeto2 of map2.getObjectLayer('Enemigos').objects) {
+            if(objeto2.type.localeCompare("mago") === 0){
+                console.log("Entra");
+                let enemy = new Mago(this, objeto2.x, objeto2.y, "verde", "mago");
+                enemy.body.bounce.x = 1;
+                this.magosGroup.add(enemy);
+            }
+            else {
+                let enemigo = new Viking(this, objeto2.x, objeto2.y, "verde", "vikingo");
                 enemigo.body.bounce.x = 1;
                 this.vikingsGroup.add(enemigo);
+            }
         }
         
         tierra.setCollisionByExclusion([-1]);
-        this.magosGroup = this.physics.add.group();
-        for (const objeto of map2.getObjectLayer('Mago').objects) {
-            let enemigo = new Mago(this, objeto.x, objeto.y, "verde", "mago");
-            enemigo.body.bounce.x = 1;
-            this.magosGroup.add(enemigo);
-        }
 
-        this.player = new Player(this, 10, 510, this.buffsPlayer, this.mapa, this.lifesPlayer, this.coinsPlayer);
+        this.player = new Player(this, 15680, 200, this.buffsPlayer, this.mapa, this.lifesPlayer, this.coinsPlayer);
         this.fregona = this.physics.add.group({
             immovable: true,
             allowGravity: false

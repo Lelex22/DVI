@@ -11,6 +11,11 @@ export default class Preloads extends Phaser.Scene {
         this.load.audio("mazmorra", "../public/assets/audio/dungeon.mp3");
         this.load.audio("letsgo", "../public/assets/audio/letsgo.wav");
         this.load.image("tiles", "../public/assets/tilesets/prueba2.png");
+        this.load.image("10vidas", "../public/assets/imagenes/10vidas.png");
+        this.load.image("9vidas", "../public/assets/imagenes/9vidas.png");
+        this.load.image("8vidas", "../public/assets/imagenes/8vidas.png");
+        this.load.image("7vidas", "../public/assets/imagenes/7vidas.png");
+        this.load.image("6vidas", "../public/assets/imagenes/6vidas.png");
         this.load.image("5vidas", "../public/assets/imagenes/5vidas.png");
         this.load.image("4vidas", "../public/assets/imagenes/4vidas.png");
         this.load.image("3vidas", "../public/assets/imagenes/3vidas.png");
@@ -29,6 +34,17 @@ export default class Preloads extends Phaser.Scene {
             frameHeight: 24
         }
         );
+        this.load.spritesheet(
+            "tendera",
+            "../public/assets/spritesheets/tendera.png",
+            {
+                frameWidth: 104,
+                frameHeight: 104
+            });
+        //Tienda preloads
+        this.load.image('tiendaTiles', '../public/assets/tilesets/tienda.png');
+        this.load.tilemapTiledJSON('tiendaMap', '../public/assets/tilesets/tienda.json');        
+        this.load.spritesheet('button', '../public/img/flixel-button.png', { frameWidth: 80, frameHeight: 20 });
         //Mapa verde preloads
         //Audio mapa verde
         this.load.audio("audio_mapaverde", "../public/assets/audio/mapaverde.mp3");
@@ -75,7 +91,7 @@ export default class Preloads extends Phaser.Scene {
     }
     create(){
         //this.scene.start("TitleScreenScene");
-        this.scene.start("LavaMapScene");
+        this.scene.start("ShopScene");
     }
     //Funciones mapas
     colisiona(arma){
@@ -168,6 +184,21 @@ export default class Preloads extends Phaser.Scene {
     }
     dibujaVidas(scene, vidasPlayer){
         switch (vidasPlayer) {
+            case 10:
+                return scene.add.sprite(16, 20, "10vidas").setOrigin(0).setScrollFactor(0);
+                break;
+            case 9:
+                return scene.add.sprite(16, 20, "9vidas").setOrigin(0).setScrollFactor(0);
+                break;
+            case 8:
+                return scene.add.sprite(16, 20, "8vidas").setOrigin(0).setScrollFactor(0);
+                break;
+            case 7:
+                return scene.add.sprite(16, 20, "7vidas").setOrigin(0).setScrollFactor(0);
+                break;
+            case 6:
+                return scene.add.sprite(16, 20, "6vidas").setOrigin(0).setScrollFactor(0);
+                break;
             case 5:
                 return scene.add.sprite(16, 20, "5vidas").setOrigin(0).setScrollFactor(0);
                 break;
@@ -189,6 +220,21 @@ export default class Preloads extends Phaser.Scene {
     }
     updateLife(vidas, life){
         switch (life) {
+            case 10:
+                vidas.setTexture("10vidas");
+                break;
+            case 9:
+                vidas.setTexture("9vidas");
+                break;
+            case 8:
+                vidas.setTexture("8vidas");
+                break;
+            case 7:
+                vidas.setTexture("7vidas");
+                break;
+            case 6:
+                vidas.setTexture("6vidas");
+                break;
             case 5:
                 vidas.setTexture("5vidas");
                 break;

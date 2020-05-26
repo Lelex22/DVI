@@ -57,6 +57,18 @@ export default class Preloads extends Phaser.Scene {
         this.load.audio("fin", "../public/assets/audio/fin.wav");
         this.load.image("piedra", "../public/assets/imagenes/piedra.png");
         this.load.image("smash", "../public/assets/imagenes/smash1.png");
+        this.load.image("mago","../public/assets/spritesheets/imageedit_13_7724971945.png",{
+            frameWidth: 80,
+            frameHeight: 80
+        });
+        this.load.image("fireballdrcha","../public/assets/spritesheets/fireballdrch.png",{
+            frameWidth: 37,
+            frameHeight: 47
+        });
+        this.load.image("fireballizda","../public/assets/spritesheets/fireballizda.png",{
+            frameWidth: 37,
+            frameHeight: 47
+        });
         this.load.spritesheet("ciclope", "../public/assets/spritesheets/Cyclops Sprite Sheet.png", {
             frameWidth: 64,
             frameHeight: 64
@@ -91,7 +103,8 @@ export default class Preloads extends Phaser.Scene {
     }
     create(){
         //this.scene.start("TitleScreenScene");
-        this.scene.start("ShopScene");
+        //this.scene.start("ShopScene");
+        this.scene.start("LavaMapScene");
     }
     //Funciones mapas
     colisiona(arma){

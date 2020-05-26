@@ -1,5 +1,6 @@
 import Player from "./player.js";
 import Viking from "./Viking.js";
+import Mago from "./Mago.js"
 import Coin from "./coins.js";
 const stepLimit = 15;
 
@@ -58,13 +59,19 @@ export default class LavaMapScene extends Phaser.Scene {
             this.coinsGroup.add(coin);
         }
         for (const objeto of map2.getObjectLayer('Vikingos').objects) {
-                let enemigo = new Viking(this, objeto.x, objeto.y, "lava", "vikingo");
+                let enemigo = new Viking(this, objeto.x, objeto.y, "verde", "vikingo");
                 enemigo.body.bounce.x = 1;
                 this.vikingsGroup.add(enemigo);
         }
         
         tierra.setCollisionByExclusion([-1]);
-        
+        this.magosGroup = this.physics.add.group();
+        for (const objeto of map2.getObjectLayer('Mago').objects) {
+            let enemigo = new Mago(this, objeto.x, objeto.y, "verde", "mago");
+            enemigo.body.bounce.x = 1;
+            this.magosGroup.add(enemigo);
+        }
+
         this.player = new Player(this, 10, 510, this.buffsPlayer, this.mapa, this.lifesPlayer, this.coinsPlayer);
         this.fregona = this.physics.add.group({
             immovable: true,
@@ -85,13 +92,17 @@ export default class LavaMapScene extends Phaser.Scene {
         this.text = this.add.text(690, 27, "X " + this.player.coins, { fontFamily: 'Georgia, "Goudy Bookletter 1911", Times, serif', fontSize: "30px" }).setOrigin(0).setScrollFactor(0);
         this.physics.add.collider(this.player, tierra);
         this.physics.add.collider(this.vikingsGroup, tierra);
-        this.physics.add.collider(this.vikingsGroup, this.vikingsGroup);
+        this.physics.add.collider(this.vikingsGroup, this.magossGroup);
+        this.physics.add.collider(this.magosGroup, tierra);
+        this.physics.add.collider(this.magosGroup, this.magosGroup);
         this.physics.add.collider(this.coinsGroup, tierra);        
         this.physics.add.collider(this.armasEnemigos, tierra, this.carga.colisiona, null, this);
         this.physics.add.collider(this.escudo, this.armasEnemigos, this.carga.defiende, null, this);
         this.physics.add.overlap(this.player, this.vikingsGroup, this.carga.onTouchEnemy, null, this);
+        this.physics.add.overlap(this.player, this.magosGroup, this.carga.onTouchEnemy, null, this);
         this.physics.add.overlap(this.player, this.coinsGroup, this.carga.getCoin, null, this);
         this.physics.add.overlap(this.fregona, this.vikingsGroup, this.carga.attackEnemy, null, this);
+        this.physics.add.overlap(this.fregona, this.magosGroup, this.carga.attackEnemy, null, this);
         this.physics.add.overlap(this.armasEnemigos, this.player, this.carga.attackPlayer, null, this);
         this.physics.add.overlap(this.player, lava, this.carga.gameOverPorAgua, null, this);
         const camera = this.cameras.main;

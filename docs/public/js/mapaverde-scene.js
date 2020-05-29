@@ -144,7 +144,7 @@ export default class GreenMapScene extends Phaser.Scene {
             else if (this.player.x >= 9523) {
                 if(!this.bonusFin){
                     this.bonusFin = true;
-                    this.player.coins += 20;
+                    this.player.coins += 50;
                 }
                 const cam = this.cameras.main;
                 cam.fade(250, 0, 0, 0);

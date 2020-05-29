@@ -98,22 +98,23 @@ export default class GreenMapScene extends Phaser.Scene {
             allowGravity: false
         });
         
-        this.vidas = dibujaVidas(this,this.player.life);
+        this.vidas = this.carga.dibujaVidas(this,this.player.life);
         
         this.monedas = this.add.sprite(650, 20, "coin").setOrigin(0).setScrollFactor(0).setScale(1.5);
         this.text = this.add.text(690, 27, "X " + this.player.coins, { fontFamily: 'Georgia, "Goudy Bookletter 1911", Times, serif', fontSize: "30px" }).setOrigin(0).setScrollFactor(0);
         this.physics.add.collider(this.player, tierra);
         this.physics.add.collider(this.ciclopsGroup, tierra);
         this.physics.add.collider(this.ciclopsGroup, this.ciclopsGroup);
-        this.physics.add.collider(this.coinsGroup, tierra);        
+        this.physics.add.collider(this.coinsGroup, tierra);  
+        this.physics.add.overlap(this.coinsGroup, agua, this.carga.coinsDestruct, null, this);      
         this.physics.add.collider(this.player, puentes);
-        this.physics.add.collider(this.armasEnemigos, tierra, colisiona, null, this);
-        this.physics.add.collider(this.escudo, this.armasEnemigos, defiende, null, this);
-        this.physics.add.overlap(this.player, this.ciclopsGroup, onTouchEnemy, null, this);
-        this.physics.add.overlap(this.player, this.coinsGroup, getCoin, null, this);
-        this.physics.add.overlap(this.fregona, this.ciclopsGroup, attackEnemy, null, this);
-        this.physics.add.overlap(this.armasEnemigos, this.player, attackPlayer, null, this);
-        this.physics.add.overlap(this.player, agua, gameOverPorAgua, null, this);
+        this.physics.add.collider(this.armasEnemigos, tierra, this.carga.colisiona, null, this);
+        this.physics.add.collider(this.escudo, this.armasEnemigos, this.carga.defiende, null, this);
+        this.physics.add.overlap(this.player, this.ciclopsGroup, this.carga.onTouchEnemy, null, this);
+        this.physics.add.overlap(this.player, this.coinsGroup, this.carga.getCoin, null, this);
+        this.physics.add.overlap(this.fregona, this.ciclopsGroup, this.carga.attackEnemy, null, this);
+        this.physics.add.overlap(this.armasEnemigos, this.player, this.carga.attackPlayer, null, this);
+        this.physics.add.overlap(this.player, agua, this.carga.gameOverPorAgua, null, this);
         const camera = this.cameras.main;
 
         // Constrain the camera so that it isn't allowed to move outside the width/height of tilemap
@@ -124,11 +125,11 @@ export default class GreenMapScene extends Phaser.Scene {
     update() {
         if(this.player.life > 0){
             if(this.player.x >= this.escaleras1.x - 25 && this.player.x <= this.escaleras1.x + 25 && this.player.y > this.escaleras1.y/2)
-                onTouchEscalera(this.player, this.escaleras1);
+                this.carga.onTouchEscalera(this.player, this.escaleras1);
             else if(this.player.x >= this.escaleras2.x - 16 && this.player.x <= this.escaleras2.x + 16 && this.player.y > this.escaleras2.y/2)
-                onTouchEscalera(this.player, this.escaleras2);
+                this.carga.onTouchEscalera(this.player, this.escaleras2);
             else if(this.player.x >= this.escaleras3.x - 16 && this.player.x <= this.escaleras3.x + 16 && this.player.y > this.escaleras3.y/2)
-                onTouchEscalera(this.player, this.escaleras3);
+                this.carga.onTouchEscalera(this.player, this.escaleras3);
             else this.player.escaleras = false;
             if (this.player.x <= 9) {
                 const cam = this.cameras.main;
@@ -155,10 +156,10 @@ export default class GreenMapScene extends Phaser.Scene {
                 });
             }
             else this.player.update();
-            updateLife(this.vidas, this.player.life);
+            this.carga.updateLife(this.vidas, this.player.life);
         }
         else {
-            updateLife(this.vidas, this.player.life);
+            this.carga.updateLife(this.vidas, this.player.life);
             this.audio.stop();
             this.scene.launch('GameOver', {escena: this});
             this.scene.pause(this);
@@ -175,141 +176,4 @@ export default class GreenMapScene extends Phaser.Scene {
     }
 
 
-}
-function colisiona(arma){
-    arma.destroy();
-}
-function defiende(escudo, arma){
-    let audio_defensa = this.sound.add("defiendeplayer", {
-        volume: 2,
-    });
-    audio_defensa.play();
-    arma.destroy();
-}
-function attackEnemy(player, enemy){
-    if(!enemy.atacado){
-        enemy.atacado = true;
-        enemy.life -= 1;
-        enemy.tint = 0xff0000;
-        this.time.addEvent({ delay: 500, callback: function(){
-            enemy.atacado = false;
-            enemy.tint = 0xffffff;
-            },
-        });
-    }
-}
-function attackPlayer(player, arma){
-    if(!player.atacado && !player.enemyTouch){
-        player.atacado = true;
-        player.life -= 1;
-        player.tint = 0xff0000;
-        if(player.life >= 1){
-            let audio_atacado = this.sound.add("luigiatacado", {
-                volume: 1.5,
-            });
-            audio_atacado.play();
-            }
-        this.time.addEvent({ delay: 1000, callback: function(){
-            player.atacado = false;
-            player.tint = 0xffffff;
-            },
-        });
-        arma.destroy();
-    }
-}
-function onTouchEnemy(player) {
-    if (player.body.touching.down) {
-        player.body.setVelocityY(-200);
-        player.body.setVelocityX(200);
-    }
-    else if (player.body.touching.right) {
-        player.body.setVelocityY(-200);
-        player.body.setVelocityX(200);
-    }
-    else if (player.body.touching.left) {
-        player.body.setVelocityY(-200);
-        player.body.setVelocityX(-200);
-    }
-    else {
-        player.body.setVelocityY(-200);
-    }
-    if(!player.buffs[2]["value"]){
-        if(!player.enemyTouch && !player.atacado){
-            player.enemyTouch = true;
-            player.tint = 0xff0000;
-            
-            if(player.enemyTouch){
-                this.sound.add("luigiatacado", {
-                    volume: 1.5,
-                }).play();
-                player.life -= 1;
-                this.time.addEvent({ delay: 2000, callback: function(){
-                        player.tint = 0xffffff;
-                        player.enemyTouch = false;
-                    },
-                });
-                
-            }
-        }
-    }
-}
-function onTouchEscalera(player,escalera) {
-    player.escaleras = true;
-    player.yEscalera = escalera.y;
-    player.xEscalera = escalera.x;
-}
-function getCoin(player, coin){
-    this.coinsGroup.killAndHide(coin);
-    coin.body.enable = false;
-    player.coins += 1;
-    this.text.setText("X " + player.coins);
-}
-function dibujaVidas(scene, vidasPlayer){
-    switch (vidasPlayer) {
-        case 5:
-            return scene.add.sprite(16, 20, "5vidas").setOrigin(0).setScrollFactor(0);
-            break;
-        case 4:
-            return scene.add.sprite(16, 20, "4vidas").setOrigin(0).setScrollFactor(0);
-            break;
-        case 3:
-            return scene.add.sprite(16, 20, "3vidas").setOrigin(0).setScrollFactor(0);
-            break;
-        case 2:
-            return scene.add.sprite(16, 20, "2vidas").setOrigin(0).setScrollFactor(0);
-            break;
-        case 1:
-            return scene.add.sprite(16, 20, "1vida").setOrigin(0).setScrollFactor(0);
-            break;
-        default:
-            break;
-    }
-  }
-function updateLife(vidas, life){
-    switch (life) {
-        case 5:
-            vidas.setTexture("5vidas");
-            break;
-        case 4:
-            vidas.setTexture("4vidas");
-            break;
-        case 3:
-            vidas.setTexture("3vidas");
-            break;
-        case 2:
-            vidas.setTexture("2vidas");
-            break;
-        case 1:
-            vidas.setTexture("1vida");
-            break;
-        default:
-            vidas.destroy();
-            break;
-    }
-}
-//No descomentar hasta que la capa de tierra no tenga debajo la de agua
-function gameOverPorAgua(player){
-    if(player.body.y >= 580 || player.y >= 580){
-        player.life = 0;
-    }
 }

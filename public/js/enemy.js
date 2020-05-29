@@ -23,38 +23,7 @@ export default class Enemy extends Phaser.GameObjects.Sprite {
         this.lastPosition = null;
         this.body.setVelocityX(this.speed);
         const anims = this.scene.anims;
-        if (this.tipo.localeCompare("vikingo") === 0) {
-            //Mueve derecha
-            anims.create({
-                key: "movder",
-                frames: anims.generateFrameNumbers('vikingos', { start: 0, end: 4 }),
-                frameRate: 10,
-                repeat: 0
-            });
-            //Mueve izquierda
-            anims.create({
-                key: "movizq",
-                frames: anims.generateFrameNumbers('vikingos', { start: 40, end: 44 }),
-                frameRate: 10,
-                repeat: 0
-            });
-
-            //Ataca derecha
-            anims.create({
-                key: "atcder",
-                frames: anims.generateFrameNumbers('vikingos', { start: 16, end: 22 }),
-                frameRate: 10,
-                repeat: 0
-            });
-            //Ataca izquierda
-            anims.create({
-                key: "atcizq",
-                frames: anims.generateFrameNumbers('vikingos', { start: 56, end: 62 }),
-                frameRate: 10,
-                repeat: 0
-            });
-        }
-        else if (this.tipo.localeCompare("ciclope") === 0) {
+        if (this.tipo.localeCompare("ciclope") === 0) {
             //Muere
             anims.create({
                 key: "muere",
@@ -98,38 +67,7 @@ export default class Enemy extends Phaser.GameObjects.Sprite {
                 repeat: 0
             });
         }
-        //enemigo extra
-        // else {
-        //     //Mueve derecha
-        //     anims.create({
-        //         key: "movder",
-        //         frames: anims.generateFrameNumbers('ciclope', { start: 0, end: 4 }),
-        //         frameRate: 10,
-        //         repeat: 0
-        //     });
-        //     //Mueve izquierda
-        //     anims.create({
-        //         key: "movizq",
-        //         frames: anims.generateFrameNumbers('ciclope', { start: 0, end: 4 }),
-        //         frameRate: 10,
-        //         repeat: 0
-        //     });
-
-        //     //Ataca derecha
-        //     anims.create({
-        //         key: "atcder",
-        //         frames: anims.generateFrameNumbers('ciclope', { start: 0, end: 4 }),
-        //         frameRate: 10,
-        //         repeat: 0
-        //     });
-        //     //Ataca izquierda
-        //     anims.create({
-        //         key: "atcizq",
-        //         frames: anims.generateFrameNumbers('ciclope', { start: 0, end: 4 }),
-        //         frameRate: 10,
-        //         repeat: 0
-        //     });
-        // }
+        
         this.body.setSize(45, 43).setOffset(20, 21);
         this.stepCount = Phaser.Math.Between(0, stepLimit);
         if (this.mapa.localeCompare("verde") === 0)
@@ -184,11 +122,11 @@ export default class Enemy extends Phaser.GameObjects.Sprite {
                     // can add other code - change enemy animation, etc.
                     cambiaSprite(this);
                 }
-                if(this.body.blocked.right){
+                if(this.body.blocked.right || this.body.touching.right){
                     this.body.velocity.x = -this.speed;
                     cambiaSprite(this);
                 }
-                else if(this.body.blocked.left){
+                else if(this.body.blocked.left || this.body.touching.left){
                     this.body.setVelocityX(this.speed);
                     cambiaSprite(this);
                 }

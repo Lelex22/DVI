@@ -122,10 +122,12 @@ export default class DungeonScene extends Phaser.Scene {
     const startRoom = rooms.shift();
     const endRoom = Phaser.Utils.Array.RemoveRandomElement(rooms);
     const mapRoom = Phaser.Utils.Array.RemoveRandomElement(rooms);
+    const lavaRoom = Phaser.Utils.Array.RemoveRandomElement(rooms);
     const otherRooms = Phaser.Utils.Array.Shuffle(rooms).slice(0, rooms.length * 0.9);
     // Place the shop
     this.stuffLayer.putTileAt(TILES.SHOP, endRoom.centerX, endRoom.centerY);
     this.stuffLayer.putTileAt(TILES.MAPAVERDE, mapRoom.centerX, mapRoom.centerY);
+    this.stuffLayer.putTileAt(TILES.MAPALAVA, lavaRoom.centerX, lavaRoom.centerY);
 
     // Place stuff in the 90% "otherRooms"
     otherRooms.forEach(room => {
@@ -179,6 +181,20 @@ export default class DungeonScene extends Phaser.Scene {
       cam.fade(250, 0, 0, 0);
       cam.once("camerafadeoutcomplete", () => {
         this.scene.start("GreenMapScene", {vidas: this.player.life, monedas: this.player.coins, buffs: this.player.buffs, mapa:"verde"});
+        this.sound.removeByKey("mazmorra");
+        this.backgroundsong = null;
+        this.scene.stop();
+      });
+    });
+    this.stuffLayer.setTileIndexCallback(TILES.MAPALAVA, () => {
+      audio.play();
+      this.stuffLayer.setTileIndexCallback(TILES.MAPALAVA, null);
+      this.hasPlayerReachedShop = true;
+      this.player.freeze();
+      const cam = this.cameras.main;
+      cam.fade(250, 0, 0, 0);
+      cam.once("camerafadeoutcomplete", () => {
+        this.scene.start("LavaMapScene", {vidas: this.player.life, monedas: this.player.coins, buffs: this.player.buffs, mapa:"verde"});
         this.sound.removeByKey("mazmorra");
         this.backgroundsong = null;
         this.scene.stop();

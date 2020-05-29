@@ -48,6 +48,8 @@ export default class Preloads extends Phaser.Scene {
         //Mapa verde preloads
         //Audio mapa verde
         this.load.audio("audio_mapaverde", "../public/assets/audio/mapaverde.mp3");
+        //Audio mapa lava
+        this.load.audio("audio_mapalava", "../public/assets/audio/mapalava.mp3");
         //Audios 
         this.load.audio("atacaplayer", "../public/assets/audio/atacaplayer.mp3");
         this.load.audio("defiendeplayer", "../public/assets/audio/defiendeplayer.mp3");
@@ -55,6 +57,10 @@ export default class Preloads extends Phaser.Scene {
         this.load.audio("luigiatacado", "../public/assets/audio/luigiatacado.wav");
         this.load.audio("menufin", "../public/assets/audio/menufin.mp3");
         this.load.audio("fin", "../public/assets/audio/fin.wav");
+        this.load.audio("firesound", "../public/assets/audio/fireball.wav");
+        this.load.audio("boom1", "../public/assets/audio/boom1.wav");
+        this.load.audio("boom7", "../public/assets/audio/boom7.wav");
+        this.load.audio("coin3", "../public/assets/audio/coin3.wav");
         this.load.image("piedra", "../public/assets/imagenes/piedra.png");
         this.load.image("smash", "../public/assets/imagenes/smash1.png");
 
@@ -104,9 +110,7 @@ export default class Preloads extends Phaser.Scene {
         this.load.tilemapTiledJSON('map2', '../public/assets/tilesets/nivel2.json');
     }
     create(){
-        //this.scene.start("TitleScreenScene");
-        //this.scene.start("ShopScene");
-        this.scene.start("LavaMapScene");
+        this.scene.start("TitleScreenScene");
     }
     //Funciones mapas
     colisiona(arma){
@@ -114,6 +118,13 @@ export default class Preloads extends Phaser.Scene {
     }
     defiende(escudo, arma){
         let audio_defensa = this.sound.add("defiendeplayer", {
+            volume: 2,
+        });
+        audio_defensa.play();
+        arma.destroy();
+    }
+    defiende2(escudo, arma){
+        let audio_defensa = this.sound.add("boom7", {
             volume: 2,
         });
         audio_defensa.play();
@@ -196,6 +207,13 @@ export default class Preloads extends Phaser.Scene {
         coin.body.enable = false;
         player.coins += 1;
         this.text.setText("X " + player.coins);
+        this.sound.add("coin3", {
+            volume: 1,
+        }).play();
+    }
+    coinsDestruct(coin){
+        if(coin.y >= 560)
+            coin.destroy();
     }
     dibujaVidas(scene, vidasPlayer){
         switch (vidasPlayer) {

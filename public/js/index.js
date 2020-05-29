@@ -23,7 +23,7 @@ const config = {
   parent: "game-container",
   pixelArt: true,
   // scene: [ Preloads, TitleScreenScene, DungeonScene, ShopScene, GreenMapScene, GameOver ],
-  scene: [ Preloads, LavaMapScene, GameOver ],
+  scene: [ Preloads, TitleScreenScene, DungeonScene, GreenMapScene, ShopScene, LavaMapScene, GameOver ],
   physics: {
     default: "arcade",
     arcade: {

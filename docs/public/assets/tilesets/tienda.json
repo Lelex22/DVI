@@ -4,7 +4,7 @@
      "export":
         {
          "format":"json",
-         "target":"tienda.tmx"
+         "target":"tienda.json"
         }
     },
  "height":30,
@@ -69,12 +69,35 @@
          "width":30,
          "x":0,
          "y":0
+        }, 
+        {
+         "draworder":"topdown",
+         "id":7,
+         "name":"tendera",
+         "objects":[
+                {
+                 "gid":256,
+                 "height":104,
+                 "id":1,
+                 "name":"",
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":104,
+                 "x":184.295125805275,
+                 "y":214.197641910782
+                }],
+         "opacity":1,
+         "type":"objectgroup",
+         "visible":true,
+         "x":0,
+         "y":0
         }],
- "nextlayerid":7,
- "nextobjectid":1,
+ "nextlayerid":8,
+ "nextobjectid":2,
  "orientation":"orthogonal",
  "renderorder":"left-up",
- "tiledversion":"1.3.2",
+ "tiledversion":"1.3.3",
  "tileheight":16,
  "tilesets":[
         {
@@ -89,6 +112,19 @@
          "tilecount":255,
          "tileheight":16,
          "tilewidth":16
+        }, 
+        {
+         "columns":8,
+         "firstgid":256,
+         "image":"..\/spritesheets\/tendera.png",
+         "imageheight":416,
+         "imagewidth":837,
+         "margin":0,
+         "name":"tendera",
+         "spacing":0,
+         "tilecount":32,
+         "tileheight":104,
+         "tilewidth":104
         }],
  "tilewidth":16,
  "type":"map",

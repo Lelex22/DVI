@@ -14,53 +14,34 @@ export default class ShopScene extends Phaser.Scene {
           this.buffsPlayer = data.buffs;
           this.mapa = data.mapa;
         }
-        //else this.player = new Player(this, 0, 0);
       }
     preload(){
-        this.load.image("5vidas", "../DVI/public/assets/imagenes/5vidas.png");
-        this.load.image("4vidas", "../DVI/public/assets/imagenes/4vidas.png");
-        this.load.image("3vidas", "../DVI/public/assets/imagenes/3vidas.png");
-        this.load.image("2vidas", "../DVI/public/assets/imagenes/2vidas.png");
-        this.load.image("1vida", "../DVI/public/assets/imagenes/1vida.png");
-        this.load.spritesheet("coin", "../DVI/public/assets/imagenes/coins.png", {
-            frameWidth: 22.8333,
-            frameHeight: 29
-        });
-        this.load.spritesheet(
-        "characters",
-        "../DVI/public/assets/spritesheets/luigi-sprites.png",
-        {
-            frameWidth: 28,
-            frameHeight: 28
-        }
-        );
-        this.load.image('tiendaTiles', '../DVI/public/assets/tilesets/tienda.png');
-        this.load.tilemapTiledJSON('map', '../DVI/public/assets/tilesets/tienda.json');
         
-        this.load.spritesheet('button', '../DVI/public/img/flixel-button.png', { frameWidth: 80, frameHeight: 20 });
-
-        this.load.bitmapFont('nokia', '../DVI/public/assets/nokia16black.png', '../DVI/public/assets/nokia16black.xml');
         
     }
     create(){
-        
-        const map = this.make.tilemap({ key: "map" });
+        this.carga = this.scene.get("Preloads");
+        const map = this.make.tilemap({ key: "tiendaMap" });
         let tileset = map.addTilesetImage('tienda', 'tiendaTiles');
         const fondo = map.createStaticLayer("Capa de patrones 1", tileset, 0, 0);
         const borde = map.createStaticLayer("borde", tileset, 0, 0);
         const floor = map.createStaticLayer("floor", tileset, 0, 0);
         const pared = map.createStaticLayer("pared", tileset, 0, 0);
+        
         const colisiones = map.createStaticLayer("objetoscoli", tileset, 0, 0);
-
+        for (const objeto of map.getObjectLayer('tendera').objects) {
+            this.add.image(235, 160, "tendera");
+        }
         colisiones.setCollisionByExclusion([-1, 0]);
         borde.setCollisionByExclusion([-1, 0]);
         pared.setCollisionByExclusion([-1, 0]);
         this.player = new Player(this, 250, 290, this.buffsPlayer, this.mapa, this.lifesPlayer, this.coinsPlayer);
         
-        this.vidas = dibujaVidas(this, this.player.life);
+        this.vidas = this.carga.dibujaVidas(this, this.player.life);
         this.monedas = this.add.sprite(650, 20, "coin").setOrigin(0).setScrollFactor(0).setScale(1.5);
         this.textMonedas = this.add.text(690, 27, "X " + this.player.coins, { fontFamily: 'Georgia, "Goudy Bookletter 1911", Times, serif', fontSize: "30px" }).setOrigin(0).setScrollFactor(0);
-        
+        this.buttonsGroup = this.add.group();
+        this.textos = [];
 
         this.physics.add.collider(this.player, borde);
         this.physics.add.collider(this.player, pared);
@@ -73,7 +54,7 @@ export default class ShopScene extends Phaser.Scene {
         camera.startFollow(this.player);
         this.enMostrador = false;
 
-        this.add.text(16, 460, `Ve al mostrador y pulsa ENTER\npara comprarle algo al tendero.`, {
+        this.text = this.add.text(16, 460, `Ve al mostrador y pulsa ENTER\npara comprarle algo al tendero.`, {
             font: "18px monospace",
             fill: "#000000",
             padding: { x: 20, y: 10 },
@@ -82,7 +63,7 @@ export default class ShopScene extends Phaser.Scene {
           .setScrollFactor(0);
         
         this.input.keyboard.on('keydown-ENTER',function(event){
-            let texto = this.add.text(100, 360, `Pulsa con el ratón aquello\nque quieras comprar. `, {
+            this.text.setText(`Pulsa con el ratón aquello\nque quieras comprar. `, {
                 font: "18px monospace",
                 fill: "#000000",
                 padding: { x: 20, y: 10 },
@@ -106,21 +87,41 @@ export default class ShopScene extends Phaser.Scene {
                 {
                     let marker = this.player.buffs[i];
                     if(!marker.value){
-                        makeButton.call(this, marker.name, 660, 115 + j*40, precio);
+                        let ret = makeButton.call(this, marker.name, 660, 135 + j*40, precio);
+                        this.buttonsGroup.add(ret[0]);
+                        this.textos.push(ret[1]);
                         j++;
                     }
                 }
-                makeButton.call(this, "Vida", 660, 115 + j*40, 25);
-                makeButton.call(this, "Aumento de Vida Máxima", 640, 115 + (j + 1)* 40, 500);
+                makeButton.call(this, "Vida", 660, 135 + j*40, 25);
+                makeButton.call(this, "Aumento de Vida Máxima", 640, 135 + (j + 1)* 40, 500);
 
                 this.input.on('gameobjectover', function (pointer, button)
                 {
                     setButtonFrame(button, 0);
-                });
+                    switch(button.name){
+                        case "Espada": 
+                            this.explicacion = this.add.text(470, 70, "Con la espada podrás atacar a los\nenemigos pulsando la tecla S.");
+                            break;
+                        case "Escudo": 
+                            this.explicacion = this.add.text(465, 70, "Con el escudo podrás defenderte de\nlos enemigos pulsando la tecla A.");
+                            break;
+                        case "Capa": 
+                            this.explicacion = this.add.text(470, 70, "Con la capa el contacto con los\nenemigos no te producirá daño.");
+                            break;
+                        case "Aumento de Vida Máxima": 
+                            this.explicacion = this.add.text(550, 70, "Se aumenta en 1 el máximo\nde vidas (hasta 10 vidas).");
+                            break;
+                        case "Vida": 
+                            this.explicacion = this.add.text(550, 70, "Recupera una vida.");
+                            break;
+                    }
+                }, this);
                 this.input.on('gameobjectout', function (pointer, button)
                 {
                     setButtonFrame(button, 1);
-                });
+                    this.explicacion.destroy();
+                }, this);
 
                 this.input.on('gameobjectup', function (pointer, button)
                 {
@@ -135,14 +136,65 @@ export default class ShopScene extends Phaser.Scene {
                                     case "Espada": 
                                         this.player.buffs[1].value = true;
                                         this.messages = ["Espada."];
+                                        this.explicacion.destroy();
+                                        button.destroy();
+                                        this.textos[1].destroy();
+                                        this.textos.splice(1,1);
+                                        if(this.buttonsGroup.children.entries.length === 2){
+                                            for(let i of this.buttonsGroup.children.entries)
+                                                i.precio = 1000;
+                                            this.textos[0].text = "Escudo X 1000 monedas";
+                                            this.textos[1].text = "Capa X 1000 monedas";
+                                        }
+                                        else if(this.buttonsGroup.children.entries.length === 1){
+                                            for(let i of this.buttonsGroup.children.entries)
+                                                i.precio = 3000;
+                                            if(this.textos[0].text.includes("Escudo"))
+                                                this.textos[0].text = "Escudo X 3000 monedas";
+                                            else this.textos[0].text = "Capa X 3000 monedas";
+                                        }                                        
                                         break;
                                     case "Escudo": 
                                         this.player.buffs[0].value = true;
                                         this.messages = ["Escudo."];
+                                        this.explicacion.destroy();
+                                        button.destroy();
+                                        this.textos[0].destroy();
+                                        this.textos.splice(0,1);
+                                        if(this.buttonsGroup.children.entries.length === 2){
+                                            for(let i of this.buttonsGroup.children.entries)
+                                                i.precio = 1000;
+                                            this.textos[0].text = "Espada X 1000 monedas";
+                                            this.textos[1].text = "Capa X 1000 monedas";
+                                        }
+                                        else if(this.buttonsGroup.children.entries.length === 1){
+                                            for(let i of this.buttonsGroup.children.entries)
+                                                i.precio = 3000;
+                                            if(this.textos[0].text.includes("Espada"))
+                                                this.textos[0].text = "Espada X 3000 monedas";
+                                            else this.textos[0].text = "Capa X 3000 monedas";
+                                        }       
                                         break;
                                     case "Capa": 
                                         this.player.buffs[2].value = true;
                                         this.messages = ["Capa."];
+                                        this.explicacion.destroy();
+                                        button.destroy();
+                                        this.textos[2].destroy();
+                                        this.textos.splice(2,1);
+                                        if(this.buttonsGroup.children.entries.length === 2){
+                                            for(let i of this.buttonsGroup.children.entries)
+                                                i.precio = 1000;
+                                            this.textos[0].text = "Escudo X 1000 monedas";
+                                            this.textos[1].text = "Espada X 1000 monedas";
+                                        }
+                                        else if(this.buttonsGroup.children.entries.length === 1){
+                                            for(let i of this.buttonsGroup.children.entries)
+                                                i.precio = 3000;
+                                            if(this.textos[0].text.includes("Espada"))
+                                                this.textos[0].text = "Espada X 3000 monedas";
+                                            else this.textos[0].text = "Escudo X 3000 monedas";
+                                        }    
                                         break;
                                 }
                         }
@@ -152,9 +204,7 @@ export default class ShopScene extends Phaser.Scene {
                                 
                                 this.player.coins -= button.precio;
                                 this.player.life += 1;
-                                this.messages = "1 Vida. Ahora tienes " + this.player.life + "vidas";
-
-                                this.add.image(32 * (this.player.life - 1) + 16, 20, 'heart').setScrollFactor(0);
+                                this.messages = "1 Vida. Ahora tienes " + this.player.life + " vidas";
                             }
                             else {
                                 this.fail = true;
@@ -162,23 +212,26 @@ export default class ShopScene extends Phaser.Scene {
                             }
                         }
                         else if(button.name === "Aumento de Vida Máxima"){
-                            
-                            this.player.coins -= button.precio;
-                            this.player.maxLife += 1;
-                            this.messages = "Aumento de Vida Máxima.\nAhora tu máximo de vidas es " + this.player.maxLife;
+                            if(this.player.maxLife < 10){
+                                this.player.coins -= button.precio;
+                                this.player.maxLife += 1;
+                                this.messages = "Aumento de Vida Máxima.\nAhora tu máximo de vidas es " + this.player.maxLife;
+                            }
+                            else this.messages = "El máximo de vidas no puede aumentar más.";
                         }
                         if(this.fail){
-                            texto.text = `${this.messages}.\nAumenta tu máximo de vidas para comprar más.\n¡Vuelve cuando quieras!`;
+                            this.text.setText(`${this.messages}.\nAumenta tu máximo de vidas para comprar más.\n¡Vuelve cuando quieras!`);
                             this.fail = false;
                         }
                         else {
-                            texto.text = `Has comprado ${this.messages}.\nTe quedan ${this.player.coins} monedas.\n¡Vuelve cuando quieras!`;
+                            this.text.setText(`Has comprado ${this.messages}\nTe quedan ${this.player.coins} monedas.\n¡Vuelve cuando quieras!`);
                         }
                     }
                     //Caso de que no tenga monedas suficientes
                     else {
-                        texto.text = `No tienes monedas suficientes\npara comprar ese artículo.`;
+                        this.text.setText(`No tienes monedas suficientes\npara comprar ese artículo.`);
                     }
+                    this.textMonedas.setText("X " + this.player.coins);
                 }, this);
 
             }
@@ -204,51 +257,30 @@ export default class ShopScene extends Phaser.Scene {
         }
 
         else this.player.update();
-        
+        this.carga.updateLife(this.vidas, this.player.life);
     }
     
 }
 
 function makeButton(name, x, y, precio)
 {
-    let button = this.add.image(x, y, 'button', 0).setInteractive();
+    let button = this.add.image(x, y, 'button', 0).setInteractive(), text;
     button.name = name;
     button.precio = precio;
     if(button.name === "Aumento de Vida Máxima"){
         button.setScale(4, 1.5);
-        let text = this.add.bitmapText(x - 40, y - 8, 'nokia', "+1 Vida Máxima X " + precio + "monedas", 16);
+        text = this.add.bitmapText(x - 40, y - 8, 'nokia', "+1 Vida Máxima X " + precio + " monedas", 16);
         text.x += (button.width - text.width) / 2;
     }
     else{
         button.setScale(3, 1.5)
-        let text = this.add.bitmapText(x - 40, y - 8, 'nokia', name + " X " + precio + "monedas", 16);
+        text = this.add.bitmapText(x - 40, y - 8, 'nokia', name + " X " + precio + " monedas", 16);
         text.x += (button.width - text.width) / 2;
     }
-    
+    return [button,text];
 }
 
 function setButtonFrame(button, frame)
 {
     button.frame = button.scene.textures.getFrame('button', frame);
 }
-function dibujaVidas(scene, vidasPlayer){
-    switch (vidasPlayer) {
-        case 5:
-            return scene.add.sprite(16, 20, "5vidas").setOrigin(0).setScrollFactor(0);
-            break;
-        case 4:
-            return scene.add.sprite(16, 20, "4vidas").setOrigin(0).setScrollFactor(0);
-            break;
-        case 3:
-            return scene.add.sprite(16, 20, "3vidas").setOrigin(0).setScrollFactor(0);
-            break;
-        case 2:
-            return scene.add.sprite(16, 20, "2vidas").setOrigin(0).setScrollFactor(0);
-            break;
-        case 1:
-            return scene.add.sprite(16, 20, "1vida").setOrigin(0).setScrollFactor(0);
-            break;
-        default:
-            break;
-    }
-  }

@@ -9,7 +9,6 @@ export default class Player extends Phaser.GameObjects.Sprite{
     this.atacado = false;
     this.scene.add.existing(this);
     this.scene.physics.add.existing(this);
-    console.log(life);
     this.speed = 400;
     this.scene = scene;
     this.lastPosition = null;

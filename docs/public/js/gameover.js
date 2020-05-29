@@ -7,10 +7,10 @@ export default class GameOver extends Phaser.Scene {
         this.escenaPausada = data.escena;
     }
     preload(){
-        this.load.image("gameover", "../public/assets/imagenes/gameover.png");
-        this.load.image("click", "../public/assets/imagenes/subimagengameover.png");
-        this.load.image("click2", "../public/assets/imagenes/volveraempezar.png");
-        this.load.audio("bye", "../public/assets/audio/despedida.wav");
+        this.load.image("gameover", "../DVI/public/assets/imagenes/gameover.png");
+        this.load.image("click", "../DVI/public/assets/imagenes/subimagengameover.png");
+        this.load.image("click2", "../DVI/public/assets/imagenes/volveraempezar.png");
+        this.load.audio("bye", "../DVI/public/assets/audio/despedida.wav");
     }
     create() {
         this.add.image(400, 300, "gameover");

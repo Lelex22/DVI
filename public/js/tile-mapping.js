@@ -34,6 +34,7 @@ const TILE_MAPPING = {
   },
   SHOP: 5,
   MAPAVERDE: 20,
+  MAPALAVA: 21,
   // prettier-ignore
   TOWER: [
     [14]

@@ -26,21 +26,21 @@ export default class Enemy extends Phaser.GameObjects.Sprite {
         if (this.tipo.localeCompare("ciclope") === 0) {
             //Muere
             anims.create({
-                key: "muere",
+                key: "muerec",
                 frames: anims.generateFrameNumbers('ciclope', { start: 241, end: 248 }),
                 frameRate: 8,
                 repeat: -1
             });
             //Mueve derecha
             anims.create({
-                key: "movder",
+                key: "movderc",
                 frames: anims.generateFrameNumbers('ciclope', { start: 15, end: 26 }),
                 frameRate: 12,
                 repeat: -1
             });
             //Mueve izquierda
             anims.create({
-                key: "movizq",
+                key: "movizqc",
                 frames: anims.generateFrameNumbers('ciclope', { start: 165, end: 176 }),
                 frameRate: 12,
                 repeat: -1
@@ -48,20 +48,20 @@ export default class Enemy extends Phaser.GameObjects.Sprite {
 
             //Ataca derecha
             anims.create({
-                key: "atcder",
+                key: "atcderc",
                 frames: anims.generateFrameNumbers('ciclope', { start: 46, end: 57 }),
                 frameRate: 12,
                 repeat: 0
             });
             //Ataca izquierda
             anims.create({
-                key: "atcizq",
+                key: "atcizqc",
                 frames: anims.generateFrameNumbers('ciclope', { start: 196, end: 207 }),
                 frameRate: 12,
                 repeat: 0
             });
             anims.create({
-                key: "stand",
+                key: "standc",
                 frames: anims.generateFrameNumbers('ciclope', { start: 150, end: 150 }),
                 frameRate: 1,
                 repeat: 0
@@ -82,8 +82,8 @@ export default class Enemy extends Phaser.GameObjects.Sprite {
         if(this.life > 0){
             if(this.firstInstance){
                 this.body.velocity.x = this.speed;
-                this.anims.play("movizq", true);
-                this.lastPosition = "movizq";
+                this.anims.play("movizqc", true);
+                this.lastPosition = "movizqc";
                 this.firstInstance = false;
             }
             let p = this.body.x - this.scene.player.body.x;
@@ -135,12 +135,12 @@ export default class Enemy extends Phaser.GameObjects.Sprite {
                 //Variable con el signo de la velocidad de la piedra: true es positiva false negativa
                 let lastSpeed;       
                 this.body.setVelocityX(0);
-                if(this.lastPosition.localeCompare("movizq") === 0){
-                    this.anims.play("atcizq", true);
+                if(this.lastPosition.localeCompare("movizqc") === 0){
+                    this.anims.play("atcizqc", true);
                     lastSpeed = false;
                 }
                 else{
-                    this.anims.play("atcder", true);
+                    this.anims.play("atcderc", true);
                     lastSpeed = true;
                 }
                 if(this.anims.currentFrame.index == 2 && !this.piedra){
@@ -157,7 +157,7 @@ export default class Enemy extends Phaser.GameObjects.Sprite {
                 else if(this.anims.currentFrame.index == 12){
                     this.puedeAtacar = false;
                     this.play(this.lastPosition, true);
-                    if(this.lastPosition.localeCompare("movizq") === 0)
+                    if(this.lastPosition.localeCompare("movizqc") === 0)
                         this.body.setVelocityX(-this.speed);
                     else this.body.setVelocityX(this.speed);
                 }
@@ -165,7 +165,7 @@ export default class Enemy extends Phaser.GameObjects.Sprite {
             }
             else {
                 this.play(this.lastPosition, true);
-                if(this.lastPosition.localeCompare("movizq") === 0)
+                if(this.lastPosition.localeCompare("movizqc") === 0)
                     this.body.setVelocityX(-this.speed);
                 else this.body.setVelocityX(this.speed);
             }
@@ -176,7 +176,7 @@ export default class Enemy extends Phaser.GameObjects.Sprite {
             else this.tiempo++;
         }
         else {
-            this.anims.play("muere", true);
+            this.anims.play("muerec", true);
             this.body.enable = false;
             
             this.scene.time.addEvent({ delay: 1000, callback: function(){
@@ -194,12 +194,12 @@ export default class Enemy extends Phaser.GameObjects.Sprite {
 } 
 function cambiaSprite(enemy){
     if (Math.sign(enemy.body.velocity.x) === 1) {
-        enemy.anims.play("movder", true);
-        enemy.lastPosition = "movder";
+        enemy.anims.play("movderc", true);
+        enemy.lastPosition = "movderc";
     }
     //else if enemy moving to left and has started to move over left edge of platform
     else if (Math.sign(enemy.body.velocity.x) === -1) {
-        enemy.anims.play("movizq", true);
-        enemy.lastPosition = "movizq";
+        enemy.anims.play("movizqc", true);
+        enemy.lastPosition = "movizqc";
     }
 }

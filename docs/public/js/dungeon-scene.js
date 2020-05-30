@@ -134,13 +134,25 @@ export default class DungeonScene extends Phaser.Scene {
       let rand = Math.random();
       if (rand <= 0.25) {
         // 25% chance of chest
-        this.stuffLayer.putTileAt(TILES.CHEST, room.centerX, room.centerY);
-      } else if (rand <= 0.5) {
+        this.stuffLayer.weightedRandomize(room.centerX, room.centerY, 1, 1, TILES.CHEST);
+      } else if (rand <= 0.375) {
+        // 50% chance of a pot in the room... except don't block a door!
+        this.stuffLayer.weightedRandomize(room.centerX - 1, room.centerY - 1, 1, 1, TILES.POT);
+        this.stuffLayer.weightedRandomize(room.centerX + 1, room.centerY + 1, 1, 1, TILES.POT);
+      } 
+      else if (rand <= 0.5) {
         // 50% chance of a pot anywhere in the room... except don't block a door!
-        const x = Phaser.Math.Between(room.left + 2, room.right - 2);
-        const y = Phaser.Math.Between(room.top + 2, room.bottom - 2);
-        this.stuffLayer.weightedRandomize(x, y, 1, 1, TILES.POT);
-      } else {
+        if (room.height >= 9) {          
+          this.stuffLayer.weightedRandomize(room.centerX - 1, room.centerY + 1, 1, 1, TILES.EXTR);
+          this.stuffLayer.weightedRandomize(room.centerX + 1, room.centerY + 1, 1, 1, TILES.EXTR);
+          this.stuffLayer.weightedRandomize(room.centerX - 1, room.centerY - 2, 1, 1, TILES.EXTR);
+          this.stuffLayer.weightedRandomize(room.centerX + 1, room.centerY - 2, 1, 1, TILES.EXTR);
+        } else {
+          this.stuffLayer.weightedRandomize(room.centerX - 1, room.centerY - 1, 1, 1, TILES.EXTR);
+          this.stuffLayer.weightedRandomize(room.centerX + 1, room.centerY + 1, 1, 1, TILES.EXTR);
+        }
+      }
+      else {
         // 25% of either 2 or 4 towers, depending on the room size
         if (room.height >= 9) {
           this.stuffLayer.putTilesAt(TILES.TOWER, room.centerX - 1, room.centerY + 1);
@@ -167,7 +179,7 @@ export default class DungeonScene extends Phaser.Scene {
       const cam = this.cameras.main;
       cam.fade(250, 0, 0, 0);
       cam.once("camerafadeoutcomplete", () => {
-        this.scene.start("ShopScene", {vidas: this.player.life, monedas: this.player.coins, buffs: this.player.buffs, mapa: "tienda"});
+        this.scene.start("ShopScene", {vidas: this.player.life, monedas: 1250, buffs: this.player.buffs, mapa: "tienda"});
         this.scene.stop();
       });
     });
@@ -222,7 +234,7 @@ export default class DungeonScene extends Phaser.Scene {
     this.monedas = this.add.sprite(650, 20, "coin").setOrigin(0).setScrollFactor(0).setScale(1.5);
     this.textMonedas = this.add.text(690, 27, "X " + this.player.coins, { fontFamily: 'Georgia, "Goudy Bookletter 1911", Times, serif', fontSize: "30px" }).setOrigin(0).setScrollFactor(0);
     // Help text that has a "fixed" position on the screen
-    this.add.text(16, 460, 'Busca la tienda o los niveles.', {
+    this.add.text(3, 560, 'Busca la tienda o los niveles.', {
         font: "18px monospace",
         fill: "#000000",
         padding: { x: 20, y: 10 },

@@ -16,6 +16,8 @@ const TILE_MAPPING = {
   },
   FLOOR: [{ index: 4, weight: 9 }, { index: 12, weight: 8 }],
   POT: [{ index: 13, weight: 1 }],
+  EXTR: [{index: 22, weight: 1}],
+  CHEST: [{index: 6, weight: 1}],
   DOOR: {
     TOP: [11, 4, 11],
     // prettier-ignore

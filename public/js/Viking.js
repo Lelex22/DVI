@@ -137,7 +137,7 @@ export default class Viking extends Phaser.GameObjects.Sprite {
                     this.anims.play("atcder", true);
                     lastSpeed = true;
                 }
-                if(this.anims.currentFrame.index == 1 && !this.smash){
+                if(this.anims.currentFrame.index == 2 && !this.smash){
                     let audio_ataque = this.scene.sound.add("boom1", {
                         volume: 0.3,
                       });

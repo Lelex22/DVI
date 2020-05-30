@@ -246,11 +246,10 @@ export default class ShopScene extends Phaser.Scene {
         if(this.player.x <= 255 && this.player.x >= 215 && this.player.y <= 250)
             this.enMostrador = true;
         else this.enMostrador = false;
-        if(this.player.x <= 250 && this.player.x >= 240 && this.player.y > 290){
+        if(this.player.x <= 240 && this.player.x >= 230 && this.player.y > 290){
             const cam = this.cameras.main;
             cam.fade(250, 0, 0, 0);
             cam.once("camerafadeoutcomplete", () => {
-                this.player.destroy();
                 this.scene.start("DungeonScene", {vidas: this.player.life, monedas: this.player.coins, buffs: this.player.buffs});
                 this.scene.stop();
             });

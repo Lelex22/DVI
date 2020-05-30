@@ -68,6 +68,8 @@ export default class Player extends Phaser.GameObjects.Sprite{
     super.preUpdate(d, t);
     if(this.lastPosition != null && (this.lastPosition.includes("capa") || this.lastPosition.includes("espada")))
       this.body.setSize(10, 10).setOffset(20,10);
+    else if (this.mapa.localeCompare("verde") !== 0)
+      this.body.setSize(10, 10).setOffset(10,15);
     else this.body.setSize(10, 10).setOffset(10,10);
   }
 

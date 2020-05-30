@@ -86,11 +86,11 @@ export default class Preloads extends Phaser.Scene {
             frameHeight: 64
         });
         this.load.spritesheet("fregona", "../public/assets/spritesheets/fregona.png", {
-            frameWidth: 26,
+            frameWidth: 45,
             frameHeight: 14
         });
         this.load.spritesheet("fregonaiz", "../public/assets/spritesheets/fregonaiz.png", {
-            frameWidth: 26,
+            frameWidth: 45,
             frameHeight: 14
         });
         this.load.spritesheet("escudo", "../public/assets/spritesheets/escudo.png", {

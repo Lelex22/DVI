@@ -68,7 +68,7 @@ export default class Enemy extends Phaser.GameObjects.Sprite {
             });
         }
         
-        this.body.setSize(45, 43).setOffset(20, 21);
+        this.body.setSize(32, 43).setOffset(20, 21);
         this.stepCount = Phaser.Math.Between(0, stepLimit);
         if (this.mapa.localeCompare("verde") === 0)
             this.body.setGravity(0, 200);

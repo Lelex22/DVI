@@ -182,7 +182,7 @@ export default class Enemy extends Phaser.GameObjects.Sprite {
             this.scene.time.addEvent({ delay: 1000, callback: function(){
                 this.scene.ciclopsGroup.killAndHide(this);
                 while(this.bonus < 5){
-                    let coin = new Coin(this.scene, this.x, 530);
+                    let coin = new Coin(this.scene, this.x, this.y);
                     coin.body.bounce.x = 1; 
                     this.scene.coinsGroup.add(coin);
                     this.bonus++;

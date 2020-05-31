@@ -29,4 +29,4 @@ El juego tendra varios enemigos , cada uno de ellos tendran habilidades unicas, 
 
 **Vikingos:** Enemigos muy rapidos, constan e dos ataques basicos, lanzamientos de rayos y ataques cuerpo a cuerpo.La estratega para vencerlos, ponerse en su espalda y no para de atacarles hasta que caigan.
 
-**Mago:**Mini Jefe del juego, solo presente en el mapa de lava. Se caracteiza por los ataques a distancia, bolas de fuego, evitarlas a toda costa.Para derrotarlo hay que conseguir asestar tantos golpes como sean necearios.
+**Mago:** Mini Jefe del juego, solo presente en el mapa de lava. Se caracteiza por los ataques a distancia, bolas de fuego, evitarlas a toda costa.Para derrotarlo hay que conseguir asestar tantos golpes como sean necearios.

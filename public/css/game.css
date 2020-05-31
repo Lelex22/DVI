@@ -1,7 +1,7 @@
-html,
-      body{
-        background-image: "../"
-      }
+body
+{
+  background-image: "../assets/title/title3.png";
+}
 
       #game {
         margin: 0;

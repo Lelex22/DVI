@@ -9,8 +9,8 @@ export default class GameOver extends Phaser.Scene {
     preload(){}
     create() {
         this.scene.get("Preloads");
-        this.add.image(400, 300, "gameover");
-        let click = this.add.image(400, 380, "click").setDepth(1).setInteractive();
+        this.add.image(500, 300, "gameover");
+        let click = this.add.image(500, 380, "click").setDepth(1).setInteractive();
         click.on("pointerover", () => {
             click.setTexture('click2');
         });

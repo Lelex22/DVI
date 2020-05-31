@@ -17,7 +17,7 @@ import Preloads from "./preloads.js";
 
 const config = {
   type: Phaser.AUTO,
-  width: 800,
+  width: 1000,
   height: 600,
   backgroundColor: "#000",
   parent: "game-container",

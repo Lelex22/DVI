@@ -1,7 +1,7 @@
 import Fireball from "./fireball.js";
 import Coin from "./coins.js";
 
-const stepLimit = 400;
+const stepLimit = 300;
 export default class Mago extends Phaser.GameObjects.Sprite {
     constructor(scene, x, y, mapa, tipo) {
         super(scene, x, y, tipo);

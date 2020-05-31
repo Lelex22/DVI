@@ -31,6 +31,7 @@ export default class LavaMapScene extends Phaser.Scene {
     create() {
         this.carga = this.scene.get("Preloads");
         this.bonusFin = false;
+        this.contadorAyuda = 0;
         const map2 = this.make.tilemap({ key: "map2" });
         let tileset = map2.addTilesetImage('Spritesheet_tileset', 'mapalava');
         //Audio
@@ -110,19 +111,26 @@ export default class LavaMapScene extends Phaser.Scene {
         this.physics.add.overlap(this.player, lava, this.carga.gameOverPorAgua, null, this);
         const camera = this.cameras.main;
 
+        this.ayuda = this.add.text(3, 570, 'Usa las Flechas para moverte y saltar, si tienes armas usa "A" para atacar y "S" para protegerte', {
+            font: "18px monospace",
+            fill: "#000000",
+            padding: { x: 20, y: 5 },
+            backgroundColor: "#ffffff"
+          })
         // Constrain the camera so that it isn't allowed to move outside the width/height of tilemap
         camera.setBounds(0, 0, map2.widthInPixels, map2.heightInPixels);
         camera.startFollow(this.player);
     }
 
     update() {
+        this.player = this.carga.gameOverPorAgua(this.player);
         if(this.player.life > 0){
             if (this.player.x <= 9) {
                 const cam = this.cameras.main;
                 cam.fade(250, 0, 0, 0);
                 cam.once("camerafadeoutcomplete", () => {
                     this.scene.start("DungeonScene", { vidas: this.player.life, monedas: this.player.coins, buffs: this.player.buffs });
-                    this.sound.removeByKey("audio_mapaverde");
+                    this.sound.removeByKey("audio_mapalava");
                     this.audio = null;
                     this.scene.stop();
                 });
@@ -136,7 +144,7 @@ export default class LavaMapScene extends Phaser.Scene {
                 cam.fade(250, 0, 0, 0);
                 cam.once("camerafadeoutcomplete", () => {
                     this.scene.start("DungeonScene", { vidas: this.player.life, monedas: this.player.coins, buffs: this.player.buffs });
-                    this.sound.removeByKey("audio_mapaverde");
+                    this.sound.removeByKey("audio_mapalava");
                     this.audio = null;
                     this.scene.stop();
                 });
@@ -159,6 +167,9 @@ export default class LavaMapScene extends Phaser.Scene {
               });
             audiofin.play();
         }
+        if(this.contadorAyuda > 200)
+            this.ayuda.destroy();
+        else this.contadorAyuda++;
     }
 
 

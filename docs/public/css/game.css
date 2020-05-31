@@ -1,5 +1,8 @@
-html,
-      body,
+body
+{
+  background-image: "../assets/title/title3.png";
+}
+
       #game {
         margin: 0;
         padding: 0;

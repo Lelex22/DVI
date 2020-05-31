@@ -18,19 +18,18 @@ export default class GreenMapScene extends Phaser.Scene {
     }
 
     init(data) {
-        console.log(data);
         if (data !== null) {
             this.lifesPlayer = data.vidas;
             this.coinsPlayer = data.monedas;
             this.buffsPlayer = data.buffs;
             this.mapa = data.mapa;
-            //this.mapa = "verde";
         }
     }
     preload() {}
     create() {
         this.carga = this.scene.get("Preloads");
         this.bonusFin = false;
+        this.contadorAyuda = 0;
         const map = this.make.tilemap({ key: "map1" });
         let tileset = map.addTilesetImage('genaric-cartoon-charactor-sprite-png-15-original', 'mapaverde');
         //Audio
@@ -116,13 +115,19 @@ export default class GreenMapScene extends Phaser.Scene {
         this.physics.add.overlap(this.armasEnemigos, this.player, this.carga.attackPlayer, null, this);
         this.physics.add.overlap(this.player, agua, this.carga.gameOverPorAgua, null, this);
         const camera = this.cameras.main;
-
+        this.ayuda = this.add.text(3, 570, 'Usa las Flechas para moverte y saltar, si tienes armas usa "A" para atacar y "S" para protegerte', {
+            font: "18px monospace",
+            fill: "#000000",
+            padding: { x: 20, y: 5 },
+            backgroundColor: "#ffffff"
+          })
         // Constrain the camera so that it isn't allowed to move outside the width/height of tilemap
         camera.setBounds(0, 0, map.widthInPixels, map.heightInPixels);
         camera.startFollow(this.player);
     }
 
     update() {
+        this.player = this.carga.gameOverPorAgua(this.player);
         if(this.player.life > 0){
             if(this.player.x >= this.escaleras1.x - 25 && this.player.x <= this.escaleras1.x + 25 && this.player.y > this.escaleras1.y/2)
                 this.carga.onTouchEscalera(this.player, this.escaleras1);
@@ -173,6 +178,9 @@ export default class GreenMapScene extends Phaser.Scene {
               });
             audiofin.play();
         }
+        if(this.contadorAyuda > 200)
+            this.ayuda.destroy();
+        else this.contadorAyuda++;
     }
 
 

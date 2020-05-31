@@ -7,6 +7,7 @@ export default class Preloads extends Phaser.Scene {
         this.load.image("background", '../public/assets/title/title3.png');
         this.load.image("background2", '../public/assets/title/title4.png');
         this.load.image("luigi", '../public/assets/title/title2.png');
+        this.load.audio("musiinicio","../public/assets/audio/musicainicio.mp3");
         //Dungeon preloads
         this.load.audio("mazmorra", "../public/assets/audio/dungeon.mp3");
         this.load.audio("letsgo", "../public/assets/audio/letsgo.wav");

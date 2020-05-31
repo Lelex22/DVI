@@ -112,14 +112,14 @@ export default class Preloads extends Phaser.Scene {
     }
     defiende(escudo, arma){
         let audio_defensa = this.sound.add("defiendeplayer", {
-            volume: 2,
+            volume: 0.2,
         });
         audio_defensa.play();
         arma.destroy();
     }
     defiende2(escudo, arma){
         let audio_defensa = this.sound.add("boom7", {
-            volume: 2,
+            volume: 0.2,
         });
         audio_defensa.play();
         arma.destroy();
@@ -143,7 +143,7 @@ export default class Preloads extends Phaser.Scene {
             player.tint = 0xff0000;
             if(player.life >= 1){
                 let audio_atacado = this.sound.add("luigiatacado", {
-                    volume: 1.5,
+                    volume: 0.2,
                 });
                 audio_atacado.play();
                 }
@@ -178,7 +178,7 @@ export default class Preloads extends Phaser.Scene {
                 
                 if(player.enemyTouch){
                     this.sound.add("luigiatacado", {
-                        volume: 1.5,
+                        volume: 0.2,
                     }).play();
                     player.life -= 1;
                     this.time.addEvent({ delay: 2000, callback: function(){
@@ -202,7 +202,7 @@ export default class Preloads extends Phaser.Scene {
         player.coins += 1;
         this.text.setText("X " + player.coins);
         this.sound.add("coin3", {
-            volume: 1,
+            volume: 0.3,
         }).play();
     }
     coinsDestruct(coin){

@@ -145,7 +145,7 @@ export default class Enemy extends Phaser.GameObjects.Sprite {
                 }
                 if(this.anims.currentFrame.index == 2 && !this.piedra){
                     let audio_ataque = this.scene.sound.add("atacaciclope", {
-                        volume: 0.5,
+                        volume: 0.1,
                       });
                       audio_ataque.play();
                 }

@@ -37,7 +37,7 @@ export default class LavaMapScene extends Phaser.Scene {
         //Audio
         const config = {
             mute: false,
-            volume: 0.4,
+            volume: 0.1,
             rate: 1,
             detune: 0,
             seek: 0,
@@ -158,11 +158,11 @@ export default class LavaMapScene extends Phaser.Scene {
             this.scene.launch('GameOver', {escena: this});
             this.scene.pause(this);
             let audio = this.sound.add("fin", {
-                volume: 1.5,
+                volume: 0.2,
               });
             audio.play();
             let audiofin = this.sound.add("menufin", {
-                volume: 1.5,
+                volume: 0.2,
                 delay: 3000
               });
             audiofin.play();

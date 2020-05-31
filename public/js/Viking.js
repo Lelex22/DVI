@@ -139,7 +139,7 @@ export default class Viking extends Phaser.GameObjects.Sprite {
                 }
                 if(this.anims.currentFrame.index == 2 && !this.smash){
                     let audio_ataque = this.scene.sound.add("boom1", {
-                        volume: 0.3,
+                        volume: 0.1,
                       });
                       audio_ataque.play();
                 }

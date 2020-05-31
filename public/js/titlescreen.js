@@ -25,7 +25,7 @@ export default class TitleScreenScene extends Phaser.Scene {
         //Audio
         const config = {
             mute: false,
-            volume: 0.4,
+            volume: 0.1,
             rate: 1,
             detune: 0,
             seek: 0,

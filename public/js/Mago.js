@@ -132,7 +132,7 @@ export default class Mago extends Phaser.GameObjects.Sprite {
                 }
                 if(this.anims.currentFrame.index == 1 && !this.smash){
                     let audio_ataque = this.scene.sound.add("firesound", {
-                        volume: 0.5,
+                        volume: 0.1,
                       });
                       audio_ataque.play();
                       let fireball;

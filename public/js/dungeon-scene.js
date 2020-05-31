@@ -31,7 +31,7 @@ export default class DungeonScene extends Phaser.Scene {
     //Audio
     const config = {
       mute: false,
-      volume: 0.5,
+      volume: 0.1,
       rate: 1,
       detune: 0,
       seek: 0,
@@ -44,7 +44,7 @@ export default class DungeonScene extends Phaser.Scene {
         this.backgroundsong.play();
     this.hasPlayerReachedShop = false;
     let audio = this.sound.add("letsgo", {
-      volume: 1.5,
+      volume: 0.3,
     });
     
     // Generate a random world with a few extra options:

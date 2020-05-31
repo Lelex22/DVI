@@ -45,6 +45,11 @@ export default class Preloads extends Phaser.Scene {
         this.load.image('tiendaTiles', '../public/assets/tilesets/tienda.png');
         this.load.tilemapTiledJSON('tiendaMap', '../public/assets/tilesets/tienda.json');        
         this.load.spritesheet('button', '../public/img/flixel-button.png', { frameWidth: 80, frameHeight: 20 });
+        //GameOver preloads
+        this.load.image("gameover", "../public/assets/imagenes/gameover.png");
+        this.load.image("click", "../public/assets/imagenes/subimagengameover.png");
+        this.load.image("click2", "../public/assets/imagenes/volveraempezar.png");
+        this.load.audio("bye", "../public/assets/audio/despedida.wav");
         //Mapa verde preloads
         //Audio mapa verde
         this.load.audio("audio_mapaverde", "../public/assets/audio/mapaverde.mp3");
@@ -300,5 +305,476 @@ export default class Preloads extends Phaser.Scene {
     }
     updateMonedas(textMonedas, coins){
         textMonedas.setText("X " + coins);
+    }
+    creaAnimacionesPlayer(anims){
+        //Sin nada
+        anims.create({
+         key: "up",
+         frames: anims.generateFrameNumbers('player', { start: 56, end: 57 }),
+         frameRate: 10,
+         repeat: 0
+       });
+       //Solo capa
+       anims.create({
+         key: "up-capa",
+         frames: anims.generateFrameNumbers('player', { start: 69, end: 70 }),
+         frameRate: 10,
+         repeat: 0
+       });
+       //Solo espada
+       anims.create({
+         key: "up-espada",
+         frames: anims.generateFrameNumbers('player', { start: 58, end: 59 }),
+         frameRate: 10,
+         repeat: 0
+       });
+       //Capa espada
+       anims.create({
+         key: "up-capa-espada",
+         frames: anims.generateFrameNumbers('player', { start: 62, end: 63 }),
+         frameRate: 10,
+         repeat: 0
+       });
+       //Solo escudo
+       anims.create({
+         key: "up-escudo",
+         frames: anims.generateFrameNumbers('player', { start: 65, end: 66 }),
+         frameRate: 10,
+         repeat: 0
+       });
+       //Escudo capa
+       anims.create({
+         key: "up-capa-escudo",
+         frames: anims.generateFrameNumbers('player', { start: 67, end: 68 }),
+         frameRate: 10,
+         repeat: 0
+       });
+       //Escudo espada
+       anims.create({
+         key: "up-espada-escudo",
+         frames: anims.generateFrameNumbers('player', { start: 60, end: 61 }),
+         frameRate: 10,
+         repeat: 0
+       });
+       //Todo
+       anims.create({
+         key: "up-capa-espada-escudo",
+         frames: anims.generateFrameNumbers('player', { start: 70, end: 71 }),
+         frameRate: 10,
+         repeat: 0
+       });
+       //Sin nada
+       anims.create({
+         key: "down",
+         frames: anims.generateFrameNumbers('player', { start: 39, end: 40 }),
+         frameRate: 10,
+         repeat: 0
+       });
+       //Solo capa
+       anims.create({
+         key: "down-capa",
+         frames: anims.generateFrameNumbers('player', { start: 45, end: 46 }),
+         frameRate: 10,
+         repeat: 0
+       });
+       //Solo espada
+       anims.create({
+         key: "down-espada",
+         frames: anims.generateFrameNumbers('player', { start: 41, end: 42 }),
+         frameRate: 10,
+         repeat: 0
+       });
+       //Capa espada
+       anims.create({
+         key: "down-capa-espada",
+         frames: anims.generateFrameNumbers('player', { start: 49, end: 50 }),
+         frameRate: 10,
+         repeat: 0
+       });
+       //Solo escudo
+       anims.create({
+         key: "down-escudo",
+         frames: anims.generateFrameNumbers('player', { start: 43, end: 44 }),
+         frameRate: 10,
+         repeat: 0
+       });
+       //Escudo capa
+       anims.create({
+         key: "down-capa-escudo",
+         frames: anims.generateFrameNumbers('player', { start: 52, end: 53 }),
+         frameRate: 10,
+         repeat: 0
+       });
+       //Escudo espada
+       anims.create({
+         key: "down-espada-escudo",
+         frames: anims.generateFrameNumbers('player', { start: 47, end: 48 }),
+         frameRate: 10,
+         repeat: 0
+       });
+       //Todo
+       anims.create({
+         key: "down-capa-espada-escudo",
+         frames: anims.generateFrameNumbers('player', { start: 54, end: 55 }),
+         frameRate: 10,
+         repeat: 0
+       });
+         //Sin nada
+         anims.create({
+           key: "right",
+           frames: anims.generateFrameNumbers('player', { start: 18, end: 19 }),
+           frameRate: 10,
+           repeat: 0
+         });
+         //Solo capa
+         anims.create({
+           key: "right-capa",
+           frames: anims.generateFrameNumbers('player', { start: 14, end: 15 }),
+           frameRate: 10,
+           repeat: 0
+         });
+         //Solo espada
+         anims.create({
+           key: "right-espada",
+           frames: anims.generateFrameNumbers('player', { start: 16, end: 17 }),
+           frameRate: 10,
+           repeat: 0
+         });
+         //Capa espada
+         anims.create({
+           key: "right-capa-espada",
+           frames: anims.generateFrameNumbers('player', { start: 6, end: 7 }),
+           frameRate: 10,
+           repeat: 0
+         });
+         //Solo escudo
+         anims.create({
+           key: "right-escudo",
+           frames: anims.generateFrameNumbers('player', { start: 24, end: 25 }),
+           frameRate: 10,
+           repeat: 0
+         });
+         //Escudo capa
+         anims.create({
+           key: "right-capa-escudo",
+           frames: anims.generateFrameNumbers('player', { start: 32, end: 33 }),
+           frameRate: 10,
+           repeat: 0
+         });
+         //Escudo espada
+         anims.create({
+           key: "right-espada-escudo",
+           frames: anims.generateFrameNumbers('player', { start: 26, end: 27 }),
+           frameRate: 10,
+           repeat: 0
+         });
+         //Todo
+         anims.create({
+           key: "right-capa-espada-escudo",
+           frames: anims.generateFrameNumbers('player', { start: 28, end: 29 }),
+           frameRate: 10,
+           repeat: 0
+         });
+         //Sin nada
+         anims.create({
+           key: "left",
+           frames: anims.generateFrameNumbers('player', { start: 4, end: 5 }),
+           frameRate: 10,
+           repeat: 0
+         });
+         //Solo capa
+         anims.create({
+           key: "left-capa",
+           frames: anims.generateFrameNumbers('player', { start: 2, end: 3 }),
+           frameRate: 10,
+           repeat: 0
+         });
+         //Solo espada
+         anims.create({
+           key: "left-espada",
+           frames: anims.generateFrameNumbers('player', { start: 10, end: 11 }),
+           frameRate: 10,
+           repeat: 0
+         });
+         //Capa espada
+         anims.create({
+           key: "left-capa-espada",
+           frames: anims.generateFrameNumbers('player', { start: 8, end: 9 }),
+           frameRate: 10,
+           repeat: 0
+         });
+         //Solo escudo
+         anims.create({
+           key: "left-escudo",
+           frames: anims.generateFrameNumbers('player', { start: 12, end: 13 }),
+           frameRate: 10,
+           repeat: 0
+         });
+         //Escudo capa
+         anims.create({
+           key: "left-capa-escudo",
+           frames: anims.generateFrameNumbers('player', { start: 30, end: 31 }),
+           frameRate: 10,
+           repeat: 0
+         });
+         //Escudo espada
+         anims.create({
+           key: "left-espada-escudo",
+           frames: anims.generateFrameNumbers('player', { start: 20, end: 21 }),
+           frameRate: 10,
+           repeat: 0
+         });
+         //Todo
+         anims.create({
+           key: "left-capa-espada-escudo",
+           frames: anims.generateFrameNumbers('player', { start: 22, end: 23 }),
+           frameRate: 10,
+           repeat: 0
+         });
+         //Sin nada
+         anims.create({
+           key: "right-stand",
+           frames: anims.generateFrameNumbers('player', { start: 18, end: 18 }),
+           frameRate: 10,
+           repeat: 0
+         });
+         //Solo capa
+         anims.create({
+           key: "right-capa-stand",
+           frames: anims.generateFrameNumbers('player', { start: 14, end: 14 }),
+           frameRate: 10,
+           repeat: 0
+         });
+         //Solo espada
+         anims.create({
+           key: "right-espada-stand",
+           frames: anims.generateFrameNumbers('player', { start: 16, end: 16 }),
+           frameRate: 10,
+           repeat: 0
+         });
+         //Capa espada
+         anims.create({
+           key: "right-capa-espada-stand",
+           frames: anims.generateFrameNumbers('player', { start: 6, end: 6 }),
+           frameRate: 10,
+           repeat: 0
+         });
+         //Solo escudo
+         anims.create({
+           key: "right-escudo-stand",
+           frames: anims.generateFrameNumbers('player', { start: 24, end: 24 }),
+           frameRate: 10,
+           repeat: 0
+         });
+         //Escudo capa
+         anims.create({
+           key: "right-capa-escudo-stand",
+           frames: anims.generateFrameNumbers('player', { start: 32, end: 32 }),
+           frameRate: 10,
+           repeat: 0
+         });
+         //Escudo espada
+         anims.create({
+           key: "right-espada-escudo-stand",
+           frames: anims.generateFrameNumbers('player', { start: 26, end: 26 }),
+           frameRate: 10,
+           repeat: 0
+         });
+         //Todo
+         anims.create({
+           key: "right-capa-espada-escudo-stand",
+           frames: anims.generateFrameNumbers('player', { start: 28, end: 28 }),
+           frameRate: 10,
+           repeat: 0
+         });
+         //Sin nada
+         anims.create({
+           key: "left-stand",
+           frames: anims.generateFrameNumbers('player', { start: 4, end: 4 }),
+           frameRate: 10,
+           repeat: 0
+         });
+         //Solo capa
+         anims.create({
+           key: "left-capa-stand",
+           frames: anims.generateFrameNumbers('player', { start: 2, end: 2 }),
+           frameRate: 10,
+           repeat: 0
+         });
+         //Solo espada
+         anims.create({
+           key: "left-espada-stand",
+           frames: anims.generateFrameNumbers('player', { start: 10, end: 10 }),
+           frameRate: 10,
+           repeat: 0
+         });
+         //Capa espada
+         anims.create({
+           key: "left-capa-espada-stand",
+           frames: anims.generateFrameNumbers('player', { start: 8, end: 8 }),
+           frameRate: 10,
+           repeat: 0
+         });
+         //Solo escudo
+         anims.create({
+           key: "left-escudo-stand",
+           frames: anims.generateFrameNumbers('player', { start: 12, end: 12 }),
+           frameRate: 10,
+           repeat: 0
+         });
+         //Escudo capa
+         anims.create({
+           key: "left-capa-escudo-stand",
+           frames: anims.generateFrameNumbers('player', { start: 30, end: 30 }),
+           frameRate: 10,
+           repeat: 0
+         });
+         //Escudo espada
+         anims.create({
+           key: "left-espada-escudo-stand",
+           frames: anims.generateFrameNumbers('player', { start: 20, end: 20 }),
+           frameRate: 10,
+           repeat: 0
+         });
+         //Todo
+         anims.create({
+           key: "left-capa-espada-escudo-stand",
+           frames: anims.generateFrameNumbers('player', { start: 22, end: 22 }),
+           frameRate: 10,
+           repeat: 0
+         });
+         //Stand up
+         anims.create({
+           key: "up-stand",
+           frames: anims.generateFrameNumbers('player', { start: 56, end: 56 }),
+           frameRate: 10,
+           repeat: 0
+         });
+         //Solo capa
+         anims.create({
+           key: "up-capa-stand",
+           frames: anims.generateFrameNumbers('player', { start: 69, end: 69 }),
+           frameRate: 10,
+           repeat: 0
+         });
+         //Solo espada
+         anims.create({
+           key: "up-espada-stand",
+           frames: anims.generateFrameNumbers('player', { start: 58, end: 58 }),
+           frameRate: 10,
+           repeat: 0
+         });
+         //Capa espada
+         anims.create({
+           key: "up-capa-espada-stand",
+           frames: anims.generateFrameNumbers('player', { start: 62, end: 62 }),
+           frameRate: 10,
+           repeat: 0
+         });
+         //Solo escudo
+         anims.create({
+           key: "up-escudo-stand",
+           frames: anims.generateFrameNumbers('player', { start: 65, end: 65 }),
+           frameRate: 10,
+           repeat: 0
+         });
+         //Escudo capa
+         anims.create({
+           key: "up-capa-escudo-stand",
+           frames: anims.generateFrameNumbers('player', { start: 67, end: 67 }),
+           frameRate: 10,
+           repeat: 0
+         });
+         //Escudo espada
+         anims.create({
+           key: "up-espada-escudo-stand",
+           frames: anims.generateFrameNumbers('player', { start: 60, end: 60 }),
+           frameRate: 10,
+           repeat: 0
+         });
+         //Todo
+         anims.create({
+           key: "up-capa-espada-escudo-stand",
+           frames: anims.generateFrameNumbers('player', { start: 71, end: 71 }),
+           frameRate: 10,
+           repeat: 0
+         });
+         //Stand down
+         anims.create({
+           key: "down-stand",
+           frames: anims.generateFrameNumbers('player', { start: 39, end: 39 }),
+           frameRate: 10,
+           repeat: 0
+         });
+         //Solo capa
+         anims.create({
+           key: "down-capa-stand",
+           frames: anims.generateFrameNumbers('player', { start: 45, end: 45 }),
+           frameRate: 10,
+           repeat: 0
+         });
+         //Solo espada
+         anims.create({
+           key: "down-espada-stand",
+           frames: anims.generateFrameNumbers('player', { start: 41, end: 41 }),
+           frameRate: 10,
+           repeat: 0
+         });
+         //Capa espada
+         anims.create({
+           key: "down-capa-espada-stand",
+           frames: anims.generateFrameNumbers('player', { start: 49, end: 49 }),
+           frameRate: 10,
+           repeat: 0
+         });
+         //Solo escudo
+         anims.create({
+           key: "down-escudo-stand",
+           frames: anims.generateFrameNumbers('player', { start: 43, end: 43 }),
+           frameRate: 10,
+           repeat: 0
+         });
+         //Escudo capa
+         anims.create({
+           key: "down-capa-escudo-stand",
+           frames: anims.generateFrameNumbers('player', { start: 53, end: 53 }),
+           frameRate: 10,
+           repeat: 0
+         });
+         //Escudo espada
+         anims.create({
+           key: "down-espada-escudo-stand",
+           frames: anims.generateFrameNumbers('player', { start: 47, end: 47 }),
+           frameRate: 10,
+           repeat: 0
+         });
+         //Todo
+         anims.create({
+           key: "down-capa-espada-escudo-stand",
+           frames: anims.generateFrameNumbers('player', { start: 55, end: 55 }),
+           frameRate: 10,
+           repeat: 0
+         });
+     }
+     makeButton(name, x, y, precio)
+    {
+         let button = this.add.image(x, y, 'button', 0).setInteractive(), text;
+         button.name = name;
+         button.precio = precio;
+         if(button.name === "Aumento de Vida Máxima"){
+             button.setScale(4, 1.5);
+             text = this.add.bitmapText(x - 40, y - 8, 'nokia', "+1 Vida Máxima X " + precio + " monedas", 16);
+             text.x += (button.width - text.width) / 2;
+         }
+         else{
+             button.setScale(3, 1.5)
+             text = this.add.bitmapText(x - 40, y - 8, 'nokia', name + " X " + precio + " monedas", 16);
+             text.x += (button.width - text.width) / 2;
+         }
+         return [button,text];
+    }
+    setButtonFrame(button, frame)
+    {
+        button.frame = button.scene.textures.getFrame('button', frame);
     }
 }

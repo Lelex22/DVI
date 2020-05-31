@@ -86,18 +86,18 @@ export default class ShopScene extends Phaser.Scene {
                 {
                     let marker = this.player.buffs[i];
                     if(!marker.value){
-                        let ret = makeButton.call(this, marker.name, 760, 135 + j*40, precio);
+                        let ret = this.carga.makeButton.call(this, marker.name, 760, 135 + j*40, precio);
                         this.buttonsGroup.add(ret[0]);
                         this.textos.push(ret[1]);
                         j++;
                     }
                 }
-                makeButton.call(this, "Vida", 760, 135 + j*40, 25);
-                makeButton.call(this, "Aumento de Vida Máxima", 760, 135 + (j + 1)* 40, 500);
+                this.carga.makeButton.call(this, "Vida", 760, 135 + j*40, 25);
+                this.carga.makeButton.call(this, "Aumento de Vida Máxima", 760, 135 + (j + 1)* 40, 500);
 
                 this.input.on('gameobjectover', function (pointer, button)
                 {
-                    setButtonFrame(button, 0);
+                    this.carga.setButtonFrame(button, 0);
                     switch(button.name){
                         case "Espada": 
                             this.explicacion = this.add.text(590, 70, "Con la espada podrás atacar a los\nenemigos pulsando la tecla S.");
@@ -118,13 +118,13 @@ export default class ShopScene extends Phaser.Scene {
                 }, this);
                 this.input.on('gameobjectout', function (pointer, button)
                 {
-                    setButtonFrame(button, 1);
+                    this.carga.setButtonFrame(button, 1);
                     this.explicacion.destroy();
                 }, this);
 
                 this.input.on('gameobjectup', function (pointer, button)
                 {
-                    setButtonFrame(button, 2);
+                    this.carga.setButtonFrame(button, 2);
                     if(this.player.coins >= button.precio){
                         
                         if(button.name === "Espada" || button.name === "Escudo" ||
@@ -258,27 +258,4 @@ export default class ShopScene extends Phaser.Scene {
         this.carga.updateLife(this.vidas, this.player.life);
     }
     
-}
-
-function makeButton(name, x, y, precio)
-{
-    let button = this.add.image(x, y, 'button', 0).setInteractive(), text;
-    button.name = name;
-    button.precio = precio;
-    if(button.name === "Aumento de Vida Máxima"){
-        button.setScale(4, 1.5);
-        text = this.add.bitmapText(x - 40, y - 8, 'nokia', "+1 Vida Máxima X " + precio + " monedas", 16);
-        text.x += (button.width - text.width) / 2;
-    }
-    else{
-        button.setScale(3, 1.5)
-        text = this.add.bitmapText(x - 40, y - 8, 'nokia', name + " X " + precio + " monedas", 16);
-        text.x += (button.width - text.width) / 2;
-    }
-    return [button,text];
-}
-
-function setButtonFrame(button, frame)
-{
-    button.frame = button.scene.textures.getFrame('button', frame);
 }

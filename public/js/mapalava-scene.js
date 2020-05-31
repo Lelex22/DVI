@@ -128,7 +128,7 @@ export default class LavaMapScene extends Phaser.Scene {
                 cam.fade(250, 0, 0, 0);
                 cam.once("camerafadeoutcomplete", () => {
                     this.scene.start("DungeonScene", { vidas: this.player.life, monedas: this.player.coins, buffs: this.player.buffs });
-                    this.sound.removeByKey("audio_mapaverde");
+                    this.sound.removeByKey("audio_mapalava");
                     this.audio = null;
                     this.scene.stop();
                 });
@@ -142,7 +142,7 @@ export default class LavaMapScene extends Phaser.Scene {
                 cam.fade(250, 0, 0, 0);
                 cam.once("camerafadeoutcomplete", () => {
                     this.scene.start("DungeonScene", { vidas: this.player.life, monedas: this.player.coins, buffs: this.player.buffs });
-                    this.sound.removeByKey("audio_mapaverde");
+                    this.sound.removeByKey("audio_mapalava");
                     this.audio = null;
                     this.scene.stop();
                 });

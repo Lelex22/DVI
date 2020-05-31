@@ -38,8 +38,7 @@ export default class ShopScene extends Phaser.Scene {
         this.player = new Player(this, 250, 290, this.buffsPlayer, this.mapa, this.lifesPlayer, this.coinsPlayer);
         
         this.vidas = this.carga.dibujaVidas(this, this.player.life);
-        this.monedas = this.add.sprite(650, 20, "coin").setOrigin(0).setScrollFactor(0).setScale(1.5);
-        this.textMonedas = this.add.text(690, 27, "X " + this.player.coins, { fontFamily: 'Georgia, "Goudy Bookletter 1911", Times, serif', fontSize: "30px" }).setOrigin(0).setScrollFactor(0);
+        this.textMonedas = this.carga.dibujaMonedas(this);
         this.buttonsGroup = this.add.group();
         this.textos = [];
 
@@ -63,7 +62,7 @@ export default class ShopScene extends Phaser.Scene {
           .setScrollFactor(0);
         
         this.input.keyboard.on('keydown-ENTER',function(event){
-            this.text.setText(`Pulsa con el ratón aquello\nque quieras comprar. `, {
+            this.text.setText(`Pulsa con el ratón aquello\nque quieras comprar.\nPoniendo el cursor encima\nde cada opción se muestra\nsu descripción y uso. `, {
                 font: "18px monospace",
                 fill: "#000000",
                 padding: { x: 20, y: 10 },
@@ -87,33 +86,33 @@ export default class ShopScene extends Phaser.Scene {
                 {
                     let marker = this.player.buffs[i];
                     if(!marker.value){
-                        let ret = makeButton.call(this, marker.name, 660, 135 + j*40, precio);
+                        let ret = makeButton.call(this, marker.name, 760, 135 + j*40, precio);
                         this.buttonsGroup.add(ret[0]);
                         this.textos.push(ret[1]);
                         j++;
                     }
                 }
-                makeButton.call(this, "Vida", 660, 135 + j*40, 25);
-                makeButton.call(this, "Aumento de Vida Máxima", 640, 135 + (j + 1)* 40, 500);
+                makeButton.call(this, "Vida", 760, 135 + j*40, 25);
+                makeButton.call(this, "Aumento de Vida Máxima", 760, 135 + (j + 1)* 40, 500);
 
                 this.input.on('gameobjectover', function (pointer, button)
                 {
                     setButtonFrame(button, 0);
                     switch(button.name){
                         case "Espada": 
-                            this.explicacion = this.add.text(470, 70, "Con la espada podrás atacar a los\nenemigos pulsando la tecla S.");
+                            this.explicacion = this.add.text(590, 70, "Con la espada podrás atacar a los\nenemigos pulsando la tecla S.");
                             break;
                         case "Escudo": 
-                            this.explicacion = this.add.text(465, 70, "Con el escudo podrás defenderte de\nlos enemigos pulsando la tecla A.");
+                            this.explicacion = this.add.text(585, 70, "Con el escudo podrás defenderte de\nlos enemigos pulsando la tecla A.");
                             break;
                         case "Capa": 
-                            this.explicacion = this.add.text(470, 70, "Con la capa el contacto con los\nenemigos no te producirá daño.");
+                            this.explicacion = this.add.text(590, 70, "Con la capa el contacto con los\nenemigos no te producirá daño.");
                             break;
                         case "Aumento de Vida Máxima": 
-                            this.explicacion = this.add.text(550, 70, "Se aumenta en 1 el máximo\nde vidas (hasta 10 vidas).");
+                            this.explicacion = this.add.text(640, 70, "Se aumenta en 1 el máximo\nde vidas (hasta 10 vidas).");
                             break;
                         case "Vida": 
-                            this.explicacion = this.add.text(550, 70, "Recupera una vida.");
+                            this.explicacion = this.add.text(650, 70, "Recupera una vida.");
                             break;
                     }
                 }, this);
@@ -231,7 +230,7 @@ export default class ShopScene extends Phaser.Scene {
                     else {
                         this.text.setText(`No tienes monedas suficientes\npara comprar ese artículo.`);
                     }
-                    this.textMonedas.setText("X " + this.player.coins);
+                    this.carga.updateMonedas(this.textMonedas, this.player.coins);
                 }, this);
 
             }
@@ -246,7 +245,7 @@ export default class ShopScene extends Phaser.Scene {
         if(this.player.x <= 255 && this.player.x >= 215 && this.player.y <= 250)
             this.enMostrador = true;
         else this.enMostrador = false;
-        if(this.player.x <= 240 && this.player.x >= 230 && this.player.y > 290){
+        if(this.player.x <= 250 && this.player.x >= 220 && this.player.y > 290){
             const cam = this.cameras.main;
             cam.fade(250, 0, 0, 0);
             cam.once("camerafadeoutcomplete", () => {

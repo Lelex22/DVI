@@ -294,4 +294,11 @@ export default class Preloads extends Phaser.Scene {
             player.life = 0;
         }
     }
+    dibujaMonedas(scene){
+        scene.add.sprite(850, 20, "coin").setOrigin(0).setScrollFactor(0).setScale(1.5);
+        return scene.add.text(890, 27, "X " + scene.player.coins, { fontFamily: 'Georgia, "Goudy Bookletter 1911", Times, serif', fontSize: "30px" }).setOrigin(0).setScrollFactor(0);
+    }
+    updateMonedas(textMonedas, coins){
+        textMonedas.setText("X " + coins);
+    }
 }

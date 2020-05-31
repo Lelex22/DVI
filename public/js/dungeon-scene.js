@@ -231,8 +231,7 @@ export default class DungeonScene extends Phaser.Scene {
     /* Vidas: Se supone que ese this.life = 5 no va a ser necesario, sino que vamos
     a obtener las vidas restantes */
     this.vidas = dibujaVidas(this, this.player.life);
-    this.monedas = this.add.sprite(650, 20, "coin").setOrigin(0).setScrollFactor(0).setScale(1.5);
-    this.textMonedas = this.add.text(690, 27, "X " + this.player.coins, { fontFamily: 'Georgia, "Goudy Bookletter 1911", Times, serif', fontSize: "30px" }).setOrigin(0).setScrollFactor(0);
+    this.textMonedas = this.carga.dibujaMonedas(this);
     // Help text that has a "fixed" position on the screen
     this.add.text(3, 560, 'Busca la tienda o los niveles.', {
         font: "18px monospace",

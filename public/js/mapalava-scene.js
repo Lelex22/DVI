@@ -111,10 +111,10 @@ export default class LavaMapScene extends Phaser.Scene {
         this.physics.add.overlap(this.player, lava, this.carga.gameOverPorAgua, null, this);
         const camera = this.cameras.main;
 
-        this.ayuda = this.add.text(3, 570, 'Usa las Flechas para moverte y saltar, si tienes armas usa "A" para atacar y "S" para protegerte', {
+        this.ayuda = this.add.text(3, 400, 'Usa las Flechas para moverte y saltar,\n si tienes armas usa "A" para atacar y "S" para protegerte', {
             font: "18px monospace",
             fill: "#000000",
-            padding: { x: 20, y: 5 },
+            padding: { x: 20, y: 10 },
             backgroundColor: "#ffffff"
           })
         // Constrain the camera so that it isn't allowed to move outside the width/height of tilemap

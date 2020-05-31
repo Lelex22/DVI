@@ -116,7 +116,7 @@ export default class GreenMapScene extends Phaser.Scene {
         this.physics.add.overlap(this.armasEnemigos, this.player, this.carga.attackPlayer, null, this);
         this.physics.add.overlap(this.player, agua, this.carga.gameOverPorAgua, null, this);
         const camera = this.cameras.main;
-        this.add.text(3, 560, 'Usa las Flechas para moverte y saltar, si tienes armas usa "A" para atacar y "S" para protegerte', {
+        this.add.text(3, 560, 'Usa las Flechas para moverte y saltar \n si tienes armas usa "A" para atacar y "S" para protegerte',{
             font: "18px monospace",
             fill: "#000000",
             padding: { x: 20, y: 10 },

@@ -25,9 +25,9 @@ Como es de esperar en los niveles tendremos variedad de enemigos con mayor o men
 ### Enemigos
 El juego tendrá varios enemigos, cada uno de ellos tendrán habilidades únicas, lo que hará que la estrategia para acabar con ellos sea distinta.
 
-**Ogros: ** Estas unidades atacan cuerpo a cuerpo como a distancia, su habilidad especial son el lanzamiento de piedras, evitarlas saltando. Para vencerlos hay que acercarse y atacar hasta que caiga desplomado.
+**Ogros:** Estas unidades atacan cuerpo a cuerpo como a distancia, su habilidad especial son el lanzamiento de piedras, evitarlas saltando. Para vencerlos hay que acercarse y atacar hasta que caiga desplomado.
 
-**Vikingos: ** Enemigos muy rápidos, constan e dos ataques básicos, lanzamientos de rayos y ataques cuerpo a cuerpo. La estratega para vencerlos, ponerse en su espalda y no para de atacarles hasta que caigan.
+**Vikingos:** Enemigos muy rápidos, constan e dos ataques básicos, lanzamientos de rayos y ataques cuerpo a cuerpo. La estratega para vencerlos, ponerse en su espalda y no para de atacarles hasta que caigan.
 
-**Mago: ** Mini Jefe del juego, solo presente en el mapa de lava. Se caracteriza por los ataques a distancia, bolas de fuego, evitarlas a toda costa. Para derrotarlo hay que conseguir asestar tantos golpes como sean necesarios.
+**Mago:** Mini Jefe del juego, solo presente en el mapa de lava. Se caracteriza por los ataques a distancia, bolas de fuego, evitarlas a toda costa. Para derrotarlo hay que conseguir asestar tantos golpes como sean necesarios.
 

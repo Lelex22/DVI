@@ -233,12 +233,12 @@ export default class DungeonScene extends Phaser.Scene {
     this.vidas = dibujaVidas(this, this.player.life);
     this.textMonedas = this.carga.dibujaMonedas(this);
     // Help text that has a "fixed" position on the screen
-    this.add.text(3, 560, 'Busca la tienda o los niveles.', {
-        font: "18px monospace",
-        fill: "#000000",
-        padding: { x: 20, y: 10 },
-        backgroundColor: "#ffffff"
-      })
+    this.add.text(3, 560, 'Busca la tienda o los niveles\n Usa las Flechas para moverte', {
+      font: "18px monospace",
+      fill: "#000000",
+      padding: { x: 20, y: 10 },
+      backgroundColor: "#ffffff"
+    })
       .setScrollFactor(0);
 ;
   }

@@ -4,9 +4,9 @@ export default class Preloads extends Phaser.Scene {
     }
     preload(){
         this.load.bitmapFont('nokia', '../public/assets/nokia16.png', '../public/assets/nokia16.xml');
-        this.load.image("background", '../public/img/title3.png');
-        this.load.image("background2", '../public/img/title4.png');
-        this.load.image("luigi", '../public/img/title2.png');
+        this.load.image("background", '../public/assets/title/title3.png');
+        this.load.image("background2", '../public/assets/title/title4.png');
+        this.load.image("luigi", '../public/assets/title/title2.png');
         //Dungeon preloads
         this.load.audio("mazmorra", "../public/assets/audio/dungeon.mp3");
         this.load.audio("letsgo", "../public/assets/audio/letsgo.wav");
@@ -44,7 +44,7 @@ export default class Preloads extends Phaser.Scene {
         //Tienda preloads
         this.load.image('tiendaTiles', '../public/assets/tilesets/tienda.png');
         this.load.tilemapTiledJSON('tiendaMap', '../public/assets/tilesets/tienda.json');        
-        this.load.spritesheet('button', '../public/img/flixel-button.png', { frameWidth: 80, frameHeight: 20 });
+        this.load.spritesheet('button', '../public/assets/title/flixel-button.png', { frameWidth: 80, frameHeight: 20 });
         //GameOver preloads
         this.load.image("gameover", "../public/assets/imagenes/gameover.png");
         this.load.image("click", "../public/assets/imagenes/subimagengameover.png");
@@ -81,7 +81,7 @@ export default class Preloads extends Phaser.Scene {
             frameWidth: 37,
             frameHeight: 47
         });
-        this.load.image("fireball", "../public/assets/spritesheets/fireball.png");
+        this.load.image("fireball", "../public/assets/imagenes/fireball.png");
         this.load.spritesheet("ciclope", "../public/assets/spritesheets/Cyclops Sprite Sheet.png", {
             frameWidth: 64,
             frameHeight: 64
@@ -90,22 +90,10 @@ export default class Preloads extends Phaser.Scene {
             frameWidth: 64,
             frameHeight: 64
         });
-        this.load.spritesheet("fregona", "../public/assets/spritesheets/fregona.png", {
-            frameWidth: 45,
-            frameHeight: 14
-        });
-        this.load.spritesheet("fregonaiz", "../public/assets/spritesheets/fregonaiz.png", {
-            frameWidth: 45,
-            frameHeight: 14
-        });
-        this.load.spritesheet("escudo", "../public/assets/spritesheets/escudo.png", {
-            frameWidth: 60,
-            frameHeight: 165
-        });
-        this.load.spritesheet("escudoiz", "../public/assets/spritesheets/escudoiz.png", {
-            frameWidth: 60,
-            frameHeight: 165
-        });
+        this.load.image("fregona", "../public/assets/imagenes/fregona.png");
+        this.load.image("fregonaiz", "../public/assets/imagenes/fregonaiz.png");
+        this.load.image("escudo", "../public/assets/imagenes/escudo.png");
+        this.load.image("escudoiz", "../public/assets/imagenes/escudoiz.png");
         this.load.image('escaleras1', '../public/assets/tilesets/pruebanewtiles2.png');
         this.load.image('escaleras2', '../public/assets/tilesets/pruebanewtiles3.png');
         this.load.image('escaleras3', '../public/assets/tilesets/pruebanewtiles.png');
@@ -298,6 +286,7 @@ export default class Preloads extends Phaser.Scene {
         if(player.body.y >= 580 || player.y >= 580){
             player.life = 0;
         }
+        return player;
     }
     dibujaMonedas(scene){
         scene.add.sprite(850, 20, "coin").setOrigin(0).setScrollFactor(0).setScale(1.5);

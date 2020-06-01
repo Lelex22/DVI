@@ -12,12 +12,10 @@ export default class ShopScene extends Phaser.Scene {
             this.coinsPlayer = data.monedas;
             this.buffsPlayer = data.buffs;
             this.mapa = data.mapa;
+            this.maxLife = data.maxLife;
         }
     }
-    preload() {
-
-
-    }
+    preload() {}
     create() {
         this.carga = this.scene.get("Preloads");
         const map = this.make.tilemap({ key: "tiendaMap" });
@@ -34,7 +32,7 @@ export default class ShopScene extends Phaser.Scene {
         colisiones.setCollisionByExclusion([-1, 0]);
         borde.setCollisionByExclusion([-1, 0]);
         pared.setCollisionByExclusion([-1, 0]);
-        this.player = new Player(this, 250, 290, this.buffsPlayer, this.mapa, this.lifesPlayer, this.coinsPlayer);
+        this.player = new Player(this, 250, 290, this.buffsPlayer, this.mapa, this.lifesPlayer, this.coinsPlayer, this.maxLife);
 
         this.vidas = this.carga.dibujaVidas(this, this.player.life);
         this.textMonedas = this.carga.dibujaMonedas(this);
@@ -57,8 +55,7 @@ export default class ShopScene extends Phaser.Scene {
             fill: "#000000",
             padding: { x: 20, y: 10 },
             backgroundColor: "#ffffff"
-        })
-            .setScrollFactor(0);
+        }).setScrollFactor(0);
 
         this.input.keyboard.on('keydown-ENTER', function (event) {
             this.text.setText(`Pulsa con el ratón aquello\nque quieras comprar.\nPoniendo el cursor encima\nde cada opción se muestra\nsu descripción y uso. `, {
@@ -66,9 +63,7 @@ export default class ShopScene extends Phaser.Scene {
                 fill: "#000000",
                 padding: { x: 20, y: 10 },
                 backgroundColor: "#ffffff"
-            })
-                .setScrollFactor(0);
-            console.log(this.children.list);
+            }).setScrollFactor(0);
             if (this.enMostrador) {
                 let activos = 0;
                 cargaObjetos(this.player, activos, this.carga, this.buttonsGroup, this.textos, this);
@@ -139,7 +134,6 @@ export default class ShopScene extends Phaser.Scene {
                         else if (button.name === "Vida") {
                             //Si el jugador ya tiene el maximo de vida no le dejamos comprar
                             if (this.player.life < this.player.maxLife) {
-
                                 this.player.coins -= button.precio;
                                 this.player.life += 1;
                                 this.messages = "1 Vida. Ahora tienes " + this.player.life + " vidas";
@@ -188,7 +182,7 @@ export default class ShopScene extends Phaser.Scene {
             const cam = this.cameras.main;
             cam.fade(250, 0, 0, 0);
             cam.once("camerafadeoutcomplete", () => {
-                this.scene.start("DungeonScene", { vidas: this.player.life, monedas: this.player.coins, buffs: this.player.buffs });
+                this.scene.start("DungeonScene", { vidas: this.player.life, monedas: this.player.coins, buffs: this.player.buffs, maxLife: this.player.maxLife });
                 this.scene.stop();
             });
         }
@@ -198,8 +192,7 @@ export default class ShopScene extends Phaser.Scene {
     }
 
 }
-function cargaObjetos(player, activos, carga, buttonsGroup, textos, scene, firstLoad) {
-    console.log(activos, buttonsGroup, textos);
+function cargaObjetos(player, activos, carga, buttonsGroup, textos, scene) {
     let precio, p;
     for (p of player.buffs) {
         if (p.value)
@@ -221,7 +214,6 @@ function cargaObjetos(player, activos, carga, buttonsGroup, textos, scene, first
             j++;
         }
     }
-    console.log(scene);
     ret = carga.makeButton.call(scene, "Vida", 760, 135 + j * 40, 25);
     buttonsGroup.add(ret[0]);
     textos.push(ret[1]);

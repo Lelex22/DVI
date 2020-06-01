@@ -22,7 +22,8 @@ export default class GreenMapScene extends Phaser.Scene {
             this.lifesPlayer = data.vidas;
             this.coinsPlayer = data.monedas;
             this.buffsPlayer = data.buffs;
-            this.mapa = data.mapa;
+            this.mapa = "verde";
+            this.maxLife = data.maxLife;
         }
     }
     preload() { }
@@ -61,7 +62,6 @@ export default class GreenMapScene extends Phaser.Scene {
             if (objeto.type.localeCompare("ciclope") !== 0) {
                 if (objeto.name.localeCompare("escaleras1") === 0) {
                     this.escaleras1 = this.add.image(objeto.x, objeto.y, objeto.name);
-                    console.log(this.escaleras1);
                 }
                 else if (objeto.name.localeCompare("escaleras2") === 0) {
                     this.escaleras2 = this.add.image(objeto.x, objeto.y, objeto.name);
@@ -83,7 +83,7 @@ export default class GreenMapScene extends Phaser.Scene {
         tierra.setCollisionByExclusion([-1]);
         puentes.setCollisionByExclusion([-1]);
 
-        this.player = new Player(this, 10, 540, this.buffsPlayer, this.mapa, this.lifesPlayer, this.coinsPlayer);
+        this.player = new Player(this, 10, 540, this.buffsPlayer, this.mapa, this.lifesPlayer, this.coinsPlayer, this.maxLife);
         this.fregona = this.physics.add.group({
             immovable: true,
             allowGravity: false
@@ -140,7 +140,7 @@ export default class GreenMapScene extends Phaser.Scene {
                 const cam = this.cameras.main;
                 cam.fade(250, 0, 0, 0);
                 cam.once("camerafadeoutcomplete", () => {
-                    this.scene.start("DungeonScene", { vidas: this.player.life, monedas: this.player.coins, buffs: this.player.buffs });
+                    this.scene.start("DungeonScene", { vidas: this.player.life, monedas: this.player.coins, buffs: this.player.buffs, maxLife: this.player.maxLife });
                     this.sound.removeByKey("audio_mapaverde");
                     this.audio = null;
                     this.scene.stop();
@@ -154,7 +154,7 @@ export default class GreenMapScene extends Phaser.Scene {
                 const cam = this.cameras.main;
                 cam.fade(250, 0, 0, 0);
                 cam.once("camerafadeoutcomplete", () => {
-                    this.scene.start("DungeonScene", { vidas: this.player.life, monedas: this.player.coins, buffs: this.player.buffs });
+                    this.scene.start("DungeonScene", { vidas: this.player.life, monedas: this.player.coins, buffs: this.player.buffs, maxLife: this.player.maxLife });
                     this.sound.removeByKey("audio_mapaverde");
                     this.audio = null;
                     this.scene.stop();

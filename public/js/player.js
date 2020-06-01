@@ -3,7 +3,7 @@ import Escudo from "./escudo.js";
 export default class Player extends Phaser.GameObjects.Sprite {
   // Orden: Escudo 0 Espada 1 Capa 2
 
-  constructor(scene, x, y, buffs, mapa, life, coins) {
+  constructor(scene, x, y, buffs, mapa, life, coins, maxLife) {
     super(scene, x, y, 'player');
     this.enemyTouch = false;
     this.atacado = false;
@@ -33,7 +33,9 @@ export default class Player extends Phaser.GameObjects.Sprite {
     if (life === null || life === undefined || life === "undefined")
       this.life = 5;
     else this.life = life;
-    this.maxLife = 5;
+    if(maxLife === null || maxLife === undefined || maxLife === "undefined")
+      this.maxLife = 5;
+    else this.maxLife = maxLife;
     const anims = this.scene.anims;
     this.pinta = pintaBuffs(this.buffsp);
     this.scene.carga.creaAnimacionesPlayer(anims);

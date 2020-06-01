@@ -23,7 +23,7 @@ export default class LavaMapScene extends Phaser.Scene {
             this.lifesPlayer = data.vidas;
             this.coinsPlayer = data.monedas;
             this.buffsPlayer = data.buffs;
-            //this.mapa = data.mapa;
+            this.maxLife = data.maxLife;
             this.mapa = "verde";
         }
     }
@@ -75,7 +75,7 @@ export default class LavaMapScene extends Phaser.Scene {
 
         tierra.setCollisionByExclusion([-1]);
 
-        this.player = new Player(this, 10, 200, this.buffsPlayer, this.mapa, this.lifesPlayer, this.coinsPlayer);
+        this.player = new Player(this, 10, 200, this.buffsPlayer, this.mapa, this.lifesPlayer, this.coinsPlayer, this.maxLife);
         this.fregona = this.physics.add.group({
             immovable: true,
             allowGravity: false
@@ -129,7 +129,7 @@ export default class LavaMapScene extends Phaser.Scene {
                 const cam = this.cameras.main;
                 cam.fade(250, 0, 0, 0);
                 cam.once("camerafadeoutcomplete", () => {
-                    this.scene.start("DungeonScene", { vidas: this.player.life, monedas: this.player.coins, buffs: this.player.buffs });
+                    this.scene.start("DungeonScene", { vidas: this.player.life, monedas: this.player.coins, buffs: this.player.buffs, maxLife: this.player.maxLife });
                     this.sound.removeByKey("audio_mapalava");
                     this.audio = null;
                     this.scene.stop();
@@ -143,7 +143,7 @@ export default class LavaMapScene extends Phaser.Scene {
                 const cam = this.cameras.main;
                 cam.fade(250, 0, 0, 0);
                 cam.once("camerafadeoutcomplete", () => {
-                    this.scene.start("DungeonScene", { vidas: this.player.life, monedas: this.player.coins, buffs: this.player.buffs });
+                    this.scene.start("DungeonScene", { vidas: this.player.life, monedas: this.player.coins, buffs: this.player.buffs, maxLife: this.player.maxLife });
                     this.sound.removeByKey("audio_mapalava");
                     this.audio = null;
                     this.scene.stop();

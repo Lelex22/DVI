@@ -19,8 +19,8 @@ export default class DungeonScene extends Phaser.Scene {
       this.lifesPlayer = data.vidas;
       this.coinsPlayer = data.monedas;
       this.buffsPlayer = data.buffs;
+      this.maxLife = data.maxLife;
     }
-    //else this.player = new Player(this, 0, 0);
   }
 
 
@@ -179,7 +179,7 @@ export default class DungeonScene extends Phaser.Scene {
       const cam = this.cameras.main;
       cam.fade(250, 0, 0, 0);
       cam.once("camerafadeoutcomplete", () => {
-        this.scene.start("ShopScene", { vidas: this.player.life, monedas: 1250, buffs: this.player.buffs, mapa: "tienda" });
+        this.scene.start("ShopScene", { vidas: this.player.life, monedas: 1250, buffs: this.player.buffs, mapa: "tienda", maxLife: this.player.maxLife });
         this.scene.stop();
       });
     });
@@ -192,7 +192,7 @@ export default class DungeonScene extends Phaser.Scene {
       const cam = this.cameras.main;
       cam.fade(250, 0, 0, 0);
       cam.once("camerafadeoutcomplete", () => {
-        this.scene.start("GreenMapScene", { vidas: this.player.life, monedas: this.player.coins, buffs: this.player.buffs, mapa: "verde" });
+        this.scene.start("GreenMapScene", { vidas: this.player.life, monedas: this.player.coins, buffs: this.player.buffs, mapa: "verde", maxLife: this.player.maxLife });
         this.sound.removeByKey("mazmorra");
         this.backgroundsong = null;
         this.scene.stop();
@@ -206,7 +206,7 @@ export default class DungeonScene extends Phaser.Scene {
       const cam = this.cameras.main;
       cam.fade(250, 0, 0, 0);
       cam.once("camerafadeoutcomplete", () => {
-        this.scene.start("LavaMapScene", { vidas: this.player.life, monedas: this.player.coins, buffs: this.player.buffs, mapa: "verde" });
+        this.scene.start("LavaMapScene", { vidas: this.player.life, monedas: this.player.coins, buffs: this.player.buffs, mapa: "verde", maxLife: this.player.maxLife });
         this.sound.removeByKey("mazmorra");
         this.backgroundsong = null;
         this.scene.stop();
@@ -217,7 +217,7 @@ export default class DungeonScene extends Phaser.Scene {
     const playerRoom = startRoom;
     const x = map.tileToWorldX(playerRoom.centerX);
     const y = map.tileToWorldY(playerRoom.centerY);
-    this.player = new Player(this, x, y, this.buffsPlayer, "no_definido", this.lifesPlayer, this.coinsPlayer);
+    this.player = new Player(this, x, y, this.buffsPlayer, "no_definido", this.lifesPlayer, this.coinsPlayer, this.maxLife);
     // Watch the player and tilemap layers for collisions, for the duration of the scene:
     this.physics.add.collider(this.player, this.groundLayer);
     this.physics.add.collider(this.player, this.stuffLayer);
@@ -230,7 +230,7 @@ export default class DungeonScene extends Phaser.Scene {
     camera.startFollow(this.player);
     /* Vidas: Se supone que ese this.life = 5 no va a ser necesario, sino que vamos
     a obtener las vidas restantes */
-    this.vidas = dibujaVidas(this, this.player.life);
+    this.vidas = this.carga.dibujaVidas(this, this.player.life);
     this.textMonedas = this.carga.dibujaMonedas(this);
     // Help text that has a "fixed" position on the screen
     this.add.text(3, 535, 'Busca la tienda o los niveles\nUsa las flechas para moverte.', {
@@ -255,26 +255,5 @@ export default class DungeonScene extends Phaser.Scene {
     const playerRoom = this.dungeon.getRoomAt(playerTileX, playerTileY);
 
     this.tilemapVisibility.setActiveRoom(playerRoom);
-  }
-}
-function dibujaVidas(scene, vidasPlayer) {
-  switch (vidasPlayer) {
-    case 5:
-      return scene.add.sprite(16, 20, "5vidas").setOrigin(0).setScrollFactor(0);
-      break;
-    case 4:
-      return scene.add.sprite(16, 20, "4vidas").setOrigin(0).setScrollFactor(0);
-      break;
-    case 3:
-      return scene.add.sprite(16, 20, "3vidas").setOrigin(0).setScrollFactor(0);
-      break;
-    case 2:
-      return scene.add.sprite(16, 20, "2vidas").setOrigin(0).setScrollFactor(0);
-      break;
-    case 1:
-      return scene.add.sprite(16, 20, "1vida").setOrigin(0).setScrollFactor(0);
-      break;
-    default:
-      break;
   }
 }

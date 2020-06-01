@@ -9,7 +9,8 @@ La idea de este juego es una mezcla entre dos personajes existentes, Zelda y Lui
 Zelgui es el hermano del conocidísimo Mario, como en todas las familias hay roces y en la suya también pasa. Zelgui en un brote de rabia decide lanzarse el solo a la aventura. Además, para que no le relacionen con su hermano a decide ponerse un mote. La mejor idea que tuvo es unificar su nombre con su personaje de videojuegos favorito Zelda (Zelgui). En esta aventura buscará erradicar como su hermano el mal del planeta. Para ello estará dotado con varios objetos muy especiales:
     _Una escoba: Esta herramienta le permitirá a zelgui atacar a quien ose interponerse en su camino.
     _Un escudo:_ Como no siempre uno puede evitar los ataques siempre vendrá bien poder cubrirse con algo, esta es la herramienta adecuada.
-    _Una capa:_ ¿Qué es un héroe sin su capa? Esta capa le dotará a Zelgui de una habilidad estupenda, la reducción de daño. Si Zelgui recibe daño y esta herramienta está comprada Zelgui no recibirá daño por contacto de los enemigos.
+    _Una capa:_ ¿Qué es un héroe sin su capa? Esta capa le dotará a Zelgui de una habilidad estupenda, la reducción de daño cuerpo a cuerpo. 
+    Si Zelgui recibe daño y esta herramienta está comprada Zelgui no recibirá daño por contacto de los enemigos.
 
 ### Mecánicas
 A lo largo de los niveles podremos avanzar y retroceder en el mapa, subir/bajar escaleras y saltar. Esto último de dos maneras, saltar en un terreno para sobrepasar los obstáculos y saltar de una plataforma al suelo. A lo largo de los mapas encontraremos objetos con los que podremos comerciar y podremos recuperar vida si resultamos heridos.
@@ -21,7 +22,7 @@ A lo largo del juego, con los objetos que conseguiremos, podremos mejorar nuestr
 Como es de esperar, en los niveles tendremos variedad de enemigos con mayor o menor dificultad para eliminarlos. Podremos atacarlos con un objeto especial y protegernos de sus ataques con otro.
  - Si hemos comprado la fregona podremos usarla con la tecla S.
  - Si hemos comprado el escudo, con la tecla A podrás protegerte.
-
+ - Si hemos comprado la capa, el daño cuerpo a cuerpo sera nulo.
 ### Enemigos
 El juego tendrá varios enemigos. Cada uno de estos enemigos tendrá habilidades únicas, lo que hará que la estrategia para acabar con ellos sea distinta.
 

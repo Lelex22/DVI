@@ -3,10 +3,10 @@ export default class GameOver extends Phaser.Scene {
     constructor() {
         super('GameOver');
     }
-    init(data){
+    init(data) {
         this.escenaPausada = data.escena;
     }
-    preload(){}
+    preload() { }
     create() {
         this.scene.get("Preloads");
         this.add.image(500, 300, "gameover");

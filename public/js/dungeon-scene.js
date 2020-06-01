@@ -12,19 +12,19 @@ import TilemapVisibility from "./tilemap-visibility.js";
 export default class DungeonScene extends Phaser.Scene {
   constructor() {
     super('DungeonScene');
-    
+
   }
-  init(data){
-    if(data !== null){
+  init(data) {
+    if (data !== null) {
       this.lifesPlayer = data.vidas;
       this.coinsPlayer = data.monedas;
       this.buffsPlayer = data.buffs;
     }
     //else this.player = new Player(this, 0, 0);
   }
-  
 
-  preload() {}
+
+  preload() { }
 
   create() {
     this.carga = this.scene.get("Preloads");
@@ -38,15 +38,15 @@ export default class DungeonScene extends Phaser.Scene {
       loop: true,
       delay: 0
     };
-    if(this.backgroundsong === null || this.backgroundsong === undefined)
+    if (this.backgroundsong === null || this.backgroundsong === undefined)
       this.backgroundsong = this.sound.add("mazmorra", config);
-    if(this.backgroundsong !== null && this.backgroundsong !== undefined && !this.backgroundsong.isPlaying)
-        this.backgroundsong.play();
+    if (this.backgroundsong !== null && this.backgroundsong !== undefined && !this.backgroundsong.isPlaying)
+      this.backgroundsong.play();
     this.hasPlayerReachedShop = false;
     let audio = this.sound.add("letsgo", {
       volume: 0.3,
     });
-    
+
     // Generate a random world with a few extra options:
     //  - Rooms should only have odd number dimensions so that they have a center tile.
     //  - Doors should be at least 2 tiles away from corners, so that we can place a corner tile on
@@ -139,10 +139,10 @@ export default class DungeonScene extends Phaser.Scene {
         // 50% chance of a pot in the room... except don't block a door!
         this.stuffLayer.weightedRandomize(room.centerX - 1, room.centerY - 1, 1, 1, TILES.POT);
         this.stuffLayer.weightedRandomize(room.centerX + 1, room.centerY + 1, 1, 1, TILES.POT);
-      } 
+      }
       else if (rand <= 0.5) {
         // 50% chance of a pot anywhere in the room... except don't block a door!
-        if (room.height >= 9) {          
+        if (room.height >= 9) {
           this.stuffLayer.weightedRandomize(room.centerX - 1, room.centerY + 1, 1, 1, TILES.EXTR);
           this.stuffLayer.weightedRandomize(room.centerX + 1, room.centerY + 1, 1, 1, TILES.EXTR);
           this.stuffLayer.weightedRandomize(room.centerX - 1, room.centerY - 2, 1, 1, TILES.EXTR);
@@ -179,7 +179,7 @@ export default class DungeonScene extends Phaser.Scene {
       const cam = this.cameras.main;
       cam.fade(250, 0, 0, 0);
       cam.once("camerafadeoutcomplete", () => {
-        this.scene.start("ShopScene", {vidas: this.player.life, monedas: 1250, buffs: this.player.buffs, mapa: "tienda"});
+        this.scene.start("ShopScene", { vidas: this.player.life, monedas: 1250, buffs: this.player.buffs, mapa: "tienda" });
         this.scene.stop();
       });
     });
@@ -192,7 +192,7 @@ export default class DungeonScene extends Phaser.Scene {
       const cam = this.cameras.main;
       cam.fade(250, 0, 0, 0);
       cam.once("camerafadeoutcomplete", () => {
-        this.scene.start("GreenMapScene", {vidas: this.player.life, monedas: this.player.coins, buffs: this.player.buffs, mapa:"verde"});
+        this.scene.start("GreenMapScene", { vidas: this.player.life, monedas: this.player.coins, buffs: this.player.buffs, mapa: "verde" });
         this.sound.removeByKey("mazmorra");
         this.backgroundsong = null;
         this.scene.stop();
@@ -206,13 +206,13 @@ export default class DungeonScene extends Phaser.Scene {
       const cam = this.cameras.main;
       cam.fade(250, 0, 0, 0);
       cam.once("camerafadeoutcomplete", () => {
-        this.scene.start("LavaMapScene", {vidas: this.player.life, monedas: this.player.coins, buffs: this.player.buffs, mapa:"verde"});
+        this.scene.start("LavaMapScene", { vidas: this.player.life, monedas: this.player.coins, buffs: this.player.buffs, mapa: "verde" });
         this.sound.removeByKey("mazmorra");
         this.backgroundsong = null;
         this.scene.stop();
       });
     });
-    
+
     // Place the player in the first room
     const playerRoom = startRoom;
     const x = map.tileToWorldX(playerRoom.centerX);
@@ -240,7 +240,7 @@ export default class DungeonScene extends Phaser.Scene {
       backgroundColor: "#ffffff"
     })
       .setScrollFactor(0);
-;
+    ;
   }
 
   update(time, delta) {
@@ -257,24 +257,24 @@ export default class DungeonScene extends Phaser.Scene {
     this.tilemapVisibility.setActiveRoom(playerRoom);
   }
 }
-function dibujaVidas(scene, vidasPlayer){
+function dibujaVidas(scene, vidasPlayer) {
   switch (vidasPlayer) {
-      case 5:
-          return scene.add.sprite(16, 20, "5vidas").setOrigin(0).setScrollFactor(0);
-          break;
-      case 4:
-          return scene.add.sprite(16, 20, "4vidas").setOrigin(0).setScrollFactor(0);
-          break;
-      case 3:
-          return scene.add.sprite(16, 20, "3vidas").setOrigin(0).setScrollFactor(0);
-          break;
-      case 2:
-          return scene.add.sprite(16, 20, "2vidas").setOrigin(0).setScrollFactor(0);
-          break;
-      case 1:
-          return scene.add.sprite(16, 20, "1vida").setOrigin(0).setScrollFactor(0);
-          break;
-      default:
-          break;
+    case 5:
+      return scene.add.sprite(16, 20, "5vidas").setOrigin(0).setScrollFactor(0);
+      break;
+    case 4:
+      return scene.add.sprite(16, 20, "4vidas").setOrigin(0).setScrollFactor(0);
+      break;
+    case 3:
+      return scene.add.sprite(16, 20, "3vidas").setOrigin(0).setScrollFactor(0);
+      break;
+    case 2:
+      return scene.add.sprite(16, 20, "2vidas").setOrigin(0).setScrollFactor(0);
+      break;
+    case 1:
+      return scene.add.sprite(16, 20, "1vida").setOrigin(0).setScrollFactor(0);
+      break;
+    default:
+      break;
   }
 }

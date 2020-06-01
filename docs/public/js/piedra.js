@@ -4,12 +4,12 @@ export default class Piedra extends Phaser.GameObjects.Sprite {
         this.scene.add.existing(this);
         this.scene.physics.add.existing(this);
         this.vel = 200;
-        if(speed)
+        if (speed)
             this.vel = this.vel;
         else this.vel = -this.vel;
         this.body.allowGravity = false;
         this.scene.armasEnemigos.add(this);
-        this.body.setOffset(5,10);
+        this.body.setOffset(5, 10);
         //this.body.syncBounds = true;
     }
 
@@ -17,7 +17,7 @@ export default class Piedra extends Phaser.GameObjects.Sprite {
         super.preUpdate(d, t);
         this.body.setVelocityX(this.vel);
         //Si fuera del limite del mapa
-        if (this.x < -30 || this.x > 9553) 
+        if (this.x < -30 || this.x > 9553)
             this.destroy();
     }
 }

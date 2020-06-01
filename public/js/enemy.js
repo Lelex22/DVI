@@ -67,7 +67,7 @@ export default class Enemy extends Phaser.GameObjects.Sprite {
                 repeat: 0
             });
         }
-        
+
         this.body.setSize(32, 43).setOffset(20, 21);
         this.stepCount = Phaser.Math.Between(0, stepLimit);
         if (this.mapa.localeCompare("verde") === 0)
@@ -79,8 +79,8 @@ export default class Enemy extends Phaser.GameObjects.Sprite {
     }
     preUpdate(d, t) {
         super.preUpdate(d, t);
-        if(this.life > 0){
-            if(this.firstInstance){
+        if (this.life > 0) {
+            if (this.firstInstance) {
                 this.body.velocity.x = this.speed;
                 this.anims.play("movizqc", true);
                 this.lastPosition = "movizqc";
@@ -91,7 +91,7 @@ export default class Enemy extends Phaser.GameObjects.Sprite {
                 p = -p;
             }
 
-            if (this.scene.player.body.bottom == this.body.bottom && p < 200) {   
+            if (this.scene.player.body.bottom == this.body.bottom && p < 200) {
                 // if player to left of enemy AND enemy moving to right
                 if (this.scene.player.body.x < this.body.x && this.body.velocity.x > 0) {
                     // move enemy to left            
@@ -109,10 +109,10 @@ export default class Enemy extends Phaser.GameObjects.Sprite {
                     // could add other code - change enemy animation, make enemy fire weapon, etc.
                 }
             }
-            else{
+            else {
                 //increase enemy's step counter
                 this.stepCount++;
-                
+
                 //check if enemy's step counter has reach limit
                 if (this.stepCount > stepLimit) {
                     // reverse enemy direction
@@ -122,42 +122,42 @@ export default class Enemy extends Phaser.GameObjects.Sprite {
                     // can add other code - change enemy animation, etc.
                     cambiaSprite(this);
                 }
-                if(this.body.blocked.right || this.body.touching.right){
+                if (this.body.blocked.right || this.body.touching.right) {
                     this.body.velocity.x = -this.speed;
                     cambiaSprite(this);
                 }
-                else if(this.body.blocked.left || this.body.touching.left){
+                else if (this.body.blocked.left || this.body.touching.left) {
                     this.body.setVelocityX(this.speed);
                     cambiaSprite(this);
                 }
             }
-            if(this.puedeAtacar && p < 200){     
+            if (this.puedeAtacar && p < 200) {
                 //Variable con el signo de la velocidad de la piedra: true es positiva false negativa
-                let lastSpeed;       
+                let lastSpeed;
                 this.body.setVelocityX(0);
-                if(this.lastPosition.localeCompare("movizqc") === 0){
+                if (this.lastPosition.localeCompare("movizqc") === 0) {
                     this.anims.play("atcizqc", true);
                     lastSpeed = false;
                 }
-                else{
+                else {
                     this.anims.play("atcderc", true);
                     lastSpeed = true;
                 }
-                if(this.anims.currentFrame.index == 2 && !this.piedra){
+                if (this.anims.currentFrame.index == 2 && !this.piedra) {
                     let audio_ataque = this.scene.sound.add("atacaciclope", {
                         volume: 0.1,
-                      });
-                      audio_ataque.play();
+                    });
+                    audio_ataque.play();
                 }
                 //Cuando llega al ultimo frame del ataque aparece la piedra
-                else if(this.anims.currentFrame.index == 11 && !this.piedra){
+                else if (this.anims.currentFrame.index == 11 && !this.piedra) {
                     let piedra = new Piedra(this.scene, this.body.x, this.body.y, this, lastSpeed);
                     this.piedra = true;
                 }
-                else if(this.anims.currentFrame.index == 12){
+                else if (this.anims.currentFrame.index == 12) {
                     this.puedeAtacar = false;
                     this.play(this.lastPosition, true);
-                    if(this.lastPosition.localeCompare("movizqc") === 0)
+                    if (this.lastPosition.localeCompare("movizqc") === 0)
                         this.body.setVelocityX(-this.speed);
                     else this.body.setVelocityX(this.speed);
                 }
@@ -165,11 +165,11 @@ export default class Enemy extends Phaser.GameObjects.Sprite {
             }
             else {
                 this.play(this.lastPosition, true);
-                if(this.lastPosition.localeCompare("movizqc") === 0)
+                if (this.lastPosition.localeCompare("movizqc") === 0)
                     this.body.setVelocityX(-this.speed);
                 else this.body.setVelocityX(this.speed);
             }
-            if(this.tiempo >= this.tiempoEntreAtaques){
+            if (this.tiempo >= this.tiempoEntreAtaques) {
                 this.puedeAtacar = true;
                 this.piedra = false;
             }
@@ -178,21 +178,22 @@ export default class Enemy extends Phaser.GameObjects.Sprite {
         else {
             this.anims.play("muerec", true);
             this.body.enable = false;
-            
-            this.scene.time.addEvent({ delay: 1000, callback: function(){
-                this.scene.ciclopsGroup.killAndHide(this);
-                while(this.bonus < 5){
-                    let coin = new Coin(this.scene, this.x, this.y);
-                    coin.body.bounce.x = 1; 
-                    this.scene.coinsGroup.add(coin);
-                    this.bonus++;
-                }
+
+            this.scene.time.addEvent({
+                delay: 1000, callback: function () {
+                    this.scene.ciclopsGroup.killAndHide(this);
+                    while (this.bonus < 5) {
+                        let coin = new Coin(this.scene, this.x, this.y);
+                        coin.body.bounce.x = 1;
+                        this.scene.coinsGroup.add(coin);
+                        this.bonus++;
+                    }
                 }, callbackScope: this
-            });            
+            });
         }
     }
-} 
-function cambiaSprite(enemy){
+}
+function cambiaSprite(enemy) {
     if (Math.sign(enemy.body.velocity.x) === 1) {
         enemy.anims.play("movderc", true);
         enemy.lastPosition = "movderc";

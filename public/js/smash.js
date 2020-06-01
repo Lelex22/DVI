@@ -5,9 +5,9 @@ export default class Smash extends Phaser.GameObjects.Sprite {
         this.scene.add.existing(this);
         this.scene.physics.add.existing(this);
         this.vel = 350;
-        if(speed)
+        if (speed)
             this.vel = this.vel;
-        else{
+        else {
             this.vel = -this.vel;
             this.setFlipX(true);
         }
@@ -21,7 +21,7 @@ export default class Smash extends Phaser.GameObjects.Sprite {
         super.preUpdate(d, t);
         this.body.setVelocityX(this.vel);
         //Si fuera del limite del mapa
-        if (this.x < this.vikingx - 500 || this.x > this.vikingx + 500) 
+        if (this.x < this.vikingx - 500 || this.x > this.vikingx + 500)
             this.destroy();
     }
 }

@@ -7,23 +7,23 @@ export default class Fireball extends Phaser.GameObjects.Sprite {
         this.scene.physics.add.existing(this);
         this.vel = 350;
         this.speed = speed;
-        if(this.speed)
+        if (this.speed)
             this.vel = this.vel;
-        else{
+        else {
             this.vel = -this.vel;
             this.setFlipX(true);
         }
-        this.body.setOffset(15,10);
+        this.body.setOffset(15, 10);
         this.body.allowGravity = false;
         this.scene.armasEnemigos.add(this);
-        
+
     }
 
     preUpdate(d, t) {
         super.preUpdate(d, t);
         this.body.setVelocityX(this.vel);
         //Si fuera del limite del mapa
-        if (this.x < this.magox - 1000 || this.x > this.magox + 1000) 
+        if (this.x < this.magox - 1000 || this.x > this.magox + 1000)
             this.destroy();
     }
 }

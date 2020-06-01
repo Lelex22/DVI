@@ -1,6 +1,6 @@
 import Fregona from "./fregona.js";
 import Escudo from "./escudo.js";
-export default class Player extends Phaser.GameObjects.Sprite{
+export default class Player extends Phaser.GameObjects.Sprite {
   // Orden: Escudo 0 Espada 1 Capa 2
 
   constructor(scene, x, y, buffs, mapa, life, coins) {
@@ -18,7 +18,7 @@ export default class Player extends Phaser.GameObjects.Sprite{
     this.yEscalera = null;
     this.xEscalera = null;
     this.mapa = mapa;
-    if(buffs === null || buffs === undefined)
+    if (buffs === null || buffs === undefined)
       this.buffsp = [false, false, false];
     else {
       this.buffsp = [];
@@ -26,35 +26,35 @@ export default class Player extends Phaser.GameObjects.Sprite{
       this.buffsp[1] = buffs[1]["value"];
       this.buffsp[2] = buffs[2]["value"];
     }
-    this.buffs = [{name: "Escudo", value: this.buffsp[0]}, {name: "Espada", value: this.buffsp[1]}, {name: "Capa", value: this.buffsp[2]}];
-    if(coins === null || coins === undefined)
-        this.coins = 0;
+    this.buffs = [{ name: "Escudo", value: this.buffsp[0] }, { name: "Espada", value: this.buffsp[1] }, { name: "Capa", value: this.buffsp[2] }];
+    if (coins === null || coins === undefined)
+      this.coins = 0;
     else this.coins = coins;
-    if(life === null || life === undefined || life === "undefined")
-        this.life = 5;
+    if (life === null || life === undefined || life === "undefined")
+      this.life = 5;
     else this.life = life;
     this.maxLife = 5;
     const anims = this.scene.anims;
     this.pinta = pintaBuffs(this.buffsp);
     this.scene.carga.creaAnimacionesPlayer(anims);
-    
 
-    
-    
+
+
+
     //this.sprite.anims.play("up");
-    if(this.mapa.localeCompare("verde") === 0){
-      this.body.setGravity(0,200);
+    if (this.mapa.localeCompare("verde") === 0) {
+      this.body.setGravity(0, 200);
     }
     this.keys = scene.input.keyboard.createCursorKeys();
     this.s = scene.input.keyboard.addKey('S');
     this.a = scene.input.keyboard.addKey('A');
-    function pintaBuffs(buffs){
+    function pintaBuffs(buffs) {
       let ret = [];
-      if(buffs[0]) ret[0] = 1;
+      if (buffs[0]) ret[0] = 1;
       else ret[0] = 0;
-      if(buffs[1]) ret[1] = 1;
+      if (buffs[1]) ret[1] = 1;
       else ret[1] = 0;
-      if(buffs[2]) ret[2] = 1;
+      if (buffs[2]) ret[2] = 1;
       else ret[2] = 0;
       return ret[0] * 100 + ret[1] * 10 + ret[2];
     }
@@ -66,24 +66,24 @@ export default class Player extends Phaser.GameObjects.Sprite{
 
   preUpdate(d, t) {
     super.preUpdate(d, t);
-    if(this.lastPosition != null && (this.lastPosition.includes("capa") || this.lastPosition.includes("espada")))
-      this.body.setSize(10, 10).setOffset(20,10);
+    if (this.lastPosition != null && (this.lastPosition.includes("capa") || this.lastPosition.includes("espada")))
+      this.body.setSize(15, 10).setOffset(10, 10);
     else if (this.mapa.localeCompare("verde") !== 0)
-      this.body.setSize(10, 10).setOffset(10,15);
-    else this.body.setSize(10, 10).setOffset(10,10);
+      this.body.setSize(10, 10).setOffset(10, 15);
+    else this.body.setSize(10, 10).setOffset(10, 10);
   }
 
-  update(){
+  update() {
     const keys = this.keys;
 
     // Stop any previous movement from the last frame
-    if(this.mapa.localeCompare("verde") !== 0)
+    if (this.mapa.localeCompare("verde") !== 0)
       this.body.setVelocity(0);
-    if(this.mapa.localeCompare("verde") !== 0){
-      if (keys.left.isDown){
+    if (this.mapa.localeCompare("verde") !== 0) {
+      if (keys.left.isDown) {
         this.body.setVelocityX(-this.speed);
       }
-      else if(keys.right.isDown){
+      else if (keys.right.isDown) {
         this.body.setVelocityX(this.speed);
       }
       else this.body.setVelocityX(0);
@@ -92,58 +92,58 @@ export default class Player extends Phaser.GameObjects.Sprite{
       }
       else if (keys.down.isDown) {
         this.body.setVelocityY(this.speed);
-      }      
-    }
-    else if(this.mapa.localeCompare("verde") === 0){
-      if(keys.left.isDown){
-        this.body.setVelocityX(-this.speed/2);
       }
-      else if(keys.right.isDown){
-        this.body.setVelocityX(this.speed/2);
+    }
+    else if (this.mapa.localeCompare("verde") === 0) {
+      if (keys.left.isDown) {
+        this.body.setVelocityX(-this.speed / 2);
+      }
+      else if (keys.right.isDown) {
+        this.body.setVelocityX(this.speed / 2);
       }
       else if (Phaser.Input.Keyboard.JustDown(this.s) && this.buffs[1]["value"]) {
-        if (!this.isAttacking){
+        if (!this.isAttacking) {
           let fregona;
           this.body.setVelocityX(0);
-          if(this.lastPosition.includes("espada")){
-            let anim = this.lastPosition.replace("-espada","");
+          if (this.lastPosition.includes("espada")) {
+            let anim = this.lastPosition.replace("-espada", "");
             this.anims.play(anim, false);
           }
           else this.anims.play(this.lastPosition, false);
-          if(this.lastPosition.includes("right")){
-            if(this.lastPosition != null && (this.lastPosition.includes("capa") || this.lastPosition.includes("espada")))
+          if (this.lastPosition.includes("right")) {
+            if (this.lastPosition != null && (this.lastPosition.includes("capa") || this.lastPosition.includes("espada")))
               fregona = new Fregona(this.scene, this.body.x + 13, this.body.y + 5, "fregona", this);
             else fregona = new Fregona(this.scene, this.body.x + 3, this.body.y + 5, "fregona", this);
           }
-          else if(this.lastPosition != null && (this.lastPosition.includes("capa") || this.lastPosition.includes("espada"))) 
+          else if (this.lastPosition != null && (this.lastPosition.includes("capa") || this.lastPosition.includes("espada")))
             fregona = new Fregona(this.scene, this.body.x - 22, this.body.y + 5, "fregonaiz", this);
           else fregona = new Fregona(this.scene, this.body.x - 12, this.body.y + 5, "fregonaiz", this);
           this.isAttacking = true;
           let audio_ataque = this.scene.sound.add("atacaplayer", {
-            volume: 2,
+            volume: 0.1,
           });
           audio_ataque.play();
         }
       }
       else if (Phaser.Input.Keyboard.JustDown(this.a) && this.buffs[0]["value"]) {
-          this.isDefending = true;
-          this.body.setVelocityX(0);
-          keys.right.enabled = false;
-          keys.left.enabled = false;
-          keys.up.enabled = false;
-          let escudo;
-          if(this.lastPosition.includes("escudo")){
-            let anim = this.lastPosition.replace("-escudo","");
-            this.anims.play(anim, false);
-          }
-          else this.anims.play(this.lastPosition, false);
-          if(this.lastPosition.includes("right")){
-            escudo = new Escudo(this.scene, this.body.x + 12, this.body.y + 5, "escudoiz", this);
-          }
-          else escudo = new Escudo(this.scene, this.body.x - 20, this.body.y + 5, "escudo", this);
-          this.isDefending = true;
+        this.isDefending = true;
+        this.body.setVelocityX(0);
+        keys.right.enabled = false;
+        keys.left.enabled = false;
+        keys.up.enabled = false;
+        let escudo;
+        if (this.lastPosition.includes("escudo")) {
+          let anim = this.lastPosition.replace("-escudo", "");
+          this.anims.play(anim, false);
+        }
+        else this.anims.play(this.lastPosition, false);
+        if (this.lastPosition.includes("right")) {
+          escudo = new Escudo(this.scene, this.body.x + 12, this.body.y + 5, "escudoiz", this);
+        }
+        else escudo = new Escudo(this.scene, this.body.x - 20, this.body.y + 5, "escudo", this);
+        this.isDefending = true;
       }
-      else if(Phaser.Input.Keyboard.JustUp(this.a) && this.buffs[0]["value"]){
+      else if (Phaser.Input.Keyboard.JustUp(this.a) && this.buffs[0]["value"]) {
         this.isDefending = false;
         keys.right.enabled = true;
         keys.left.enabled = true;
@@ -151,31 +151,31 @@ export default class Player extends Phaser.GameObjects.Sprite{
       }
       else this.body.setVelocityX(0);
       if (keys.up.isDown && this.body.onFloor() && !this.escaleras) {
-        this.body.setGravity(0,200);
+        this.body.setGravity(0, 200);
         this.body.setVelocityY(-this.speed);
         //this.anims.play(this.lastPosition, true);
       }
-      else if(this.escaleras){
-        this.body.setGravity(0,0);
+      else if (this.escaleras) {
+        this.body.setGravity(0, 0);
         this.anims.play("up", true);
         if (keys.up.isDown) {
-          if(this.y <= this.yEscalera/2 - 10 && this.x <= this.xEscalera + 16 && this.x >= this.xEscalera - 16){
-              this.body.setVelocityY(this.speed/2);
+          if (this.y <= this.yEscalera / 2 - 10 && this.x <= this.xEscalera + 16 && this.x >= this.xEscalera - 16) {
+            this.body.setVelocityY(this.speed / 2);
           }
-          else{
-            this.body.setVelocityY(-this.speed/2);
+          else {
+            this.body.setVelocityY(-this.speed / 2);
           }
         }
       }
-    }    
+    }
     // Normalize and scale the velocity so that sprite can't move faster along a diagonal
-    if(this.mapa.localeCompare("verde") !== 0)
+    if (this.mapa.localeCompare("verde") !== 0)
       this.body.velocity.normalize().scale(this.speed);
 
     // Update the animation last and give left/right/down animations precedence over up animations
     if (keys.down.isDown) {
-      if(this.mapa.localeCompare("verde") !== 0){
-        switch(this.pinta){
+      if (this.mapa.localeCompare("verde") !== 0) {
+        switch (this.pinta) {
           case 0:
             this.anims.play("down", true);
             this.lastPosition = "down-stand";
@@ -211,8 +211,8 @@ export default class Player extends Phaser.GameObjects.Sprite{
         }
       }
     } else if (keys.up.isDown) {
-      if(this.mapa.localeCompare("verde") !== 0){
-        switch(this.pinta){
+      if (this.mapa.localeCompare("verde") !== 0) {
+        switch (this.pinta) {
           case 0:
             this.anims.play("up", true);
             this.lastPosition = "up-stand";
@@ -247,9 +247,9 @@ export default class Player extends Phaser.GameObjects.Sprite{
             break;
         }
       }
-    } 
-    else if (keys.right.isDown){
-      switch(this.pinta){
+    }
+    else if (keys.right.isDown) {
+      switch (this.pinta) {
         case 0:
           this.anims.play("right", true);
           this.lastPosition = "right-stand";
@@ -283,8 +283,8 @@ export default class Player extends Phaser.GameObjects.Sprite{
           this.lastPosition = "right-capa-espada-escudo-stand";
           break;
       }
-    }else if(keys.left.isDown){
-      switch(this.pinta){
+    } else if (keys.left.isDown) {
+      switch (this.pinta) {
         case 0:
           this.anims.play("left", true);
           this.lastPosition = "left-stand";
@@ -320,13 +320,13 @@ export default class Player extends Phaser.GameObjects.Sprite{
       }
     }
     else {
-      if(this.lastPosition != null && !this.s.isDown && !this.isAttacking && !this.a.isDown && !this.isDefending){
+      if (this.lastPosition != null && !this.s.isDown && !this.isAttacking && !this.a.isDown && !this.isDefending) {
         this.anims.play(this.lastPosition, true);
       }
     }
   }
-  
-  alive(){
+
+  alive() {
     return this.life > 0;
   }
 }

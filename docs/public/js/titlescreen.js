@@ -1,22 +1,21 @@
 export default class TitleScreenScene extends Phaser.Scene {
 
-    constructor ()
-    {
+    constructor() {
         super('TitleScreenScene');
     }
-    preload(){}
-    create(){
-        this.carga = this.scene.get('Preloads');        
+    preload() { }
+    create() {
+        this.carga = this.scene.get('Preloads');
         this.anims.create({
             key: "run",
             frames: [
-                {key: 'background'}, 
-                {key: 'background2'}
+                { key: 'background' },
+                { key: 'background2' }
             ],
             frameRate: 2,
             repeat: 0
-        }); 
-     
+        });
+
         this.key = this.input.keyboard.addKey('ENTER');
         this.background = this.add.sprite(500, 300, 'background').play('run');
         this.add.image(600, 300, 'luigi');
@@ -25,19 +24,19 @@ export default class TitleScreenScene extends Phaser.Scene {
         //Audio
         const config = {
             mute: false,
-            volume: 0.4,
+            volume: 0.1,
             rate: 1,
             detune: 0,
             seek: 0,
             loop: true,
             delay: 0
-         };   
+        };
         this.audio = this.sound.add("musiinicio", config);
-		this.audio.play();      
+        this.audio.play();
     }
-    update(){        
+    update() {
         this.background.anims.play("run", true);
-        if(this.key.isDown){
+        if (this.key.isDown) {
             this.scene.start("DungeonScene");
             this.sound.removeByKey("musiinicio");
             this.audio = null;

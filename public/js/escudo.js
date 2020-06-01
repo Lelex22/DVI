@@ -12,8 +12,8 @@ export default class Escudo extends Phaser.GameObjects.Sprite {
         super.preUpdate(d, t);
         this.body.x = this.player.body.x;
         this.body.y = this.player.body.y;
-        if(!this.player.isDefending)
+        if (!this.player.isDefending)
             this.destroy();
-        
+
     }
 }

@@ -109,7 +109,7 @@ export default class LavaMapScene extends Phaser.Scene {
         this.physics.add.overlap(this.player, lava, this.carga.gameOverPorAgua, null, this);
         const camera = this.cameras.main;
 
-        this.ayuda = this.add.text(3, 150, 'Usa las Flechas para moverte\ny saltar, si tienes\narmas usa "A" para\natacar y "S" para protegerte\n Cuidado, la lava mata', {
+        this.ayuda = this.add.text(3, 150, 'Usa las Flechas para moverte\ny saltar, si tienes\narmas usa "A" para\natacar y "S" para protegerte.\nCuidado, la lava mata.', {
             font: "18px monospace",
             fill: "#000000",
             padding: { x: 20, y: 10 },

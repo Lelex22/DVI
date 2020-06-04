@@ -252,21 +252,21 @@ export default class DungeonScene extends Phaser.Scene {
       padding: { x: 20, y: 10 },
       backgroundColor: "#ffffff"
     })
-    this.add.text(3,535, 'Nivel Azul(Fácil) ',{
+    this.add.text(3,160, 'Nivel Azul(Fácil) ',{
       font: "18px monospace",
       fill: "#000000",
       padding: { x: 20, y: 40 },
       backgroundColor: "#ffffff",
       color:'#0000FF'
     })
-    this.add.text(3,535, 'Nivel Verde(Medio) ',{
+    this.add.text(3,170, 'Nivel Verde(Medio) ',{
       font: "18px monospace",
       fill: "#000000",
       padding: { x: 20, y: 30},
       backgroundColor: "#ffffff",
       color:'#2d572c'
     })
-    this.add.text(3,535, 'Nivel Naranja(Dificil) ',{
+    this.add.text(3,180, 'Nivel Naranja(Dificil) ',{
       font: "18px monospace",
       fill: "#000000",
       padding: { x: 20, y: 20 },

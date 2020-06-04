@@ -61,8 +61,6 @@ export default class DungeonScene extends Phaser.Scene {
       }
     });
 
-    //this.dungeon.drawToConsole();
-
     // Creating a blank tilemap with dimensions matching the dungeon
     const map = this.make.tilemap({
       tileWidth: 32,
@@ -123,12 +121,13 @@ export default class DungeonScene extends Phaser.Scene {
     const endRoom = Phaser.Utils.Array.RemoveRandomElement(rooms);
     const mapRoom = Phaser.Utils.Array.RemoveRandomElement(rooms);
     const lavaRoom = Phaser.Utils.Array.RemoveRandomElement(rooms);
+    const blueRoom = Phaser.Utils.Array.RemoveRandomElement(rooms);
     const otherRooms = Phaser.Utils.Array.Shuffle(rooms).slice(0, rooms.length * 0.9);
     // Place the shop
     this.stuffLayer.putTileAt(TILES.SHOP, endRoom.centerX, endRoom.centerY);
     this.stuffLayer.putTileAt(TILES.MAPAVERDE, mapRoom.centerX, mapRoom.centerY);
     this.stuffLayer.putTileAt(TILES.MAPALAVA, lavaRoom.centerX, lavaRoom.centerY);
-
+    this.stuffLayer.putTileAt(TILES.BLUE, blueRoom.centerX, blueRoom.centerY);
     // Place stuff in the 90% "otherRooms"
     otherRooms.forEach(room => {
       let rand = Math.random();
@@ -207,6 +206,20 @@ export default class DungeonScene extends Phaser.Scene {
       cam.fade(250, 0, 0, 0);
       cam.once("camerafadeoutcomplete", () => {
         this.scene.start("LavaMapScene", { vidas: this.player.life, monedas: this.player.coins, buffs: this.player.buffs, mapa: "verde", maxLife: this.player.maxLife });
+        this.sound.removeByKey("mazmorra");
+        this.backgroundsong = null;
+        this.scene.stop();
+      });
+    });
+    this.stuffLayer.setTileIndexCallback(TILES.BLUE, () => {
+      audio.play();
+      this.stuffLayer.setTileIndexCallback(TILES.BLUE, null);
+      this.hasPlayerReachedShop = true;
+      this.player.freeze();
+      const cam = this.cameras.main;
+      cam.fade(250, 0, 0, 0);
+      cam.once("camerafadeoutcomplete", () => {
+        this.scene.start("MoonMapScene", { vidas: this.player.life, monedas: this.player.coins, buffs: this.player.buffs, mapa: "verde", maxLife: this.player.maxLife });
         this.sound.removeByKey("mazmorra");
         this.backgroundsong = null;
         this.scene.stop();

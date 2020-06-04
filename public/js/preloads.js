@@ -56,6 +56,7 @@ export default class Preloads extends Phaser.Scene {
     this.load.audio("audio_mapaverde", "../DVI/public/assets/audio/mapaverde.mp3");
     //Audio mapa lava
     this.load.audio("audio_mapalava", "../DVI/public/assets/audio/mapalava.mp3");
+    this.load.audio("audio_mapaluna", "../DVI/public/assets/audio/mapanuevo.mp3");
     //Audios 
     this.load.audio("atacaplayer", "../DVI/public/assets/audio/atacaplayer.mp3");
     this.load.audio("defiendeplayer", "../DVI/public/assets/audio/defiendeplayer.mp3");
@@ -69,11 +70,21 @@ export default class Preloads extends Phaser.Scene {
     this.load.audio("coin3", "../DVI/public/assets/audio/coin3.wav");
     this.load.image("piedra", "../DVI/public/assets/imagenes/piedra.png");
     this.load.image("smash", "../DVI/public/assets/imagenes/smash1.png");
+    this.load.audio("gladiador", "../DVI/public/assets/audio/gladiador.mp3");
 
     this.load.spritesheet("mago", "../DVI/public/assets/spritesheets/imageedit_13_7724971945.png", {
       frameWidth: 83,
       frameHeight: 80
     });
+    this.load.spritesheet("masked", "../DVI/public/assets/spritesheets/Gladiator-Sprite Sheet-Left.png", {
+      frameWidth: 32,
+      frameHeight: 32
+    });
+    this.load.spritesheet("maskedd", "../DVI/public/assets/spritesheets/Gladiator-Sprite Sheet.png", {
+      frameWidth: 32,
+      frameHeight: 32
+    });
+    
     this.load.spritesheet("fireballdrcha", "../DVI/public/assets/spritesheets/fireballdrch.png", {
       frameWidth: 37,
       frameHeight: 47
@@ -99,9 +110,11 @@ export default class Preloads extends Phaser.Scene {
     this.load.image('escaleras2', '../DVI/public/assets/tilesets/pruebanewtiles3.png');
     this.load.image('escaleras3', '../DVI/public/assets/tilesets/pruebanewtiles.png');
     this.load.image('mapaverde', '../DVI/public/assets/tilesets/genaric-cartoon-charactor-sprite-png-15-original.png');
+    this.load.image('mapaluna', '../DVI/public/assets/tilesets/platformertiles.png');
     this.load.image('mapalava', '../DVI/public/assets/tilesets/Spritesheet_tileset.png');
     this.load.tilemapTiledJSON('map1', '../DVI/public/assets/tilesets/mapaVerde.json');
     this.load.tilemapTiledJSON('map2', '../DVI/public/assets/tilesets/nivel2.json');
+    this.load.tilemapTiledJSON('map3', '../DVI/public/assets/tilesets/mapa3.json');
   }
   create() {
     this.scene.start("TitleScreenScene");

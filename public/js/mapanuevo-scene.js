@@ -1,14 +1,12 @@
 import Player from "./player.js";
-import Viking from "./Viking.js";
-import Mago from "./Mago.js"
+import Masked from "./Masked.js";
 import Coin from "./coins.js";
-const stepLimit = 15;
 
-export default class LavaMapScene extends Phaser.Scene {
+export default class MoonMapScene extends Phaser.Scene {
 
     constructor() {
         super({
-            key: 'LavaMapScene',
+            key: 'MoonMapScene',
             physics: {
                 default: 'arcade',
                 arcade: {
@@ -32,8 +30,8 @@ export default class LavaMapScene extends Phaser.Scene {
         this.carga = this.scene.get("Preloads");
         this.bonusFin = false;
         this.contadorAyuda = 0;
-        const map2 = this.make.tilemap({ key: "map2" });
-        let tileset = map2.addTilesetImage('Spritesheet_tileset', 'mapalava');
+        const map3 = this.make.tilemap({ key: "map3" });
+        let tileset = map3.addTilesetImage('platformertiles', 'mapaluna');
         //Audio
         const config = {
             mute: false,
@@ -44,15 +42,14 @@ export default class LavaMapScene extends Phaser.Scene {
             loop: true,
             delay: 0
         };
-        this.audio = this.sound.add("audio_mapalava", config);
+        this.audio = this.sound.add("audio_mapaluna", config);
         this.audio.play();
         //Capas
-        this.add.image(8000, 300, "lavabackground");
-        const cielo = map2.createStaticLayer("cielo", tileset, 0, 0);
-        const lava = map2.createStaticLayer("lava", tileset, 0, 0);
-        const tierra = map2.createStaticLayer("Tierra", tileset, 0, 0);
-        this.vikingsGroup = this.physics.add.group();
-        this.magosGroup = this.physics.add.group();
+        const cielo = map3.createStaticLayer("Cielo", tileset, 0, 0);
+        const estrellas = map3.createStaticLayer("Estrellas", tileset, 0, 0);
+        const luna = map3.createStaticLayer("Luna", tileset, 0, 0);
+        const tierra = map3.createStaticLayer("Tierra", tileset, 0, 0);
+        this.maskedGroup = this.physics.add.group();
         this.lifeGroup = this.physics.add.group();
         this.coinsGroup = this.physics.add.group();
         for (let i = 1; i <= 20; i++) {
@@ -60,17 +57,10 @@ export default class LavaMapScene extends Phaser.Scene {
             coin.body.bounce.x = 1;
             this.coinsGroup.add(coin);
         }
-        for (const objeto2 of map2.getObjectLayer('Enemigos').objects) {
-            if (objeto2.type.localeCompare("mago") === 0) {
-                let enemy = new Mago(this, objeto2.x, objeto2.y, "verde", "mago");
-                enemy.body.bounce.x = 1;
-                this.magosGroup.add(enemy);
-            }
-            else {
-                let enemigo = new Viking(this, objeto2.x, objeto2.y, "verde", "vikingo");
-                enemigo.body.bounce.x = 1;
-                this.vikingsGroup.add(enemigo);
-            }
+        for (const masked of map3.getObjectLayer('Enmascarados').objects) {
+            let enemy = new Masked(this, masked.x, masked.y, "verde", "masked");
+            enemy.body.bounce.x = 1;
+            this.maskedGroup.add(enemy);
         }
 
         tierra.setCollisionByExclusion([-1]);
@@ -94,21 +84,11 @@ export default class LavaMapScene extends Phaser.Scene {
         this.monedas = this.add.sprite(650, 20, "coin").setOrigin(0).setScrollFactor(0).setScale(1.5);
         this.text = this.add.text(690, 27, "X " + this.player.coins, { fontFamily: 'Georgia, "Goudy Bookletter 1911", Times, serif', fontSize: "30px" }).setOrigin(0).setScrollFactor(0);
         this.physics.add.collider(this.player, tierra);
-        this.physics.add.collider(this.vikingsGroup, tierra);
-        this.physics.add.collider(this.vikingsGroup, this.magossGroup);
-        this.physics.add.collider(this.magosGroup, tierra);
-        this.physics.add.collider(this.magosGroup, this.magosGroup);
+        this.physics.add.collider(this.maskedGroup, tierra);
         this.physics.add.collider(this.coinsGroup, tierra);
-        this.physics.add.overlap(this.coinsGroup, lava, this.carga.coinsDestruct, null, this);
-        this.physics.add.collider(this.armasEnemigos, tierra, this.carga.colisiona, null, this);
-        this.physics.add.collider(this.escudo, this.armasEnemigos, this.carga.defiende2, null, this);
-        this.physics.add.overlap(this.player, this.vikingsGroup, this.carga.onTouchEnemy, null, this);
-        this.physics.add.overlap(this.player, this.magosGroup, this.carga.onTouchEnemy, null, this);
+        this.physics.add.overlap(this.player, this.maskedGroup, this.carga.onTouchEnemy, null, this);
         this.physics.add.overlap(this.player, this.coinsGroup, this.carga.getCoin, null, this);
-        this.physics.add.overlap(this.fregona, this.vikingsGroup, this.carga.attackEnemy, null, this);
-        this.physics.add.overlap(this.fregona, this.magosGroup, this.carga.attackEnemy, null, this);
-        this.physics.add.overlap(this.armasEnemigos, this.player, this.carga.attackPlayer, null, this);
-        this.physics.add.overlap(this.player, lava, this.carga.gameOverPorAgua, null, this);
+        this.physics.add.overlap(this.fregona, this.maskedGroup, this.carga.attackEnemy, null, this);
         const camera = this.cameras.main;
 
         this.ayuda = this.add.text(3, 150, 'Usa las Flechas para moverte\ny saltar, si tienes\narmas usa "A" para\natacar y "S" para protegerte', {
@@ -118,7 +98,7 @@ export default class LavaMapScene extends Phaser.Scene {
             backgroundColor: "#ffffff"
         });
         // Constrain the camera so that it isn't allowed to move outside the width/height of tilemap
-        camera.setBounds(0, 0, map2.widthInPixels, map2.heightInPixels);
+        camera.setBounds(0, 0, map3.widthInPixels, map3.heightInPixels);
         camera.startFollow(this.player);
     }
 
@@ -130,21 +110,21 @@ export default class LavaMapScene extends Phaser.Scene {
                 cam.fade(250, 0, 0, 0);
                 cam.once("camerafadeoutcomplete", () => {
                     this.scene.start("DungeonScene", { vidas: this.player.life, monedas: this.player.coins, buffs: this.player.buffs, maxLife: this.player.maxLife });
-                    this.sound.removeByKey("audio_mapalava");
+                    this.sound.removeByKey("audio_mapaluna");
                     this.audio = null;
                     this.scene.stop();
                 });
             }
-            else if (this.player.x >= 15990) {
+            else if (this.player.x >= 9570) {
                 if (!this.bonusFin) {
                     this.bonusFin = true;
-                    this.player.coins += 100;
+                    this.player.coins += 20;
                 }
                 const cam = this.cameras.main;
                 cam.fade(250, 0, 0, 0);
                 cam.once("camerafadeoutcomplete", () => {
                     this.scene.start("DungeonScene", { vidas: this.player.life, monedas: this.player.coins, buffs: this.player.buffs, maxLife: this.player.maxLife });
-                    this.sound.removeByKey("audio_mapalava");
+                    this.sound.removeByKey("audio_mapaluna");
                     this.audio = null;
                     this.scene.stop();
                 });

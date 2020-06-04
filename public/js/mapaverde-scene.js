@@ -1,7 +1,6 @@
 import Player from "./player.js";
 import Enemy from "./enemy.js";
 import Coin from "./coins.js";
-const stepLimit = 15;
 
 export default class GreenMapScene extends Phaser.Scene {
 

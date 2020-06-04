@@ -2,7 +2,6 @@ import Player from "./player.js";
 import Viking from "./Viking.js";
 import Mago from "./Mago.js"
 import Coin from "./coins.js";
-const stepLimit = 15;
 
 export default class LavaMapScene extends Phaser.Scene {
 

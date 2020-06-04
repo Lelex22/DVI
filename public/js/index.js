@@ -14,6 +14,7 @@ import LavaMapScene from "./mapalava-scene.js";
 import TitleScreenScene from "./titlescreen.js";
 import GameOver from "./gameover.js";
 import Preloads from "./preloads.js";
+import MoonMapScene from "./mapanuevo-scene.js";
 
 const config = {
   type: Phaser.AUTO,
@@ -22,8 +23,8 @@ const config = {
   backgroundColor: "#000",
   parent: "game-container",
   pixelArt: true,
-  // scene: [ Preloads, TitleScreenScene, DungeonScene, ShopScene, GreenMapScene, GameOver ],
-  scene: [Preloads, TitleScreenScene, DungeonScene, GreenMapScene, ShopScene, LavaMapScene, GameOver],
+  //scene: [ Preloads, MoonMapScene ],
+  scene: [Preloads, TitleScreenScene, DungeonScene, GreenMapScene, ShopScene, LavaMapScene, MoonMapScene, GameOver],
   physics: {
     default: "arcade",
     arcade: {

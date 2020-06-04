@@ -49,6 +49,7 @@ export default class MoonMapScene extends Phaser.Scene {
         const estrellas = map3.createStaticLayer("Estrellas", tileset, 0, 0);
         const luna = map3.createStaticLayer("Luna", tileset, 0, 0);
         const tierra = map3.createStaticLayer("Tierra", tileset, 0, 0);
+        const esquinas = map3.createStaticLayer("Esquinas", tileset, 0, 0);
         this.maskedGroup = this.physics.add.group();
         this.lifeGroup = this.physics.add.group();
         this.coinsGroup = this.physics.add.group();

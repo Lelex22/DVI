@@ -3,33 +3,33 @@ export default class Preloads extends Phaser.Scene {
     super('Preloads');
   }
   preload() {
-    this.load.bitmapFont('nokia', '../public/assets/nokia16.png', '../public/assets/nokia16.xml');
-    this.load.image("background", '../public/assets/title/title3.png');
-    this.load.image("background2", '../public/assets/title/title4.png');
-    this.load.image("luigi", '../public/assets/title/title2.png');
-    this.load.audio("musiinicio", "../public/assets/audio/musicainicio.mp3");
+    this.load.bitmapFont('nokia', '../DVI/public/assets/nokia16.png', '../DVI/public/assets/nokia16.xml');
+    this.load.image("background", '../DVI/public/assets/title/title3.png');
+    this.load.image("background2", '../DVI/public/assets/title/title4.png');
+    this.load.image("luigi", '../DVI/public/assets/title/title2.png');
+    this.load.audio("musiinicio", "../DVI/public/assets/audio/musicainicio.mp3");
     //Dungeon preloads
-    this.load.audio("mazmorra", "../public/assets/audio/dungeon.mp3");
-    this.load.audio("letsgo", "../public/assets/audio/letsgo.wav");
-    this.load.image("tiles", "../public/assets/tilesets/prueba2.png");
-    this.load.image("10vidas", "../public/assets/imagenes/10vidas.png");
-    this.load.image("9vidas", "../public/assets/imagenes/9vidas.png");
-    this.load.image("8vidas", "../public/assets/imagenes/8vidas.png");
-    this.load.image("7vidas", "../public/assets/imagenes/7vidas.png");
-    this.load.image("6vidas", "../public/assets/imagenes/6vidas.png");
-    this.load.image("5vidas", "../public/assets/imagenes/5vidas.png");
-    this.load.image("4vidas", "../public/assets/imagenes/4vidas.png");
-    this.load.image("3vidas", "../public/assets/imagenes/3vidas.png");
-    this.load.image("2vidas", "../public/assets/imagenes/2vidas.png");
-    this.load.image("1vida", "../public/assets/imagenes/1vida.png");
-    this.load.image("lavabackground", "../public/assets/tilesets/Background (5).png");
-    this.load.spritesheet("coin", "../public/assets/imagenes/coins.png", {
+    this.load.audio("mazmorra", "../DVI/public/assets/audio/dungeon.mp3");
+    this.load.audio("letsgo", "../DVI/public/assets/audio/letsgo.wav");
+    this.load.image("tiles", "../DVI/public/assets/tilesets/prueba2.png");
+    this.load.image("10vidas", "../DVI/public/assets/imagenes/10vidas.png");
+    this.load.image("9vidas", "../DVI/public/assets/imagenes/9vidas.png");
+    this.load.image("8vidas", "../DVI/public/assets/imagenes/8vidas.png");
+    this.load.image("7vidas", "../DVI/public/assets/imagenes/7vidas.png");
+    this.load.image("6vidas", "../DVI/public/assets/imagenes/6vidas.png");
+    this.load.image("5vidas", "../DVI/public/assets/imagenes/5vidas.png");
+    this.load.image("4vidas", "../DVI/public/assets/imagenes/4vidas.png");
+    this.load.image("3vidas", "../DVI/public/assets/imagenes/3vidas.png");
+    this.load.image("2vidas", "../DVI/public/assets/imagenes/2vidas.png");
+    this.load.image("1vida", "../DVI/public/assets/imagenes/1vida.png");
+    this.load.image("lavabackground", "../DVI/public/assets/tilesets/Background (5).png");
+    this.load.spritesheet("coin", "../DVI/public/assets/imagenes/coins.png", {
       frameWidth: 22.8333,
       frameHeight: 29
     });
     this.load.spritesheet(
       "player",
-      "../public/assets/spritesheets/edit1.png",
+      "../DVI/public/assets/spritesheets/edit1.png",
       {
         frameWidth: 33,
         frameHeight: 24
@@ -37,84 +37,84 @@ export default class Preloads extends Phaser.Scene {
     );
     this.load.spritesheet(
       "tendera",
-      "../public/assets/spritesheets/tendera.png",
+      "../DVI/public/assets/spritesheets/tendera.png",
       {
         frameWidth: 104,
         frameHeight: 104
       });
     //Tienda preloads
-    this.load.image('tiendaTiles', '../public/assets/tilesets/tienda.png');
-    this.load.tilemapTiledJSON('tiendaMap', '../public/assets/tilesets/tienda.json');
-    this.load.spritesheet('button', '../public/assets/title/flixel-button.png', { frameWidth: 80, frameHeight: 20 });
+    this.load.image('tiendaTiles', '../DVI/public/assets/tilesets/tienda.png');
+    this.load.tilemapTiledJSON('tiendaMap', '../DVI/public/assets/tilesets/tienda.json');
+    this.load.spritesheet('button', '../DVI/public/assets/title/flixel-button.png', { frameWidth: 80, frameHeight: 20 });
     //GameOver preloads
-    this.load.image("gameover", "../public/assets/imagenes/gameover.png");
-    this.load.image("click", "../public/assets/imagenes/subimagengameover.png");
-    this.load.image("click2", "../public/assets/imagenes/volveraempezar.png");
-    this.load.audio("bye", "../public/assets/audio/despedida.wav");
+    this.load.image("gameover", "../DVI/public/assets/imagenes/gameover.png");
+    this.load.image("click", "../DVI/public/assets/imagenes/subimagengameover.png");
+    this.load.image("click2", "../DVI/public/assets/imagenes/volveraempezar.png");
+    this.load.audio("bye", "../DVI/public/assets/audio/despedida.wav");
     //Mapa verde preloads
     //Audio mapa verde
-    this.load.audio("audio_mapaverde", "../public/assets/audio/mapaverde.mp3");
+    this.load.audio("audio_mapaverde", "../DVI/public/assets/audio/mapaverde.mp3");
     //Audio mapa lava
-    this.load.audio("audio_mapalava", "../public/assets/audio/mapalava.mp3");
-    this.load.audio("audio_mapaluna", "../public/assets/audio/mapanuevo.mp3");
+    this.load.audio("audio_mapalava", "../DVI/public/assets/audio/mapalava.mp3");
+    this.load.audio("audio_mapaluna", "../DVI/public/assets/audio/mapanuevo.mp3");
     //Audios 
-    this.load.audio("atacaplayer", "../public/assets/audio/atacaplayer.mp3");
-    this.load.audio("defiendeplayer", "../public/assets/audio/defiendeplayer.mp3");
-    this.load.audio("atacaciclope", "../public/assets/audio/atacaciclope.wav");
-    this.load.audio("luigiatacado", "../public/assets/audio/luigiatacado.wav");
-    this.load.audio("menufin", "../public/assets/audio/menufin.mp3");
-    this.load.audio("fin", "../public/assets/audio/fin.wav");
-    this.load.audio("firesound", "../public/assets/audio/fireball.wav");
-    this.load.audio("boom1", "../public/assets/audio/boom1.wav");
-    this.load.audio("boom7", "../public/assets/audio/boom7.wav");
-    this.load.audio("coin3", "../public/assets/audio/coin3.wav");
-    this.load.image("piedra", "../public/assets/imagenes/piedra.png");
-    this.load.image("smash", "../public/assets/imagenes/smash1.png");
-    this.load.audio("gladiador", "../public/assets/audio/gladiador.mp3");
+    this.load.audio("atacaplayer", "../DVI/public/assets/audio/atacaplayer.mp3");
+    this.load.audio("defiendeplayer", "../DVI/public/assets/audio/defiendeplayer.mp3");
+    this.load.audio("atacaciclope", "../DVI/public/assets/audio/atacaciclope.wav");
+    this.load.audio("luigiatacado", "../DVI/public/assets/audio/luigiatacado.wav");
+    this.load.audio("menufin", "../DVI/public/assets/audio/menufin.mp3");
+    this.load.audio("fin", "../DVI/public/assets/audio/fin.wav");
+    this.load.audio("firesound", "../DVI/public/assets/audio/fireball.wav");
+    this.load.audio("boom1", "../DVI/public/assets/audio/boom1.wav");
+    this.load.audio("boom7", "../DVI/public/assets/audio/boom7.wav");
+    this.load.audio("coin3", "../DVI/public/assets/audio/coin3.wav");
+    this.load.image("piedra", "../DVI/public/assets/imagenes/piedra.png");
+    this.load.image("smash", "../DVI/public/assets/imagenes/smash1.png");
+    this.load.audio("gladiador", "../DVI/public/assets/audio/gladiador.mp3");
 
-    this.load.spritesheet("mago", "../public/assets/spritesheets/imageedit_13_7724971945.png", {
+    this.load.spritesheet("mago", "../DVI/public/assets/spritesheets/imageedit_13_7724971945.png", {
       frameWidth: 83,
       frameHeight: 80
     });
-    this.load.spritesheet("masked", "../public/assets/spritesheets/Gladiator-Sprite Sheet-Left.png", {
+    this.load.spritesheet("masked", "../DVI/public/assets/spritesheets/Gladiator-Sprite Sheet-Left.png", {
       frameWidth: 32,
       frameHeight: 32
     });
-    this.load.spritesheet("maskedd", "../public/assets/spritesheets/Gladiator-Sprite Sheet.png", {
+    this.load.spritesheet("maskedd", "../DVI/public/assets/spritesheets/Gladiator-Sprite Sheet.png", {
       frameWidth: 32,
       frameHeight: 32
     });
     
-    this.load.spritesheet("fireballdrcha", "../public/assets/spritesheets/fireballdrch.png", {
+    this.load.spritesheet("fireballdrcha", "../DVI/public/assets/spritesheets/fireballdrch.png", {
       frameWidth: 37,
       frameHeight: 47
     });
-    this.load.spritesheet("fireballizda", "../public/assets/spritesheets/fireballizda.png", {
+    this.load.spritesheet("fireballizda", "../DVI/public/assets/spritesheets/fireballizda.png", {
       frameWidth: 37,
       frameHeight: 47
     });
-    this.load.image("fireball", "../public/assets/imagenes/fireball.png");
-    this.load.spritesheet("ciclope", "../public/assets/spritesheets/Cyclops Sprite Sheet.png", {
+    this.load.image("fireball", "../DVI/public/assets/imagenes/fireball.png");
+    this.load.spritesheet("ciclope", "../DVI/public/assets/spritesheets/Cyclops Sprite Sheet.png", {
       frameWidth: 64,
       frameHeight: 64
     });
-    this.load.spritesheet("vikingos", "../public/assets/spritesheets/enemigo1.png", {
+    this.load.spritesheet("vikingos", "../DVI/public/assets/spritesheets/enemigo1.png", {
       frameWidth: 64,
       frameHeight: 64
     });
-    this.load.image("fregona", "../public/assets/imagenes/fregona.png");
-    this.load.image("fregonaiz", "../public/assets/imagenes/fregonaiz.png");
-    this.load.image("escudo", "../public/assets/imagenes/escudo.png");
-    this.load.image("escudoiz", "../public/assets/imagenes/escudoiz.png");
-    this.load.image('escaleras1', '../public/assets/tilesets/pruebanewtiles2.png');
-    this.load.image('escaleras2', '../public/assets/tilesets/pruebanewtiles3.png');
-    this.load.image('escaleras3', '../public/assets/tilesets/pruebanewtiles.png');
-    this.load.image('mapaverde', '../public/assets/tilesets/genaric-cartoon-charactor-sprite-png-15-original.png');
-    this.load.image('mapaluna', '../public/assets/tilesets/platformertiles.png');
-    this.load.image('mapalava', '../public/assets/tilesets/Spritesheet_tileset.png');
-    this.load.tilemapTiledJSON('map1', '../public/assets/tilesets/mapaVerde.json');
-    this.load.tilemapTiledJSON('map2', '../public/assets/tilesets/nivel2.json');
-    this.load.tilemapTiledJSON('map3', '../public/assets/tilesets/mapa3.json');
+    this.load.image("fregona", "../DVI/public/assets/imagenes/fregona.png");
+    this.load.image("fregonaiz", "../DVI/public/assets/imagenes/fregonaiz.png");
+    this.load.image("escudo", "../DVI/public/assets/imagenes/escudo.png");
+    this.load.image("escudoiz", "../DVI/public/assets/imagenes/escudoiz.png");
+    this.load.image('escaleras1', '../DVI/public/assets/tilesets/pruebanewtiles2.png');
+    this.load.image('escaleras2', '../DVI/public/assets/tilesets/pruebanewtiles3.png');
+    this.load.image('escaleras3', '../DVI/public/assets/tilesets/pruebanewtiles.png');
+    this.load.image('mapaverde', '../DVI/public/assets/tilesets/genaric-cartoon-charactor-sprite-png-15-original.png');
+    this.load.image('mapaluna', '../DVI/public/assets/tilesets/platformertiles.png');
+    this.load.image('mapalava', '../DVI/public/assets/tilesets/Spritesheet_tileset.png');
+    this.load.tilemapTiledJSON('map1', '../DVI/public/assets/tilesets/mapaVerde.json');
+    this.load.tilemapTiledJSON('map2', '../DVI/public/assets/tilesets/nivel2.json');
+    this.load.tilemapTiledJSON('map3', '../DVI/public/assets/tilesets/mapa3.json');
   }
   create() {
     this.scene.start("TitleScreenScene");

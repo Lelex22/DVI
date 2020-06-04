@@ -90,8 +90,7 @@ export default class LavaMapScene extends Phaser.Scene {
 
         this.vidas = this.carga.dibujaVidas(this, this.player.life);
 
-        this.monedas = this.add.sprite(650, 20, "coin").setOrigin(0).setScrollFactor(0).setScale(1.5);
-        this.text = this.add.text(690, 27, "X " + this.player.coins, { fontFamily: 'Georgia, "Goudy Bookletter 1911", Times, serif', fontSize: "30px" }).setOrigin(0).setScrollFactor(0);
+        this.text = this.carga.dibujaMonedas(this);
         this.physics.add.collider(this.player, tierra);
         this.physics.add.collider(this.vikingsGroup, tierra);
         this.physics.add.collider(this.vikingsGroup, this.magossGroup);

@@ -273,7 +273,7 @@ export default class DungeonScene extends Phaser.Scene {
       fill: "#000000",
       padding: { x: 20, y: 5 },
       color:'#FF0000',
-      backgroundColor: "#ffffff"
+      //backgroundColor: "#ffffff"
     })
       .setScrollFactor(0);
     ;

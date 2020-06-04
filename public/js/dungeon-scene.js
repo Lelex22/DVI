@@ -256,21 +256,24 @@ export default class DungeonScene extends Phaser.Scene {
     ;
     this.add.text(3,140, 'Nivel Azul(Fácil) ',{
       font: "18px monospace",
-      padding: { x: 20, y: 10 },
+      fill: "#000000",
+      padding: { x: 20, y: 5 },
       color:'#0000FF'
     })
     .setScrollFactor(0);
     ;
     this.add.text(3,200, 'Nivel Verde(Medio) ',{
       font: "18px monospace",
-      padding: { x: 20, y: 10},
+      fill: "#000000",
+      padding: { x: 20, y: 5},
       color:'#2d572c'
     })
     .setScrollFactor(0);
     ;
     this.add.text(3,260, 'Nivel Naranja(Dificil) ',{
       font: "18px monospace",
-      padding: { x: 20, y: 10 },
+      fill: "#000000",
+      padding: { x: 20, y: 5 },
       color:'#FF0000'
     })
       .setScrollFactor(0);

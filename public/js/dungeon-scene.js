@@ -258,7 +258,8 @@ export default class DungeonScene extends Phaser.Scene {
       font: "18px monospace",
       fill: "#000000",
       padding: { x: 20, y: 5 },
-      color:'#0000FF'
+      color:'#0000FF',
+      backgroundColor: "#ffffff"
     })
     .setScrollFactor(0);
     ;
@@ -266,7 +267,8 @@ export default class DungeonScene extends Phaser.Scene {
       font: "18px monospace",
       fill: "#000000",
       padding: { x: 20, y: 5},
-      color:'#2d572c'
+      color:'#2d572c',
+      backgroundColor: "#ffffff"
     })
     .setScrollFactor(0);
     ;
@@ -274,7 +276,8 @@ export default class DungeonScene extends Phaser.Scene {
       font: "18px monospace",
       fill: "#000000",
       padding: { x: 20, y: 5 },
-      color:'#FF0000'
+      color:'#FF0000',
+      backgroundColor: "#ffffff"
     })
       .setScrollFactor(0);
     ;

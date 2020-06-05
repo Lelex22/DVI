@@ -74,7 +74,7 @@ export default class LavaMapScene extends Phaser.Scene {
 
         tierra.setCollisionByExclusion([-1]);
 
-        this.player = new Player(this, 10, 200, this.buffsPlayer, this.mapa, this.lifesPlayer, this.coinsPlayer, this.maxLife);
+        this.player = new Player(this, 10, 400, this.buffsPlayer, this.mapa, this.lifesPlayer, this.coinsPlayer, this.maxLife);
         this.fregona = this.physics.add.group({
             immovable: true,
             allowGravity: false

@@ -1,6 +1,6 @@
 export default class Fregona extends Phaser.GameObjects.Sprite {
     constructor(scene, x, y, tipo, player) {
-        super(scene, x, y, tipo);
+        super(scene, x + 13, y + 3, tipo);
         this.scene.add.existing(this);
         this.scene.physics.add.existing(this);
         this.duracionAtaque = 10;
@@ -11,8 +11,8 @@ export default class Fregona extends Phaser.GameObjects.Sprite {
 
     preUpdate(d, t) {
         super.preUpdate(d, t);
-        this.body.x = this.player.body.x;
-        this.body.y = this.player.body.y;
+        //this.body.x = this.player.body.x;
+        //this.body.y = this.player.body.y;
         if (this.creacion <= this.duracionAtaque)
             this.creacion++;
         else {

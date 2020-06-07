@@ -5,8 +5,12 @@
 	<meta charset="UTF-8">
 	<link rel="shortcut icon" href="assets/imagenes/icon.png" type="image/png" />
 	<link rel="stylesheet" href="src/css/game.css">
+	<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<script src="//cdn.jsdelivr.net/npm/@mikewesthad/dungeon@1.2.2"></script>
+	<script src="//cdn.jsdelivr.net/npm/phaser@3.16.2/dist/phaser.js"></script>
+	<script src="./src/js/index.js" type="module"></script>
 	<title>ZELGUI</title>
 
 	<style>
@@ -31,12 +35,43 @@
 	</style>
 </head>
 
-<body style="background: url('assets/title/title.png')">
-    <div id="game-container"></div>
-    <script src="//cdn.jsdelivr.net/npm/@mikewesthad/dungeon@1.2.2"></script>
-    <script src="//cdn.jsdelivr.net/npm/phaser@3.16.2/dist/phaser.js"></script>
-    <script src="./src/js/index.js" type="module"></script>
-    
+<body style="background: url('assets/title/back.jpg'); background-size:cover;">
+	<div class="w3-top">
+		<div class="w3-bar w3-black w3-padding w3-wide w3-card">
+			<a href="#game-container" class="w3-bar-item w3-button w3-hover-text-green"><b>ZELGUI</b></a>
+			<div class="w3-right w3-text-light-grey">
+				<a href="#Descripcion" class="w3-bar-item w3-button w3-hover-text-green">Descripción</a>
+				<a href="#Controles" class="w3-bar-item w3-button w3-hover-text-green">Controles</a>
+				<a href="#Repo" class="w3-bar-item w3-button w3-hover-text-green">Repositorio</a>
+			</div>
+		</div>
+	</div>
+	<div class="w3-padding w3-text-light-grey">
+		<div style="font-family:font;" class="w3-centered w3-padding-20" id="game-container"></div>
+		<div class="w3-container w3-panel w3-padding-20 w3-card-2 w3-text-light-grey" id="Descripcion">
+			<h2 class="w3-padding-20 w3-border-bottom w3-border-green w3-bottombar">Descripción</h2>
+			<p style="white-space: pre-line;">Zelgui es el hermano del conocidísimo Mario. 
+											  Como en todas las familias hay roces y en la suya también los hay. 
+											  Zelgui, en un brote de rabia, decide lanzarse el sólo a la aventura. 
+											  Además, para que no le relacionen con su hermano Mario decide ponerse un mote. 
+											  La mejor idea que tuvo es unificar su nombre con su personaje de videojuegos favorito Zelda (Zelgui). 
+											  En esta aventura buscará erradicar como su hermano el mal del planeta. 
+			</p>
+		</div>
+		<div class="w3-container w3-panel w3-padding-20 w3-card-2 w3-text-light-grey" id="Controles">
+			<h2 class="w3-padding-20 w3-border-bottom w3-border-green w3-bottombar">Controles</h2>
+			<p style="white-space: pre-line;">Mueve al personaje con las teclas de dirección.
+			   Si tienes la espada o el escudo, úsalos con las teclas S y A respectivamente.
+			   Tienes 5 vidas, no las pierdas.
+			   El agua, la lava y caerte al vacío te matan automáticamente.
+			   ¡¡SUERTE!!</p>
+		</div>
+		<div class="w3-container w3-panel w3-padding-20 w3-card-2 w3-text-light-grey" id="Repo">
+			<h2 class="w3-padding-20 w3-border-bottom w3-border-green w3-bottombar">Repositorio</h2>
+			<p><a href="https://github.com/Lelex22/DVI/" class="w3-hover-text-green">Repositorio del Juego</a></p>
+		</div>
+	</div>
+
 </body>
 
 </html>

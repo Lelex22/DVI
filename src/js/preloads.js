@@ -3,33 +3,33 @@ export default class Preloads extends Phaser.Scene {
     super('Preloads');
   }
   preload() {
-    this.load.bitmapFont('nokia', '../DVI/assets/nokia16.png', '../DVI/assets/nokia16.xml');
-    this.load.image("background", '../DVI/assets/title/title3.png');
-    this.load.image("background2", '../DVI/assets/title/title4.png');
-    this.load.image("luigi", '../DVI/assets/title/title2.png');
-    this.load.audio("musiinicio", "../DVI/assets/audio/musicainicio.mp3");
+    this.load.bitmapFont('nokia', 'assets/nokia16.png', 'assets/nokia16.xml');
+    this.load.image("background", 'assets/title/title3.png');
+    this.load.image("background2", 'assets/title/title4.png');
+    this.load.image("luigi", 'assets/title/title2.png');
+    this.load.audio("musiinicio", "assets/audio/musicainicio.mp3");
     //Dungeon preloads
-    this.load.audio("mazmorra", "../DVI/assets/audio/dungeon.mp3");
-    this.load.audio("letsgo", "../DVI/assets/audio/letsgo.wav");
-    this.load.image("tiles", "../DVI/assets/tilesets/prueba2.png");
-    this.load.image("10vidas", "../DVI/assets/imagenes/10vidas.png");
-    this.load.image("9vidas", "../DVI/assets/imagenes/9vidas.png");
-    this.load.image("8vidas", "../DVI/assets/imagenes/8vidas.png");
-    this.load.image("7vidas", "../DVI/assets/imagenes/7vidas.png");
-    this.load.image("6vidas", "../DVI/assets/imagenes/6vidas.png");
-    this.load.image("5vidas", "../DVI/assets/imagenes/5vidas.png");
-    this.load.image("4vidas", "../DVI/assets/imagenes/4vidas.png");
-    this.load.image("3vidas", "../DVI/assets/imagenes/3vidas.png");
-    this.load.image("2vidas", "../DVI/assets/imagenes/2vidas.png");
-    this.load.image("1vida", "../DVI/assets/imagenes/1vida.png");
-    this.load.image("lavabackground", "../DVI/assets/tilesets/Background (5).png");
-    this.load.spritesheet("coin", "../DVI/assets/imagenes/coins.png", {
+    this.load.audio("mazmorra", "assets/audio/dungeon.mp3");
+    this.load.audio("letsgo", "assets/audio/letsgo.wav");
+    this.load.image("tiles", "assets/tilesets/prueba2.png");
+    this.load.image("10vidas", "assets/imagenes/10vidas.png");
+    this.load.image("9vidas", "assets/imagenes/9vidas.png");
+    this.load.image("8vidas", "assets/imagenes/8vidas.png");
+    this.load.image("7vidas", "assets/imagenes/7vidas.png");
+    this.load.image("6vidas", "assets/imagenes/6vidas.png");
+    this.load.image("5vidas", "assets/imagenes/5vidas.png");
+    this.load.image("4vidas", "assets/imagenes/4vidas.png");
+    this.load.image("3vidas", "assets/imagenes/3vidas.png");
+    this.load.image("2vidas", "assets/imagenes/2vidas.png");
+    this.load.image("1vida", "assets/imagenes/1vida.png");
+    this.load.image("lavabackground", "assets/tilesets/Background (5).png");
+    this.load.spritesheet("coin", "assets/imagenes/coins.png", {
       frameWidth: 22.8333,
       frameHeight: 29
     });
     this.load.spritesheet(
       "player",
-      "../DVI/assets/spritesheets/edit1.png",
+      "assets/spritesheets/edit1.png",
       {
         frameWidth: 33,
         frameHeight: 24
@@ -37,84 +37,84 @@ export default class Preloads extends Phaser.Scene {
     );
     this.load.spritesheet(
       "tendera",
-      "../DVI/assets/spritesheets/tendera.png",
+      "assets/spritesheets/tendera.png",
       {
         frameWidth: 104,
         frameHeight: 104
       });
     //Tienda preloads
-    this.load.image('tiendaTiles', '../DVI/assets/tilesets/tienda.png');
-    this.load.tilemapTiledJSON('tiendaMap', '../DVI/assets/tilesets/tienda.json');
-    this.load.spritesheet('button', '../DVI/assets/tilesets/flixel-button.png', { frameWidth: 80, frameHeight: 20 });
+    this.load.image('tiendaTiles', 'assets/tilesets/tienda.png');
+    this.load.tilemapTiledJSON('tiendaMap', 'assets/tilesets/tienda.json');
+    this.load.spritesheet('button', 'assets/tilesets/flixel-button.png', { frameWidth: 80, frameHeight: 20 });
     //GameOver preloads
-    this.load.image("gameover", "../DVI/assets/imagenes/gameover.png");
-    this.load.image("click", "../DVI/assets/imagenes/subimagengameover.png");
-    this.load.image("click2", "../DVI/assets/imagenes/volveraempezar.png");
-    this.load.audio("bye", "../DVI/assets/audio/despedida.wav");
+    this.load.image("gameover", "assets/imagenes/gameover.png");
+    this.load.image("click", "assets/imagenes/subimagengameover.png");
+    this.load.image("click2", "assets/imagenes/volveraempezar.png");
+    this.load.audio("bye", "assets/audio/despedida.wav");
     //Mapa verde preloads
     //Audio mapa verde
-    this.load.audio("audio_mapaverde", "../DVI/assets/audio/mapaverde.mp3");
+    this.load.audio("audio_mapaverde", "assets/audio/mapaverde.mp3");
     //Audio mapa lava
-    this.load.audio("audio_mapalava", "../DVI/assets/audio/mapalava.mp3");
-    this.load.audio("audio_mapaluna", "../DVI/assets/audio/mapanuevo.mp3");
+    this.load.audio("audio_mapalava", "assets/audio/mapalava.mp3");
+    this.load.audio("audio_mapaluna", "assets/audio/mapanuevo.mp3");
     //Audios 
-    this.load.audio("atacaplayer", "../DVI/assets/audio/atacaplayer.mp3");
-    this.load.audio("defiendeplayer", "../DVI/assets/audio/defiendeplayer.mp3");
-    this.load.audio("atacaciclope", "../DVI/assets/audio/atacaciclope.wav");
-    this.load.audio("luigiatacado", "../DVI/assets/audio/luigiatacado.wav");
-    this.load.audio("menufin", "../DVI/assets/audio/menufin.mp3");
-    this.load.audio("fin", "../DVI/assets/audio/fin.wav");
-    this.load.audio("firesound", "../DVI/assets/audio/fireball.wav");
-    this.load.audio("boom1", "../DVI/assets/audio/boom1.wav");
-    this.load.audio("boom7", "../DVI/assets/audio/boom7.wav");
-    this.load.audio("coin3", "../DVI/assets/audio/coin3.wav");
-    this.load.image("piedra", "../DVI/assets/imagenes/piedra.png");
-    this.load.image("smash", "../DVI/assets/imagenes/smash1.png");
-    this.load.audio("gladiador", "../DVI/assets/audio/gladiador.mp3");
+    this.load.audio("atacaplayer", "assets/audio/atacaplayer.mp3");
+    this.load.audio("defiendeplayer", "assets/audio/defiendeplayer.mp3");
+    this.load.audio("atacaciclope", "assets/audio/atacaciclope.wav");
+    this.load.audio("luigiatacado", "assets/audio/luigiatacado.wav");
+    this.load.audio("menufin", "assets/audio/menufin.mp3");
+    this.load.audio("fin", "assets/audio/fin.wav");
+    this.load.audio("firesound", "assets/audio/fireball.wav");
+    this.load.audio("boom1", "assets/audio/boom1.wav");
+    this.load.audio("boom7", "assets/audio/boom7.wav");
+    this.load.audio("coin3", "assets/audio/coin3.wav");
+    this.load.image("piedra", "assets/imagenes/piedra.png");
+    this.load.image("smash", "assets/imagenes/smash1.png");
+    this.load.audio("gladiador", "assets/audio/gladiador.mp3");
 
-    this.load.spritesheet("mago", "../DVI/assets/spritesheets/imageedit_13_7724971945.png", {
+    this.load.spritesheet("mago", "assets/spritesheets/imageedit_13_7724971945.png", {
       frameWidth: 83,
       frameHeight: 80
     });
-    this.load.spritesheet("masked", "../DVI/assets/spritesheets/Gladiator-Sprite Sheet-Left.png", {
+    this.load.spritesheet("masked", "assets/spritesheets/Gladiator-Sprite Sheet-Left.png", {
       frameWidth: 32,
       frameHeight: 32
     });
-    this.load.spritesheet("maskedd", "../DVI/assets/spritesheets/Gladiator-Sprite Sheet.png", {
+    this.load.spritesheet("maskedd", "assets/spritesheets/Gladiator-Sprite Sheet.png", {
       frameWidth: 32,
       frameHeight: 32
     });
 
-    this.load.spritesheet("fireballdrcha", "../DVI/assets/spritesheets/fireballdrch.png", {
+    this.load.spritesheet("fireballdrcha", "assets/spritesheets/fireballdrch.png", {
       frameWidth: 37,
       frameHeight: 47
     });
-    this.load.spritesheet("fireballizda", "../DVI/assets/spritesheets/fireballizda.png", {
+    this.load.spritesheet("fireballizda", "assets/spritesheets/fireballizda.png", {
       frameWidth: 37,
       frameHeight: 47
     });
-    this.load.image("fireball", "../DVI/assets/imagenes/fireball.png");
-    this.load.spritesheet("ciclope", "../DVI/assets/spritesheets/Cyclops Sprite Sheet.png", {
+    this.load.image("fireball", "assets/imagenes/fireball.png");
+    this.load.spritesheet("ciclope", "assets/spritesheets/Cyclops Sprite Sheet.png", {
       frameWidth: 64,
       frameHeight: 64
     });
-    this.load.spritesheet("vikingos", "../DVI/assets/spritesheets/enemigo1.png", {
+    this.load.spritesheet("vikingos", "assets/spritesheets/enemigo1.png", {
       frameWidth: 64,
       frameHeight: 64
     });
-    this.load.image("fregona", "../DVI/assets/imagenes/fregona.png");
-    this.load.image("fregonaiz", "../DVI/assets/imagenes/fregonaiz.png");
-    this.load.image("escudo", "../DVI/assets/imagenes/escudo.png");
-    this.load.image("escudoiz", "../DVI/assets/imagenes/escudoiz.png");
-    this.load.image('escaleras1', '../DVI/assets/tilesets/pruebanewtiles2.png');
-    this.load.image('escaleras2', '../DVI/assets/tilesets/pruebanewtiles3.png');
-    this.load.image('escaleras3', '../DVI/assets/tilesets/pruebanewtiles.png');
-    this.load.image('mapaverde', '../DVI/assets/tilesets/genaric-cartoon-charactor-sprite-png-15-original.png');
-    this.load.image('mapaluna', '../DVI/assets/tilesets/platformertiles.png');
-    this.load.image('mapalava', '../DVI/assets/tilesets/Spritesheet_tileset.png');
-    this.load.tilemapTiledJSON('map1', '../DVI/assets/tilesets/mapaVerde.json');
-    this.load.tilemapTiledJSON('map2', '../DVI/assets/tilesets/nivel2.json');
-    this.load.tilemapTiledJSON('map3', '../DVI/assets/tilesets/mapa3.json');
+    this.load.image("fregona", "assets/imagenes/fregona.png");
+    this.load.image("fregonaiz", "assets/imagenes/fregonaiz.png");
+    this.load.image("escudo", "assets/imagenes/escudo.png");
+    this.load.image("escudoiz", "assets/imagenes/escudoiz.png");
+    this.load.image('escaleras1', 'assets/tilesets/pruebanewtiles2.png');
+    this.load.image('escaleras2', 'assets/tilesets/pruebanewtiles3.png');
+    this.load.image('escaleras3', 'assets/tilesets/pruebanewtiles.png');
+    this.load.image('mapaverde', 'assets/tilesets/genaric-cartoon-charactor-sprite-png-15-original.png');
+    this.load.image('mapaluna', 'assets/tilesets/platformertiles.png');
+    this.load.image('mapalava', 'assets/tilesets/Spritesheet_tileset.png');
+    this.load.tilemapTiledJSON('map1', 'assets/tilesets/mapaVerde.json');
+    this.load.tilemapTiledJSON('map2', 'assets/tilesets/nivel2.json');
+    this.load.tilemapTiledJSON('map3', 'assets/tilesets/mapa3.json');
   }
   create() {
     this.scene.start("TitleScreenScene");

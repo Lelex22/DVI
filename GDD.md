@@ -14,6 +14,7 @@ Zelgui es el hermano del conocidísimo Mario, como en todas las familias hay roc
 
 ### Mecánicas
 A lo largo de los niveles podremos avanzar y retroceder en el mapa, subir/bajar escaleras y saltar. Esto último de dos maneras, saltar en un terreno para sobrepasar los obstáculos y saltar de una plataforma al suelo. A lo largo de los mapas encontraremos objetos con los que podremos comerciar y podremos recuperar vida si resultamos heridos.
+Los objetos con los que se puede comerciar son una fregona, que sirve para atacar con la tecla S, un escudo, que sirve para defenderse de los ataques de los enemigos con la tecla A, y una capa, que evita que se pierda vida al tener contacto con los enemigos.
 
 ### Objetos
 A lo largo del juego, con los objetos que conseguiremos, podremos mejorar nuestro personaje. Estos objetos nos ayudarán a que el juego sea algo más llevadero y que los enemigos no nos maten tan fácilmente. Algunos objetos como son las armas y herramientas de nuestro personaje se tendrán que comprar en la tienda. Nada más iniciar la partida en el mapa en el que empezamos estarán los dos niveles(Puertas verde y naranja) y la tienda(Casita). Si tenemos monedas podremos ir a ella a intercambiar las monedas por alguna herramienta que podremos comprar.
@@ -32,3 +33,4 @@ El juego tendrá varios enemigos. Cada uno de estos enemigos tendrá habilidades
 
 **Mago:** Mini Jefe del juego. Sólo presente en el mapa de lava. Se caracteriza por los ataques a distancia, bolas de fuego y deben evitarse a toda costa. Para derrotarlo hay que conseguir asestar tantos golpes como sean necesarios.
 
+El juego está clasificado como PEGI OK.

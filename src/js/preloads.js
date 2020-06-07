@@ -45,7 +45,7 @@ export default class Preloads extends Phaser.Scene {
     //Tienda preloads
     this.load.image('tiendaTiles', '../DVI/assets/tilesets/tienda.png');
     this.load.tilemapTiledJSON('tiendaMap', '../DVI/assets/tilesets/tienda.json');
-    this.load.spritesheet('button', '../DVI/assets/title/flixel-button.png', { frameWidth: 80, frameHeight: 20 });
+    this.load.spritesheet('button', '../DVI/assets/tilesets/flixel-button.png', { frameWidth: 80, frameHeight: 20 });
     //GameOver preloads
     this.load.image("gameover", "../DVI/assets/imagenes/gameover.png");
     this.load.image("click", "../DVI/assets/imagenes/subimagengameover.png");

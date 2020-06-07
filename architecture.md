@@ -1,12 +1,13 @@
 # DESCRIPCIÓN DEL REPOSITORIO
 ### Carpetas
   **assets:** Esta carpeta contiene todos los recursos necesarios para el desarrollo de los niveles, desde los mapas hasta los enemigos y sus sonidos.
+  
   **slides:** Esta carpeta contiene la presentacion del proyecto.
+  
   **src:** Dentro de esta carpeta se encutra el codigo de todo el videojuego.
 
 ### Ficheros
- _architecture.md: Fichero que define la estructura del proyecto.
- 
+ _architecture.md:_ Fichero que define la estructura del proyecto. 
  _assets.md:_ Fichero que explica la estructura que tiene el directorio assets.
 _GDD.md:_ Explicación detallada de proyecto(Mecanicas de juego,objetos, combate,enemigos).
  _mencionar.txt:_ Contiene los enlaces a las paginas usadas como obtencion de recursos par el proyecto.

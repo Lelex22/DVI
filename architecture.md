@@ -16,9 +16,9 @@
 ### DESCRIPCIÓN DE LA ARQUITECTURA
 
 En esta sección se van a explicar el uso de cada fichero .js.
-+coins.js:contiene la gestion de monedas de la partida.
++ coins.js:contiene la gestion de monedas de la partida.
 
-+dungeon-scene.js:se encarga de la gestion del mapa inicial.
++ dungeon-scene.js:se encarga de la gestion del mapa inicial.
 
 +enemy.js:contiene toda las mecanicas del ciclope.
 

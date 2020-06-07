@@ -1,5 +1,5 @@
 # ZELGUI
-La idea de este juego es una mezcla entre dos personajes existentes, Zelda y Luigi. Se ha diseñado dos niveles, en cada nivel encontraremos distintos enemigos. Además, en uno de ellos tendremos un pequeño mini jefe que eliminar.
+La idea de este juego es una mezcla entre dos personajes existentes, Zelda y Luigi. Se ha diseñado tres niveles y en cada nivel encontraremos distintos enemigos. Además, en uno de ellos tendremos un pequeño mini jefe que eliminar.
 
 # Desarrolladores
  + Alejandro Pedrosa García

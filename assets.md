@@ -1,4 +1,4 @@
-#A continuacion se detallan todas las carpetas que se encuentran en assets:
+# A continuacion se detallan todas las carpetas que se encuentran en assets:
 
 **Audio:** Dentro de esta carpeta se encuentran todos los sonidos del juego, desde musica de fondo para los niveles hasta sonidos de ataques de los personajes.
 

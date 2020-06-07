@@ -1,6 +1,3 @@
-
-//import Dungeon from "@mikewesthad/dungeon";
-
 // Codigo utilizado desde https://github.com/mikewesthad/phaser-3-tilemap-blog-posts/blob/master/posts/post-3/demo/js/tile-mapping.js
 import Player from "./player.js";
 import TILES from "./tile-mapping.js";
@@ -252,43 +249,43 @@ export default class DungeonScene extends Phaser.Scene {
       padding: { x: 20, y: 10 },
       backgroundColor: "#ffffff"
     }).setScrollFactor(0);
-    if(this.player.life < 6){
-      this.add.text(336,25, ' Nivel Azul(Fácil) ',{
+    if (this.player.life < 6) {
+      this.add.text(336, 25, ' Nivel Azul(Fácil) ', {
         font: "14px monospace",
         padding: { x: 0, y: 3 },
-        color:'#0000FF',
+        color: '#0000FF',
         backgroundColor: "#ffffff"
       }).setScrollFactor(0);
-      this.add.text(496,25, ' Nivel Verde(Medio) ',{
-        font: "14px monospace",
-        padding: { x: 0, y: 3},
-        color:'#2d572c',
-        backgroundColor: "#ffffff"
-      }).setScrollFactor(0);
-      this.add.text(661,25, ' Nivel Naranja(Difícil) ',{
+      this.add.text(496, 25, ' Nivel Verde(Medio) ', {
         font: "14px monospace",
         padding: { x: 0, y: 3 },
-        color:'#FF0000',
+        color: '#2d572c',
+        backgroundColor: "#ffffff"
+      }).setScrollFactor(0);
+      this.add.text(661, 25, ' Nivel Naranja(Difícil) ', {
+        font: "14px monospace",
+        padding: { x: 0, y: 3 },
+        color: '#FF0000',
         backgroundColor: "#ffffff"
       }).setScrollFactor(0);
     }
     else {
-      this.add.text(661,15, ' Nivel Azul(Fácil) ',{
+      this.add.text(661, 15, ' Nivel Azul(Fácil) ', {
         font: "14px monospace",
         padding: { x: 19, y: 3 },
-        color:'#0000FF',
+        color: '#0000FF',
         backgroundColor: "#ffffff"
       }).setScrollFactor(0);
-      this.add.text(661,35, ' Nivel Verde(Medio) ',{
+      this.add.text(661, 35, ' Nivel Verde(Medio) ', {
         font: "14px monospace",
-        padding: { x: 15.5, y: 3},
-        color:'#2d572c',
+        padding: { x: 15.5, y: 3 },
+        color: '#2d572c',
         backgroundColor: "#ffffff"
       }).setScrollFactor(0);
-      this.add.text(661,55, ' Nivel Naranja(Difícil) ',{
+      this.add.text(661, 55, ' Nivel Naranja(Difícil) ', {
         font: "14px monospace",
         padding: { x: 0, y: 3 },
-        color:'#FF0000',
+        color: '#FF0000',
         backgroundColor: "#ffffff"
       }).setScrollFactor(0);
     }

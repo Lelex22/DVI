@@ -1,14 +1,15 @@
+import Fireball from "./fireball.js";
 import Coin from "./coins.js";
 
-const stepLimit = 200;
-export default class Masked extends Phaser.GameObjects.Sprite {
+const stepLimit = 300;
+export default class Mago extends Phaser.GameObjects.Sprite {
     constructor(scene, x, y, mapa, tipo) {
         super(scene, x, y, tipo);
         this.scene.add.existing(this);
         this.scene.physics.add.existing(this);
         this.body.setCollideWorldBounds(true);
-        this.life = 2;
-        this.speed = 40;
+        this.life = 6;
+        this.speed = 30;
         this.firstInstance = true;
         this.atacado = false;
         this.puedeAtacar = true;
@@ -16,7 +17,7 @@ export default class Masked extends Phaser.GameObjects.Sprite {
         this.tiempo = 50;
         this.smash = false;
         this.mapa = mapa;
-        this.maxLife = 2;
+        this.maxLife = 3;
         this.bonus = 0;
         this.tipo = tipo;
         this.lastPosition = null;
@@ -24,41 +25,41 @@ export default class Masked extends Phaser.GameObjects.Sprite {
         const anims = this.scene.anims;
         //Muere
         anims.create({
-            key: "muereg",
-            frames: anims.generateFrameNumbers('masked', { start: 32, end: 38 }),
-            frameRate: 7,
+            key: "muerem",
+            frames: anims.generateFrameNumbers('mago', { start: 16, end: 19 }),
+            frameRate: 4,
+            repeat: 0
+        });
+        //Mueve derecha
+        anims.create({
+            key: "movderm",
+            frames: anims.generateFrameNumbers('mago', { start: 8, end: 11 }),
+            frameRate: 4,
             repeat: 0
         });
         //Mueve izquierda
         anims.create({
-            key: "movizqg",
-            frames: anims.generateFrameNumbers('masked', { start: 8, end: 15 }),
-            frameRate: 8,
+            key: "movizqm",
+            frames: anims.generateFrameNumbers('mago', { start: 12, end: 15 }),
+            frameRate: 4,
             repeat: 0
         });
-        //Mueve izquierda
+
+        //Ataca derecha
         anims.create({
-            key: "movderg",
-            frames: anims.generateFrameNumbers('maskedd', { start: 8, end: 15 }),
-            frameRate: 8,
+            key: "atcderm",
+            frames: anims.generateFrameNumbers('mago', { start: 24, end: 27 }),
+            frameRate: 4,
             repeat: 0
         });
         //Ataca izquierda
         anims.create({
-            key: "atcizqg",
-            frames: anims.generateFrameNumbers('masked', { start: 16, end: 22 }),
-            frameRate: 7,
+            key: "atcizqm",
+            frames: anims.generateFrameNumbers('mago', { start: 28, end: 31 }),
+            frameRate: 4,
             repeat: 0
         });
-        //Ataca izquierda
-        anims.create({
-            key: "atcderg",
-            frames: anims.generateFrameNumbers('maskedd', { start: 16, end: 22 }),
-            frameRate: 7,
-            repeat: 0
-        });
-        this.body.setSize(32, 32).setOffset(2, 0);
-        this.setScale(2);
+        this.body.setSize(70, 80).setOffset(10, -12);
         this.stepCount = Phaser.Math.Between(0, stepLimit);
         if (this.mapa.localeCompare("verde") === 0)
             this.body.setGravity(0, 200);
@@ -68,8 +69,8 @@ export default class Masked extends Phaser.GameObjects.Sprite {
         if (this.life > 0) {
             if (this.firstInstance) {
                 this.body.velocity.x = this.speed;
-                this.anims.play("movizqg", true);
-                this.lastPosition = "movizqg";
+                this.anims.play("movizqm", true);
+                this.lastPosition = "movizqm";
                 this.firstInstance = false;
             }
             let p = this.body.x - this.scene.player.body.x;
@@ -77,7 +78,7 @@ export default class Masked extends Phaser.GameObjects.Sprite {
                 p = -p;
             }
 
-            if (p < 100) {
+            if (p < 300) {
                 // if player to left of enemy AND enemy moving to right
                 if (this.scene.player.body.x < this.body.x && this.body.velocity.x > 0) {
                     // move enemy to left            
@@ -91,8 +92,6 @@ export default class Masked extends Phaser.GameObjects.Sprite {
                     // move enemy to right
                     this.body.velocity.x *= -1; // reverse direction
                     cambiaSprite(this);
-                    // or could set directly: enemy.body.velocity.x = 150;
-                    // could add other code - change enemy animation, make enemy fire weapon, etc.
                 }
             }
             else {
@@ -105,7 +104,6 @@ export default class Masked extends Phaser.GameObjects.Sprite {
                     this.body.velocity.x *= -1;
                     // reset enemy's step counter
                     this.stepCount = 0;
-                    // can add other code - change enemy animation, etc.
                     cambiaSprite(this);
                 }
                 if (this.body.blocked.right) {
@@ -117,24 +115,30 @@ export default class Masked extends Phaser.GameObjects.Sprite {
                     cambiaSprite(this);
                 }
             }
-            if (!this.atacado && this.puedeAtacar && p < 100) {
+            if (!this.atacado && this.puedeAtacar && p < 300) {
                 //Variable con el signo de la velocidad de la piedra: true es positiva false negativa
                 let lastSpeed;
                 this.body.setVelocityX(0);
-                if (this.lastPosition.localeCompare("movizqg") === 0) {
-                    this.anims.play("atcizqg", true);
+                if (this.lastPosition.localeCompare("movizqm") === 0) {
+                    this.anims.play("atcizqm", true);
                     lastSpeed = false;
                 }
                 else {
-                    this.anims.play("atcderg", true);
+                    this.anims.play("atcderm", true);
                     lastSpeed = true;
                 }
-                if(this.anims.currentFrame.index == 2){
-                    let audio_ataqueg = this.scene.sound.add("gladiador", {
+                if (this.anims.currentFrame.index == 1 && !this.smash) {
+                    let audio_ataque = this.scene.sound.add("firesound", {
                         volume: 0.1,
-                    }).play();
+                    });
+                    audio_ataque.play();
+                    let fireball;
+                    if (lastSpeed)
+                        fireball = new Fireball(this.scene, this.body.x + 25, this.body.y, this, lastSpeed);
+                    else fireball = new Fireball(this.scene, this.body.x, this.body.y, this, lastSpeed);
+                    this.smash = true;
                 }
-                else if (this.anims.currentFrame.index == 4) {
+                else if (this.anims.currentFrame.index == 3) {
                     this.puedeAtacar = false;
                     this.play(this.lastPosition, true);
                     if (this.lastPosition.localeCompare("movizqm") === 0)
@@ -145,7 +149,7 @@ export default class Masked extends Phaser.GameObjects.Sprite {
             }
             else {
                 this.play(this.lastPosition, true);
-                if (this.lastPosition.localeCompare("movizqg") === 0)
+                if (this.lastPosition.localeCompare("movizqm") === 0)
                     this.body.setVelocityX(-this.speed);
                 else this.body.setVelocityX(this.speed);
             }
@@ -156,13 +160,13 @@ export default class Masked extends Phaser.GameObjects.Sprite {
             else this.tiempo++;
         }
         else {
-            this.anims.play("muereg", true);
+            this.anims.play("muerem", true);
             this.body.enable = false;
 
             this.scene.time.addEvent({
                 delay: 1000, callback: function () {
-                    this.scene.maskedGroup.killAndHide(this);
-                    while (this.bonus < 5) {
+                    this.scene.magosGroup.killAndHide(this);
+                    while (this.bonus < 50) {
                         let coin = new Coin(this.scene, this.x, this.y);
                         coin.body.bounce.x = 1;
                         this.scene.coinsGroup.add(coin);
@@ -175,12 +179,11 @@ export default class Masked extends Phaser.GameObjects.Sprite {
 }
 function cambiaSprite(enemy) {
     if (Math.sign(enemy.body.velocity.x) === 1) {
-        enemy.anims.play("movderg", true);
-        enemy.lastPosition = "movderg";
+        enemy.anims.play("movderm", true);
+        enemy.lastPosition = "movderm";
     }
-    //else if enemy moving to left and has started to move over left edge of platform
     else if (Math.sign(enemy.body.velocity.x) === -1) {
-        enemy.anims.play("movizqg", true);
-        enemy.lastPosition = "movizqg";
+        enemy.anims.play("movizqm", true);
+        enemy.lastPosition = "movizqm";
     }
 }

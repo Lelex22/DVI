@@ -1,7 +1,6 @@
 import Fregona from "./fregona.js";
 import Escudo from "./escudo.js";
 export default class Player extends Phaser.GameObjects.Sprite {
-  // Orden: Escudo 0 Espada 1 Capa 2
 
   constructor(scene, x, y, buffs, mapa, life, coins, maxLife) {
     super(scene, x, y, 'player');
@@ -33,17 +32,13 @@ export default class Player extends Phaser.GameObjects.Sprite {
     if (life === null || life === undefined || life === "undefined")
       this.life = 5;
     else this.life = life;
-    if(maxLife === null || maxLife === undefined || maxLife === "undefined")
+    if (maxLife === null || maxLife === undefined || maxLife === "undefined")
       this.maxLife = 5;
     else this.maxLife = maxLife;
     const anims = this.scene.anims;
     this.pinta = pintaBuffs(this.buffsp);
     this.scene.carga.creaAnimacionesPlayer(anims);
 
-
-
-
-    //this.sprite.anims.play("up");
     if (this.mapa.localeCompare("verde") === 0) {
       this.body.setGravity(0, 200);
     }
@@ -77,11 +72,8 @@ export default class Player extends Phaser.GameObjects.Sprite {
 
   update() {
     const keys = this.keys;
-
-    // Stop any previous movement from the last frame
-    if (this.mapa.localeCompare("verde") !== 0)
-      this.body.setVelocity(0);
     if (this.mapa.localeCompare("verde") !== 0) {
+      this.body.setVelocity(0);
       if (keys.left.isDown) {
         this.body.setVelocityX(-this.speed);
       }
@@ -155,7 +147,6 @@ export default class Player extends Phaser.GameObjects.Sprite {
       if (keys.up.isDown && this.body.onFloor() && !this.escaleras) {
         this.body.setGravity(0, 200);
         this.body.setVelocityY(-this.speed);
-        //this.anims.play(this.lastPosition, true);
       }
       else if (this.escaleras) {
         this.body.setGravity(0, 0);

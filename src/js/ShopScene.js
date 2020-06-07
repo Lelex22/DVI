@@ -15,7 +15,7 @@ export default class ShopScene extends Phaser.Scene {
             this.maxLife = data.maxLife;
         }
     }
-    preload() {}
+    preload() { }
     create() {
         this.carga = this.scene.get("Preloads");
         const map = this.make.tilemap({ key: "tiendaMap" });

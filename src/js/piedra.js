@@ -1,27 +1,22 @@
-export default class Smash extends Phaser.GameObjects.Sprite {
+export default class Piedra extends Phaser.GameObjects.Sprite {
     constructor(scene, x, y, enemy, speed) {
-        super(scene, x + 7, y + 30, "smash");
-        this.vikingx = x;
+        super(scene, x + 7, y + 30, "piedra");
         this.scene.add.existing(this);
         this.scene.physics.add.existing(this);
-        this.vel = 350;
+        this.vel = 200;
         if (speed)
             this.vel = this.vel;
-        else {
-            this.vel = -this.vel;
-            this.setFlipX(true);
-        }
+        else this.vel = -this.vel;
         this.body.allowGravity = false;
         this.scene.armasEnemigos.add(this);
-        //this.body.setOffset(5,10);
-        //this.body.syncBounds = true;
+        this.body.setOffset(5, 10);
     }
 
     preUpdate(d, t) {
         super.preUpdate(d, t);
         this.body.setVelocityX(this.vel);
         //Si fuera del limite del mapa
-        if (this.x < this.vikingx - 500 || this.x > this.vikingx + 500)
+        if (this.x < -30 || this.x > 9553)
             this.destroy();
     }
 }

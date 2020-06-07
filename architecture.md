@@ -8,11 +8,17 @@
 
 ### Ficheros
  _architecture.md:_ Fichero que define la estructura del proyecto. 
+ 
  _assets.md:_ Fichero que explica la estructura que tiene el directorio assets.
+ 
 _GDD.md:_ Explicación detallada de proyecto(Mecanicas de juego,objetos, combate,enemigos).
+
  _mencionar.txt:_ Contiene los enlaces a las paginas usadas como obtencion de recursos par el proyecto.
+ 
  _README.md:_ Descripción general del proyecto.
+ 
  _index.html:_ Contiene el inicio del juego.
+ 
 ### DESCRIPCIÓN DE LA ARQUITECTURA
 
 En esta sección se van a explicar el uso de cada fichero .js.

@@ -175,7 +175,7 @@ export default class DungeonScene extends Phaser.Scene {
       const cam = this.cameras.main;
       cam.fade(250, 0, 0, 0);
       cam.once("camerafadeoutcomplete", () => {
-        this.scene.start("ShopScene", { vidas: this.player.life, monedas: 1250, buffs: this.player.buffs, mapa: "tienda", maxLife: this.player.maxLife });
+        this.scene.start("ShopScene", { vidas: this.player.life, monedas: this.player.coins, buffs: this.player.buffs, mapa: "tienda", maxLife: this.player.maxLife });
         this.scene.stop();
       });
     });
